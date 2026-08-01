@@ -5,185 +5,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Craft - Loja Online</title>
     <style>
-        /* --- ESTILOS GERAIS E RESET --- */
+        /* --- ESTILOS DE BASE E FUNDO FLORAL --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
         }
 
         body {
-            background-color: #f9f9f9;
-            color: #333;
+            /* Fundo com tom suave/floral */
+            background-color: #fdfbf7;
+            background-image: radial-gradient(#e2d7cd 0.8px, transparent 0.8px);
+            background-size: 16px 16px;
+            color: #4a4a4a;
             line-height: 1.6;
         }
 
         /* --- CABEÇALHO --- */
         header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #eaeaea;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 2px solid #e8dfd8;
+            padding: 20px;
+            text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-            letter-spacing: 1px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #5c4033;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .cart-icon {
-            font-size: 1.2rem;
-            background: #2c3e50;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
+        .subtitle {
+            font-size: 0.85rem;
+            color: #8c7b70;
+            font-style: italic;
+            margin-top: 4px;
         }
 
         /* --- CONTEÚDO PRINCIPAL --- */
         .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        h2 {
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            color: #2c3e50;
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            color: #5c4033;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        /* --- GRELHA DE PRODUTOS (Responsiva: 1 coluna em mobile, várias em PC) --- */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: #d4a373;
+            margin: 8px auto 0 auto;
+        }
+
+        /* --- GRELHA RESPONSIVA (3 colunas em PC / 1 coluna em Telemóvel) --- */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
         }
 
         .product-card {
             background: #ffffff;
-            border: 1px solid #eaeaea;
-            border-radius: 8px;
-            padding: 15px;
+            border: 1px solid #f0e6df;
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
-            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
         }
 
         .product-image {
             width: 100%;
-            height: 200px;
-            background-color: #f0f0f0;
-            border-radius: 6px;
+            height: 260px;
+            background-color: #f7f3f0;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
+            color: #a39388;
             margin-bottom: 15px;
+            border: 1px dashed #e2d7cd;
         }
 
         .product-title {
             font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            color: #4a4a4a;
+            margin-bottom: 8px;
         }
 
         .product-price {
-            color: #27ae60;
+            color: #b5838d;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 15px;
         }
 
         .btn-buy {
-            background-color: #2c3e50;
+            background-color: #6b705c;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             width: 100%;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        .btn-buy:active {
-            background-color: #1a252f;
+        .btn-buy:hover {
+            background-color: #555846;
         }
 
-        /* --- ADAPTAÇÃO TOTAL PARA MOBILE --- */
-        @media (max-width: 768px) {
-            header {
-                padding: 10px 15px;
-            }
+        /* --- REGRAS ESPECÍFICAS PARA TELEMÓVEL --- */
+        @media screen and (max-width: 768px) {
             .logo {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
-            .container {
-                margin: 10px auto;
-                padding: 0 10px;
-            }
+
             .products-grid {
-                grid-template-columns: 1fr; /* Uma coluna perfeita para telemóveis */
-                gap: 15px;
+                grid-template-columns: 1fr; /* Passa a 1 coluna no telemóvel */
+                gap: 20px;
             }
-            .product-card {
-                padding: 12px;
+
+            .container {
+                padding: 0 15px;
             }
+
+            .product-image {
+                height: 280px;
+            }
+
             .btn-buy {
-                padding: 12px; /* Área de toque maior para facilitar no dedo */
-                font-size: 1.1rem;
+                padding: 14px;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho da Loja -->
+    <!-- Cabeçalho -->
     <header>
         <div class="logo">Dream Craft</div>
-        <div class="cart-icon">🛒 Carrinho (0)</div>
+        <div class="subtitle">Moda & Acessórios para Mulher e Criança</div>
     </header>
 
     <!-- Corpo Principal -->
     <div class="container">
-        <h2>Artigos em Destaque</h2>
+        <h2 class="section-title">Coleção em Destaque</h2>
         
         <div class="products-grid">
             <!-- Produto 1 -->
             <div class="product-card">
-                <div class="product-image">Foto Artigo</div>
-                <div class="product-title">Artigo Exemplo Mulher/Criança</div>
+                <div class="product-image">Foto do Artigo</div>
+                <div class="product-title">Artigo Mulher / Criança</div>
                 <div class="product-price">25,00 €</div>
-                <button class="btn-buy" onclick="alert('Produto adicionado ao carrinho!')">Comprar</button>
+                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
             </div>
 
             <!-- Produto 2 -->
             <div class="product-card">
-                <div class="product-image">Foto Artigo</div>
-                <div class="product-title">Artigo Exemplo Mulher/Criança</div>
+                <div class="product-image">Foto do Artigo</div>
+                <div class="product-title">Artigo Mulher / Criança</div>
                 <div class="product-price">18,50 €</div>
-                <button class="btn-buy" onclick="alert('Produto adicionado ao carrinho!')">Comprar</button>
+                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
             </div>
 
             <!-- Produto 3 -->
             <div class="product-card">
-                <div class="product-image">Foto Artigo</div>
-                <div class="product-title">Artigo Exemplo Mulher/Criança</div>
+                <div class="product-image">Foto do Artigo</div>
+                <div class="product-title">Artigo Mulher / Criança</div>
                 <div class="product-price">32,00 €</div>
-                <button class="btn-buy" onclick="alert('Produto adicionado ao carrinho!')">Comprar</button>
+                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
             </div>
         </div>
     </div>
