@@ -1,208 +1,787 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Craft - Loja Online</title>
+    <title>Dream Craft | Loja Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <style>
-        /* --- ESTILOS DE BASE E FUNDO FLORAL --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+        :root {
+            --bg: #fdfbf7;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-light: #707070;
+            --accent: #b08d57;
+            --accent-dark: #8c6d3f;
+            --border: #eae3dc;
         }
-
-        body {
-            /* Fundo com tom suave/floral */
-            background-color: #fdfbf7;
-            background-image: radial-gradient(#e2d7cd 0.8px, transparent 0.8px);
-            background-size: 16px 16px;
-            color: #4a4a4a;
-            line-height: 1.6;
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; 
+            background-color: var(--bg); 
+            color: var(--text-main);
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
         }
-
-        /* --- CABEÇALHO --- */
-        header {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-bottom: 2px solid #e8dfd8;
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #5c4033;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: 0.85rem;
-            color: #8c7b70;
-            font-style: italic;
-            margin-top: 4px;
-        }
-
-        /* --- CONTEÚDO PRINCIPAL --- */
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 1.6rem;
-            color: #5c4033;
-            margin-bottom: 30px;
+        
+        /* Cabeçalho com Imagem de Flores e Título Estilo Original */
+        header { 
+            background: linear-gradient(135deg, rgba(253, 251, 247, 0.25), rgba(245, 239, 230, 0.25)),
+                        url("https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=1600&auto=format&fit=crop");
+            background-size: cover;
+            background-position: center;
+            color: #ffffff; 
+            padding: 3.5rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+            border-bottom: 2px solid var(--border);
             position: relative;
         }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 2px;
-            background: #d4a373;
-            margin: 8px auto 0 auto;
-        }
-
-        /* --- GRELHA RESPONSIVA (3 colunas em PC / 1 coluna em Telemóvel) --- */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .product-card {
-            background: #ffffff;
-            border: 1px solid #f0e6df;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 260px;
-            background-color: #f7f3f0;
-            border-radius: 8px;
+        .header-brand-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #a39388;
-            margin-bottom: 15px;
-            border: 1px dashed #e2d7cd;
+            flex: 1;
+            padding: 0 1rem;
         }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #4a4a4a;
-            margin-bottom: 8px;
+        
+        header h1 { 
+            margin: 0; 
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600; 
+            font-size: 3.5rem;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.1;
         }
-
-        .product-price {
-            color: #b5838d;
-            font-weight: bold;
-            font-size: 1.25rem;
-            margin-bottom: 15px;
-        }
-
-        .btn-buy {
-            background-color: #6b705c;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            width: 100%;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
+        
+        .header-actions { display: flex; gap: 12px; align-items: center; position: absolute; right: 2rem; }
+        .header-left-spacer { width: 160px; }
+        
+        .btn-admin {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--accent);
+            color: var(--accent-dark);
+            padding: 8px 16px;
             cursor: pointer;
+            font-weight: 600;
+            border-radius: 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .btn-admin:hover { background: var(--accent); color: white; }
+
+        .cart-btn { 
+            background: var(--accent); 
+            border: none; 
+            color: white; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            border-radius: 30px; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-shadow: 0 4px 12px rgba(176, 141, 87, 0.3);
+            transition: 0.2s;
+        }
+        .cart-btn:hover { background: var(--accent-dark); }
+        
+        main { 
+            display: flex; 
+            padding: 2.5rem; 
+            gap: 2.5rem; 
+            flex: 1; 
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .content-area { flex: 3; display: flex; flex-direction: column; gap: 30px; }
+        
+        /* Secção Sobre Nós */
+        .about-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .about-section h2 {
+            color: var(--accent);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .about-section p {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 750px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Contentores Principais e Subseções */
+        .category-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .category-title {
+            color: var(--accent);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 12px;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .subcategory-section {
+            margin-bottom: 30px;
+            background: #faf8f5;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .subcategory-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .subcategory-title {
+            color: var(--text-main);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+        }
+        
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .product-card { 
+            background: #ffffff; 
+            border: 1px solid var(--border);
+            border-radius: 12px; 
+            overflow: hidden;
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background-color: #f4f0ec;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0a699;
+            font-size: 0.8rem;
+        }
+        
+        .product-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-info h3 { margin: 0 0 5px 0; font-size: 0.95rem; color: var(--text-main); font-weight: 500; }
+        .product-info h2 { margin: 8px 0; color: var(--accent-dark); font-size: 1.15rem; font-family: 'Cormorant Garamond', serif; letter-spacing: 1px; }
+        
+        .stock-label { font-size: 0.75rem; color: var(--text-light); margin-bottom: 12px; }
+        .out-of-stock { color: #d9534f; font-weight: 600; }
+        
+        .product-card button { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            width: 100%; 
+            cursor: pointer; 
+            font-weight: 500; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            border-radius: 8px; 
+            margin-top: auto;
             transition: background 0.2s;
         }
+        .product-card button:hover:not(:disabled) { background: var(--accent-dark); }
+        .product-card button:disabled { background: #e6e1db; color: #a39c94; cursor: not-allowed; }
 
-        .btn-buy:hover {
-            background-color: #555846;
+        /* Paginação */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            align-items: center;
         }
+        .page-btn {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            transition: 0.2s;
+        }
+        .page-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        /* Cesto */
+        .cart-sidebar { 
+            flex: 1; 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
+            min-width: 300px; 
+            height: fit-content;
+            border: 1px solid var(--border);
+        }
+        .cart-sidebar h2 { margin-top: 0; color: var(--accent); font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; letter-spacing: 2px; text-transform: uppercase; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; font-size: 0.9rem; }
+        .checkout-btn { background: var(--accent); color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-size: 1rem; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; border-radius: 8px; margin-top: 20px; transition: 0.2s; }
+        .checkout-btn:hover { background: var(--accent-dark); }
 
-        /* --- REGRAS ESPECÍFICAS PARA TELEMÓVEL --- */
-        @media screen and (max-width: 768px) {
-            .logo {
-                font-size: 1.5rem;
-            }
+        /* Painel Admin */
+        #admin-panel { display: none; background: #22252a; color: white; padding: 25px; margin: 20px auto; max-width: 1400px; border-radius: 12px; }
+        #admin-panel input, #admin-panel select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: none; font-family: 'Plus Jakarta Sans'; background: #2f333a; color: white; }
+        .admin-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-family: 'Plus Jakarta Sans'; }
 
-            .products-grid {
-                grid-template-columns: 1fr; /* Passa a 1 coluna no telemóvel */
-                gap: 20px;
-            }
+        /* Rodapé de Contactos */
+        footer.social-footer {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+        footer.social-footer p { margin-bottom: 15px; color: var(--text-light); font-weight: 500; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; letter-spacing: 1px; }
+        .social-icons { display: flex; justify-content: center; gap: 15px; }
+        .social-btn {
+            padding: 10px 22px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .social-btn:hover { transform: translateY(-2px); }
+        .btn-wa { background: #25d366; }
+        .btn-ig { background: #e1306c; }
+        .btn-fb { background: #1877f2; }
 
-            .container {
-                padding: 0 15px;
-            }
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; text-align: center; background: #ffffff; font-family: 'Plus Jakarta Sans'; }
 
-            .product-image {
-                height: 280px;
-            }
-
-            .btn-buy {
-                padding: 14px;
-                font-size: 1rem;
-            }
+        @media (max-width: 768px) {
+            main { flex-direction: column; padding: 1rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .cart-sidebar { min-width: 100%; }
+            header { flex-direction: column; gap: 20px; padding: 2rem 1rem; }
+            .header-actions { position: static; justify-content: center; width: 100%; }
+            .header-left-spacer { display: none; }
+            header h1 { font-size: 2.2rem; letter-spacing: 4px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho -->
     <header>
-        <div class="logo">Dream Craft</div>
-        <div class="subtitle">Moda & Acessórios para Mulher e Criança</div>
+        <div class="header-left-spacer"></div>
+        <div class="header-brand-container">
+            <h1>DREAM CRAFT</h1>
+        </div>
+        <div class="header-actions">
+            <button class="btn-admin" onclick="toggleAdminLogin()">Admin</button>
+            <button class="cart-btn" onclick="document.querySelector('.cart-sidebar').scrollIntoView({behavior: 'smooth'})">
+                Cesto (<span id="cart-count">0</span>)
+            </button>
+        </div>
     </header>
 
-    <!-- Corpo Principal -->
-    <div class="container">
-        <h2 class="section-title">Coleção em Destaque</h2>
+    <!-- PAINEL DE ADMINISTRADOR -->
+    <div id="admin-panel">
+        <h2 style="color: var(--accent); margin-top:0; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; letter-spacing: 2px;">Painel de Controlo (Admin)</h2>
+        <p style="font-size: 0.85rem; color: #a39c94;">Gerencie as secções, subseções e adicione artigos ao inventário.</p>
         
-        <div class="products-grid">
-            <!-- Produto 1 -->
-            <div class="product-card">
-                <div class="product-image">Foto do Artigo</div>
-                <div class="product-title">Artigo Mulher / Criança</div>
-                <div class="product-price">25,00 €</div>
-                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 15px;">
+            <div style="background: #282c34; padding: 15px; border-radius: 8px;">
+                <h3 style="margin-top:0; color: #fff;">Adicionar Secção</h3>
+                <select id="admin-target-type" onchange="toggleSectionInputs()">
+                    <option value="main">Criar Secção Principal</option>
+                    <option value="sub">Adicionar Subseção a Secção Existente</option>
+                </select>
+                
+                <div id="div-main-sec-name" style="margin-top:10px;">
+                    <input type="text" id="new-main-section" placeholder="Nome da Secção Principal (Ex: Decoração)">
+                </div>
+                
+                <div id="div-sub-sec-inputs" style="display:none; margin-top:10px;">
+                    <select id="parent-section-select">
+                        <!-- Preenchido dinamicamente -->
+                    </select>
+                    <input type="text" id="new-sub-section" placeholder="Nome da Subseção (Ex: Velas)">
+                </div>
+                
+                <button class="admin-btn" onclick="addNewSectionTool()">Adicionar Secção</button>
+            </div>
+            
+            <div style="background: #282c34; padding: 15px; border-radius: 8px;">
+                <h3 style="margin-top:0; color: #fff;">Adicionar Novo Artigo</h3>
+                <input type="text" id="new-name" placeholder="Nome do Artigo">
+                <select id="new-section-select" onchange="updateSubcategoryDropdown()">
+                    <!-- Preenchido dinamicamente -->
+                </select>
+                <select id="new-sub-select" style="display:none;">
+                    <!-- Preenchido dinamicamente -->
+                </select>
+                <input type="number" id="new-price" placeholder="Preço (€)" step="0.01">
+                <input type="number" id="new-stock" placeholder="Quantidade em Stock">
+                <input type="text" id="new-image" placeholder="URL da Foto (Link da imagem)">
+                <button class="admin-btn" onclick="addNewProduct()">Publicar Artigo</button>
+            </div>
+        </div>
+        <button onclick="toggleAdminLogin()" style="background: #d9534f; color: white; border:none; padding: 8px 15px; margin-top: 20px; border-radius: 6px; cursor: pointer;">Fechar Painel Admin</button>
+    </div>
+
+    <main>
+        <div class="content-area">
+            <!-- Secção Sobre Nós -->
+            <div class="about-section">
+                <h2>Sobre Nós</h2>
+                <p>Bem-vindo à <strong>Dream Craft</strong>! Criamos e selecionamos com todo o carinho artigos variados e especiais dedicados a mulheres, crianças e papelaria criativa. O nosso compromisso é trazer delicadeza, encanto e qualidade ao vosso dia a dia através de peças únicas.</p>
             </div>
 
-            <!-- Produto 2 -->
-            <div class="product-card">
-                <div class="product-image">Foto do Artigo</div>
-                <div class="product-title">Artigo Mulher / Criança</div>
-                <div class="product-price">18,50 €</div>
-                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
+            <div id="shop-content">
+                <!-- Secções geradas dinamicamente com paginação -->
             </div>
+        </div>
 
-            <!-- Produto 3 -->
-            <div class="product-card">
-                <div class="product-image">Foto do Artigo</div>
-                <div class="product-title">Artigo Mulher / Criança</div>
-                <div class="product-price">32,00 €</div>
-                <button class="btn-buy" onclick="alert('Item selecionado!')">Ver Detalhes</button>
+        <div class="cart-sidebar">
+            <h2>O Seu Cesto</h2>
+            <div id="cart-items">
+                <p style="color: var(--text-light);">O cesto está vazio.</p>
+            </div>
+            <h3 style="text-align: right; margin-top: 15px; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;">Total: <span id="cart-total">0.00</span>€</h3>
+            <button class="checkout-btn" onclick="openCheckout()">Pagar com MB Way</button>
+        </div>
+    </main>
+
+    <!-- Modal de Pagamento MB Way -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <h2 style="color: var(--accent); font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; letter-spacing: 1px; margin-top:0;">Pagamento MB Way</h2>
+            <p>Total a pagar: <strong id="modal-total" style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;">0.00€</strong></p>
+            <p style="font-size: 0.85rem; color: var(--text-light);">Insira o seu número de telemóvel associado ao MB Way:</p>
+            <input type="tel" id="mbway-phone" placeholder="9xxxxxxxx" maxlength="9">
+            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                <button onclick="processPayment()" style="background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;">Confirmar</button>
+                <button onclick="closeCheckout()" style="background: #a39c94; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;">Cancelar</button>
             </div>
         </div>
     </div>
 
+    <!-- Zona de Contactos e Redes Sociais -->
+    <footer class="social-footer">
+        <p>Acompanhe as nossas novidades e fale connosco</p>
+        <div class="social-icons">
+            <a href="https://wa.me/" target="_blank" class="social-btn btn-wa">WhatsApp</a>
+            <a href="https://instagram.com" target="_blank" class="social-btn btn-ig">Instagram</a>
+            <a href="https://facebook.com" target="_blank" class="social-btn btn-fb">Facebook</a>
+        </div>
+    </footer>
+
+    <script>
+        let storeStructure = {
+            "Mulher": ["acessórios de modas", "perfumes", "roupa", "calçado"],
+            "Criança": ["brinquedos", "roupa", "acessórios"],
+            "A tua papelaria": []
+        };
+
+        let inventory = [
+            { id: 1, name: "Vestido Floral de Verão", price: 45.00, stock: 3, section: "Mulher", sub: "roupa", image: "" },
+            { id: 2, name: "Sapatos Elegantes Salto", price: 55.00, stock: 4, section: "Mulher", sub: "calçado", image: "" },
+            { id: 3, name: "Perfume Essence Rose", price: 38.00, stock: 5, section: "Mulher", sub: "perfumes", image: "" },
+            { id: 4, name: "Mala de Mão em Couro", price: 42.00, stock: 2, section: "Mulher", sub: "acessórios de modas", image: "" },
+            { id: 5, name: "Conjunto T-shirt + Calção", price: 25.00, stock: 6, section: "Criança", sub: "roupa", image: "" },
+            { id: 6, name: "Carrinho de Brinquedo Madeira", price: 18.00, stock: 4, section: "Criança", sub: "brinquedos", image: "" },
+            { id: 7, name: "Laço de Cabelo Infantil", price: 8.00, stock: 10, section: "Criança", sub: "acessórios", image: "" },
+            { id: 8, name: "Caderno Artesanal Argolas", price: 12.00, stock: 7, section: "A tua papelaria", sub: "", image: "" }
+        ];
+        
+        let cart = [];
+        let currentPages = {};
+        const itemsPerPage = 10;
+
+        function renderStore() {
+            const contentArea = document.getElementById('shop-content');
+            contentArea.innerHTML = '';
+            
+            updateAdminDropdowns();
+
+            Object.keys(storeStructure).forEach(mainSec => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category-container';
+                categoryDiv.innerHTML = `<h2 class="category-title">${mainSec}</h2>`;
+
+                const subSections = storeStructure[mainSec];
+
+                if (subSections.length === 0) {
+                    renderProductGridForSub(mainSec, "", categoryDiv);
+                } else {
+                    subSections.forEach(subSec => {
+                        const subContainer = document.createElement('div');
+                        subContainer.className = 'subcategory-section';
+                        subContainer.innerHTML = `<div class="subcategory-title">${subSec}</div>`;
+                        renderProductGridForSub(mainSec, subSec, subContainer);
+                        categoryDiv.appendChild(subContainer);
+                    });
+                }
+
+                contentArea.appendChild(categoryDiv);
+            });
+        }
+
+        function renderProductGridForSub(mainSec, subSec, container) {
+            const pageKey = `${mainSec}_${subSec}`;
+            if (!currentPages[pageKey]) currentPages[pageKey] = 1;
+
+            const products = inventory.filter(item => item.section === mainSec && item.sub === subSec);
+            const totalPages = Math.ceil(products.length / itemsPerPage) || 1;
+            
+            if (currentPages[pageKey] > totalPages) currentPages[pageKey] = totalPages;
+
+            const startIndex = (currentPages[pageKey] - 1) * itemsPerPage;
+            const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
+            
+            const grid = document.createElement('div');
+            grid.className = 'products-grid';
+
+            if (currentProducts.length === 0) {
+                grid.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-light); grid-column: 1/-1;">Sem artigos nesta secção.</p>`;
+            } else {
+                currentProducts.forEach(item => {
+                    const cartItem = cart.find(ci => ci.id === item.id);
+                    const reservedQty = cartItem ? cartItem.qty : 0;
+                    const availableStock = item.stock - reservedQty;
+                    const isOutOfStock = availableStock <= 0;
+
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    
+                    let bgStyle = item.image ? `background-image: url('${item.image}')` : '';
+                    
+                    card.innerHTML = `
+                        <div class="product-image" style="${bgStyle}">
+                            ${!item.image ? '<span>[Sem Foto]</span>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${item.name}</h3>
+                            <h2>${item.price.toFixed(2)}€</h2>
+                            <span class="stock-label ${isOutOfStock ? 'out-of-stock' : ''}">
+                                ${item.stock <= 0 ? 'Esgotado' : `Stock: ${availableStock}`}
+                            </span>
+                            <button onclick="addToCart(${item.id})" ${isOutOfStock ? 'disabled' : ''}>
+                                ${isOutOfStock ? 'Indisponível' : 'Adicionar'}
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            
+            container.appendChild(grid);
+
+            if (products.length > itemsPerPage) {
+                const paginationDiv = document.createElement('div');
+                paginationDiv.className = 'pagination';
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `page-btn ${i === currentPages[pageKey] ? 'active' : ''}`;
+                    btn.innerText = i;
+                    btn.onclick = () => {
+                        currentPages[pageKey] = i;
+                        renderStore();
+                    };
+                    paginationDiv.appendChild(btn);
+                }
+                container.appendChild(paginationDiv);
+            }
+        }
+
+        function toggleSectionInputs() {
+            const type = document.getElementById('admin-target-type').value;
+            if (type === 'main') {
+                document.getElementById('div-main-sec-name').style.display = 'block';
+                document.getElementById('div-sub-sec-inputs').style.display = 'none';
+            } else {
+                document.getElementById('div-main-sec-name').style.display = 'none';
+                document.getElementById('div-sub-sec-inputs').style.display = 'block';
+            }
+        }
+
+        function updateAdminDropdowns() {
+            const mainSelect = document.getElementById('new-section-select');
+            const parentSelect = document.getElementById('parent-section-select');
+            
+            if(!mainSelect) return;
+            
+            const currentMain = mainSelect.value;
+            mainSelect.innerHTML = '';
+            if(parentSelect) parentSelect.innerHTML = '';
+            
+            Object.keys(storeStructure).forEach(sec => {
+                const opt1 = document.createElement('option');
+                opt1.value = sec;
+                opt1.innerText = sec;
+                mainSelect.appendChild(opt1);
+                
+                if(parentSelect) {
+                    const opt2 = document.createElement('option');
+                    opt2.value = sec;
+                    opt2.innerText = sec;
+                    parentSelect.appendChild(opt2);
+                }
+            });
+            
+            if (currentMain && storeStructure[currentMain]) {
+                mainSelect.value = currentMain;
+            }
+            updateSubcategoryDropdown();
+        }
+
+        function updateSubcategoryDropdown() {
+            const mainSelect = document.getElementById('new-section-select');
+            const subSelect = document.getElementById('new-sub-select');
+            if(!mainSelect || !subSelect) return;
+
+            const selectedMain = mainSelect.value;
+            subSelect.innerHTML = '';
+            
+            const subs = storeStructure[selectedMain] || [];
+            if (subs.length === 0) {
+                subSelect.style.display = 'none';
+            } else {
+                subSelect.style.display = 'block';
+                subs.forEach(sub => {
+                    const opt = document.createElement('option');
+                    opt.value = sub;
+                    opt.innerText = sub;
+                    subSelect.appendChild(opt);
+                });
+            }
+        }
+
+        function toggleAdminLogin() {
+            const panel = document.getElementById('admin-panel');
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                let pass = prompt("Palavra-passe de Administrador:");
+                if (pass === "dream123") {
+                    panel.style.display = 'block';
+                    panel.scrollIntoView({behavior: 'smooth'});
+                } else if (pass !== null) {
+                    alert("Palavra-passe incorreta.");
+                }
+            }
+        }
+
+        function addNewSectionTool() {
+            const type = document.getElementById('admin-target-type').value;
+            if (type === 'main') {
+                const secName = document.getElementById('new-main-section').value.trim();
+                if (!secName) {
+                    alert("Introduza o nome da secção principal.");
+                    return;
+                }
+                if (storeStructure[secName]) {
+                    alert("Essa secção já existe.");
+                    return;
+                }
+                storeStructure[secName] = [];
+                document.getElementById('new-main-section').value = '';
+                renderStore();
+                alert("Secção principal criada com sucesso!");
+            } else {
+                const parentSec = document.getElementById('parent-section-select').value;
+                const subName = document.getElementById('new-sub-section').value.trim();
+                if (!subName) {
+                    alert("Introduza o nome da subseção.");
+                    return;
+                }
+                if (storeStructure[parentSec].includes(subName)) {
+                    alert("Essa subseção já existe nesta secção.");
+                    return;
+                }
+                storeStructure[parentSec].push(subName);
+                document.getElementById('new-sub-section').value = '';
+                renderStore();
+                alert("Subseção adicionada com sucesso!");
+            }
+        }
+
+        function addNewProduct() {
+            const name = document.getElementById('new-name').value;
+            const section = document.getElementById('new-section-select').value;
+            const subSelect = document.getElementById('new-sub-select');
+            const sub = subSelect.style.display !== 'none' ? subSelect.value : "";
+            const price = parseFloat(document.getElementById('new-price').value);
+            const stock = parseInt(document.getElementById('new-stock').value);
+            const image = document.getElementById('new-image').value;
+
+            if (!name || isNaN(price) || isNaN(stock)) {
+                alert("Preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            const newId = inventory.length > 0 ? inventory[inventory.length - 1].id + 1 : 1;
+            
+            inventory.push({ id: newId, name, price, stock, section, sub, image });
+
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-price').value = '';
+            document.getElementById('new-stock').value = '';
+            document.getElementById('new-image').value = '';
+
+            renderStore();
+            alert("Artigo publicado com sucesso!");
+        }
+
+        function addToCart(id) {
+            const product = inventory.find(p => p.id === id);
+            if (!product) return; 
+
+            const cartItem = cart.find(item => item.id === id);
+            const currentQtyInCart = cartItem ? cartItem.qty : 0;
+
+            if (product.stock - currentQtyInCart <= 0) {
+                alert("Não há stock suficiente.");
+                return;
+            }
+            
+            if (cartItem) {
+                cartItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            renderStore();
+        }
+
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            const modalTotal = document.getElementById('modal-total');
+
+            cartContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p style="color: var(--text-light);">O cesto está vazio.</p>';
+            } else {
+                cart.forEach(item => {
+                    total += item.price * item.qty;
+                    count += item.qty;
+                    cartContainer.innerHTML += `
+                        <div class="cart-item">
+                            <span><strong>${item.qty}x</strong> ${item.name}</span>
+                            <strong>${(item.price * item.qty).toFixed(2)}€</strong>
+                        </div>
+                    `;
+                });
+            }
+
+            cartCount.innerText = count;
+            cartTotal.innerText = total.toFixed(2);
+            modalTotal.innerText = total.toFixed(2) + '€';
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert("O cesto está vazio.");
+                return;
+            }
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        function processPayment() {
+            const phone = document.getElementById('mbway-phone').value;
+            if(phone.length !== 9) {
+                alert("Por favor, insira um número de telemóvel válido com 9 dígitos.");
+                return;
+            }
+
+            cart.forEach(cartItem => {
+                const product = inventory.find(p => p.id === cartItem.id);
+                if (product) {
+                    product.stock -= cartItem.qty;
+                    if (product.stock < 0) product.stock = 0;
+                }
+            });
+
+            alert("Pagamento MB Way confirmado com sucesso! O stock foi atualizado em tempo real.");
+            cart = [];
+            updateCartUI();
+            closeCheckout();
+            renderStore();
+            document.getElementById('mbway-phone').value = '';
+        }
+
+        renderStore();
+    </script>
 </body>
 </html>
+
