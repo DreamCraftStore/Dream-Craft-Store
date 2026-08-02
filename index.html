@@ -6,6 +6,7 @@
     <title>Dream Craft - Loja Online</title>
     <!-- Fontes Google com estilo cursivo para o logo -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-dark: #5c4033;
@@ -439,6 +440,7 @@
             color: var(--danger-color);
             font-size: 0.85rem;
             display: none;
+            line-height: 1.4;
         }
 
         .dashboard-grid {
@@ -581,7 +583,8 @@
             <button class="hero-btn" id="admin-btn" onclick="openAdminPanel()">🔒 Admin</button>
             <button class="hero-btn" onclick="document.getElementById('cesto-ancora').scrollIntoView({behavior: 'smooth'})">Cesto (<span id="header-count">0</span>)</button>
         </div>
-        <h1 class="hero-title" id="hero-title" title="Pressione durante 5 segundos para revelar o botão de Admin">Dream Craft</h1>
+        <!-- Título sem qualquer atributo 'title' para segredo total -->
+        <h1 class="hero-title" id="hero-title">Dream Craft</h1>
     </div>
 
     <!-- Notificação Flutuante -->
@@ -661,7 +664,7 @@
                 <input type="password" id="admin-pass-input" class="login-input" placeholder="••••" onkeypress="if(event.key === 'Enter') checkAdminPassword()">
                 <div id="login-error" class="login-error-msg">Palavra-passe incorreta! Tente novamente.</div>
                 
-                <button class="btn-admin-action" onclick="checkAdminPassword()">Entrar no Painel</button>
+                <button class="btn-admin-action" id="btn-login-submit" onclick="checkAdminPassword()">Entrar no Painel</button>
                 <button class="btn-admin-action btn-admin-secondary" onclick="closeAdminPanel()">Cancelar</button>
             </div>
 
@@ -726,17 +729,21 @@
         const HOME_DELIVERY_FEE = 2.00;
         
         // =============================================================
-        // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR (Podes alterar aqui!)
+        // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR
         // =============================================================
         const ADMIN_PASSWORD = "catiacarolina1997";
 
-        // LINK DA TUA APLICAÇÃO GOOGLE APPS SCRIPT
+        // LINK DA APLICAÇÃO GOOGLE APPS SCRIPT
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxx35AAN_QFqaLVnMHqzr5ppnUn9iq37go2AI7UqnzajlR1SSf7usY39gX6NfY898aZ/exec";
 
         let catalog = [];
         let cart = [];
         let isAdminLoggedIn = false;
         
+        // Controlo de Segurança para Tentativas Incorretas
+        let failedLoginAttempts = 0;
+        const MAX_FAILED_ATTEMPTS = 10;
+
         // Métricas de apoio guardadas localmente
         let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
         let ordersHistory = JSON.parse(localStorage.getItem('dream_craft_orders_history')) || [];
@@ -1005,23 +1012,67 @@
             } else {
                 document.getElementById('admin-login-view').style.display = 'flex';
                 document.getElementById('admin-dashboard-view').style.display = 'none';
-                document.getElementById('admin-pass-input').value = '';
-                document.getElementById('login-error').style.display = 'none';
-                setTimeout(() => document.getElementById('admin-pass-input').focus(), 100);
+                
+                const passInput = document.getElementById('admin-pass-input');
+                const submitBtn = document.getElementById('btn-login-submit');
+                const errorMsg = document.getElementById('login-error');
+
+                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                    passInput.disabled = true;
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas. Foi enviado um alerta ao proprietário.";
+                    errorMsg.style.display = 'block';
+                } else {
+                    passInput.disabled = false;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    passInput.value = '';
+                    errorMsg.style.display = 'none';
+                    setTimeout(() => passInput.focus(), 100);
+                }
             }
         }
 
         function checkAdminPassword() {
             const inputPass = document.getElementById('admin-pass-input').value;
             const errorElement = document.getElementById('login-error');
+            const passInput = document.getElementById('admin-pass-input');
+            const submitBtn = document.getElementById('btn-login-submit');
+
+            if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                return;
+            }
 
             if (inputPass === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
+                failedLoginAttempts = 0; // Reset ao acertar
                 errorElement.style.display = 'none';
                 showAdminDashboard();
             } else {
-                errorElement.style.display = 'block';
-                document.getElementById('admin-pass-input').value = '';
+                failedLoginAttempts += 1;
+
+                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                    passInput.disabled = true;
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+
+                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado. A enviar alerta de segurança...";
+                    errorElement.style.display = 'block';
+
+                    // Envio automático do Alerta de Segurança para o WhatsApp do Administrador
+                    const alertText = `🚨 *ALERTA DE SEGURANÇA - DREAM CRAFT*%0A%0AForam efetuadas *10 tentativas falhadas* de palavra-passe no Painel de Administração da tua loja!%0A%0ASe não foste tu, altera a tua palavra-passe no código.`;
+                    const alertUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${alertText}`;
+                    
+                    setTimeout(() => {
+                        window.open(alertUrl, '_blank');
+                    }, 1000);
+                } else {
+                    const remaining = MAX_FAILED_ATTEMPTS - failedLoginAttempts;
+                    errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${remaining}</b> tentativa(s).`;
+                    errorElement.style.display = 'block';
+                    passInput.value = '';
+                }
             }
         }
 
@@ -1112,7 +1163,6 @@
         }
 
         function closeAdminPanel() {
-            // Garante que o estado de login é limpo ao fechar, exigindo sempre password ao voltar a clicar
             isAdminLoggedIn = false;
             document.getElementById('admin-modal').style.display = 'none';
         }
