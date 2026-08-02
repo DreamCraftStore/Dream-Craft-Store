@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Craft - Loja Online</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Fontes Google com estilo cursivo para o logo -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-dark: #5c4033;
@@ -31,7 +32,7 @@
             padding-bottom: 50px;
         }
 
-        h1, h2, h3, h4, .logo {
+        h1, h2, h3, h4 {
             font-family: 'Playfair Display', Georgia, serif;
         }
 
@@ -50,11 +51,11 @@
 
         .hero-title {
             color: white;
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 2px 3px 6px rgba(0,0,0,0.6);
             margin: 0 auto;
             text-align: center;
         }
@@ -78,7 +79,7 @@
             font-weight: 600;
         }
 
-        /* --- LAYOUT PRINCIPAL (Grelha tipo Painéis) --- */
+        /* --- LAYOUT PRINCIPAL --- */
         .main-layout {
             max-width: 1100px;
             margin: 30px auto;
@@ -93,7 +94,7 @@
                 grid-template-columns: 1fr;
             }
             .hero-title {
-                font-size: 1.4rem;
+                font-size: 2.2rem;
             }
         }
 
@@ -122,7 +123,7 @@
             text-align: justify;
         }
 
-        /* --- CAIXA DO CESTO (LATERAL) --- */
+        /* --- CAIXA DO CESTO --- */
         .cart-sidebar-box {
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -160,7 +161,6 @@
             padding-top: 10px;
         }
 
-        /* Formulário de Encomenda na Caixa */
         .checkout-form {
             display: flex;
             flex-direction: column;
@@ -287,6 +287,15 @@
             background-color: var(--btn-hover);
         }
 
+        .loading-text {
+            color: var(--accent-gold);
+            font-style: italic;
+            font-size: 0.9rem;
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px 0;
+        }
+
         .cart-item-row {
             display: flex;
             justify-content: space-between;
@@ -304,6 +313,50 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
+
+        /* --- MODAL DE ADMINISTRAÇÃO --- */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        .admin-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .admin-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        .metric-card {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        .btn-close-admin {
+            margin-top: 15px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -311,7 +364,7 @@
     <!-- Banner Superior -->
     <div class="hero-banner">
         <div class="hero-buttons">
-            <button class="hero-btn" onclick="alert('Área de Administração')">Admin</button>
+            <button class="hero-btn" onclick="openAdminPanel()">Admin</button>
             <button class="hero-btn" onclick="document.getElementById('cesto-ancora').scrollIntoView({behavior: 'smooth'})">Cesto (<span id="header-count">0</span>)</button>
         </div>
         <h1 class="hero-title">Dream Craft</h1>
@@ -319,38 +372,36 @@
 
     <div class="main-layout">
         
-        <!-- Coluna Esquerda: Sobre Nós e Produtos -->
+        <!-- Coluna Esquerda -->
         <div class="left-column">
             
-            <!-- Bloco Sobre Nós -->
             <div class="about-box">
                 <h3>Sobre Nós</h3>
                 <p>Bem-vindo à Dream Craft! Criamos e selecionamos com todo o carinho artigos variados e especiais dedicados a mulheres, crianças e papelaria criativa. O nosso compromisso é trazer delicadeza, encanto e qualidade ao vosso dia a dia através de peças únicas.</p>
             </div>
 
-            <!-- Categoria Mulher -->
             <div class="category-section">
                 <h2 class="category-title">Mulher</h2>
                 
                 <div class="subcategory-title">Acessórios de Modas</div>
                 <div class="products-grid" id="grid-acessorios">
-                    <!-- Inserido por JS -->
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
                 </div>
 
                 <div class="subcategory-title">Perfumes</div>
                 <div class="products-grid" id="grid-perfumes">
-                    <!-- Inserido por JS -->
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
                 </div>
 
                 <div class="subcategory-title">Roupa</div>
                 <div class="products-grid" id="grid-roupa">
-                    <!-- Inserido por JS -->
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Coluna Direita: O Seu Cesto -->
+        <!-- Coluna Direita -->
         <div class="right-column" id="cesto-ancora">
             <div class="cart-sidebar-box">
                 <h3>O Seu Cesto</h3>
@@ -381,18 +432,62 @@
 
     </div>
 
+    <!-- Modal Admin -->
+    <div class="admin-modal" id="admin-modal">
+        <div class="admin-content">
+            <h3>Painel de Administrador</h3>
+            <div class="metric-card" id="stat-visits">Acessos totais ao site: 0</div>
+            <div class="metric-card" id="stat-clicks">Cliques em "Adicionar ao Cesto": 0</div>
+            <div class="metric-card" id="stat-orders">Total de Encomendas: 0</div>
+            <div style="margin-top:15px; font-weight:bold; font-size:0.9rem;">Artigos mais vendidos:</div>
+            <div id="stat-bestsellers" style="font-size:0.85rem; color:#666; margin-top:5px;">Ainda sem vendas registadas.</div>
+            <button class="btn-close-admin" onclick="closeAdminPanel()">Fechar</button>
+        </div>
+    </div>
+
     <script>
-        // ATENÇÃO: Substitui pelos teus 9 dígitos reais do telemóvel (ex: "351912345678")
-        const MY_PHONE_NUMBER = "351900000000";
+        const MY_PHONE_NUMBER = "351934805554";
         const HOME_DELIVERY_FEE = 2.00;
+        
+        // COLE AQUI O SEU LINK OBTIDO NO PASSO 3 DO GOOGLE APPS SCRIPT
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxx35AAN_QFqaLVnMHqzr5ppnUn9iq37go2AI7UqnzajlR1SSf7usY39gX6NfY898aZ/exec";
 
-        const catalog = [
-            { id: 1, category: "acessorios", name: "Mala de Mão em Couro", price: 42.00, stock: 2, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" },
-            { id: 2, category: "perfumes", name: "Perfume Essence Rose", price: 38.00, stock: 5, img: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" },
-            { id: 3, category: "roupa", name: "Vestido Floral de Verão", price: 45.00, stock: 3, img: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" }
-        ];
-
+        let catalog = [];
         let cart = [];
+        
+        // Métricas locais de apoio
+        let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
+        metrics.visits += 1;
+        localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+
+        // Função principal de ligação ao Google Sheets
+        async function loadCatalogFromGoogleSheets() {
+            if (!WEB_APP_URL || WEB_APP_URL.includes("COPIA_AQUI_O_TEU_LINK")) {
+                console.warn("URL do Google Sheets não foi configurado.");
+                return;
+            }
+
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const rawData = await response.json();
+                
+                // Tratar os dados para garantir que números são interpretados como números
+                catalog = rawData.map(item => ({
+                    id: Number(item.id),
+                    category: String(item.category).trim().toLowerCase(),
+                    name: String(item.name),
+                    price: parseFloat(item.price) || 0,
+                    stock: parseInt(item.stock) || 0,
+                    sold: parseInt(item.sold) || 0,
+                    img: String(item.img)
+                }));
+
+                renderCatalog();
+            } catch (error) {
+                console.error("Erro ao descarregar produtos do Google Sheets:", error);
+                alert("Erro ao carregar a lista de produtos do Google Sheets. Verifica o teu link.");
+            }
+        }
 
         function renderCatalog() {
             const accGrid = document.getElementById('grid-acessorios');
@@ -403,11 +498,16 @@
             perfGrid.innerHTML = '';
             rouGrid.innerHTML = '';
 
+            if (catalog.length === 0) {
+                accGrid.innerHTML = '<div class="loading-text">Nenhum produto encontrado na folha de cálculo.</div>';
+                return;
+            }
+
             catalog.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmMGViZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1zaXplPSIxMnB4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjODg4IiBkeT0iLjNlbSI+W1NlbSBGb3RvXTwvdGV4dD48L3N2Zz4='">
+                    <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
                     <div>
                         <div class="product-name">${item.name}</div>
                         <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
@@ -417,13 +517,19 @@
                 `;
 
                 if (item.category === 'acessorios') accGrid.appendChild(card);
-                if (item.category === 'perfumes') perfGrid.appendChild(card);
-                if (item.category === 'roupa') rouGrid.appendChild(card);
+                else if (item.category === 'perfumes') perfGrid.appendChild(card);
+                else if (item.category === 'roupa') rouGrid.appendChild(card);
+                else accGrid.appendChild(card); // fallback
             });
         }
 
         function addToCart(id) {
+            metrics.clicks += 1;
+            localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+
             const prod = catalog.find(p => p.id === id);
+            if (!prod) return;
+
             const found = cart.find(c => c.id === id);
             if (found) {
                 found.qty += 1;
@@ -523,6 +629,13 @@
                 return;
             }
 
+            metrics.orders += 1;
+            cart.forEach(item => {
+                const prod = catalog.find(p => p.id === item.id);
+                if (prod) prod.sold += item.qty;
+            });
+            localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+
             let total = 0;
             let text = `✨ *Nova Encomenda - Dream Craft* ✨%0A%0A`;
             text += `Olá! Gostaria de encomendar:%0A`;
@@ -530,7 +643,8 @@
             cart.forEach(i => {
                 const sub = i.price * i.qty;
                 total += sub;
-                text += `▪️ ${i.qty}x ${i.name} (${sub.toFixed(2).replace('.',',')}€)%0A`;
+                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)%0A`;
+                text += `   📷 Foto: ${i.img}%0A`;
             });
 
             if (method === "Entrega ao Domicilio") {
@@ -538,20 +652,42 @@
                 text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)%0A`;
             }
 
-            text += `%0A💰 *Total: ${total.toFixed(2).replace('.',',')}€*%0A`;
+            text += `%0A💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*%0A`;
             text += `👤 Nome: ${name}%0A`;
             text += `📦 Entrega: ${method}%0A`;
             if (method === "Entrega ao Domicilio") {
                 text += `📍 Morada: ${address}%0A`;
             }
-            text += `%0AAguardo instruções para pagamento MB Way. Obrigada!`;
+            text += `%0AConfirmo o pedido e aguardo dados. Obrigada!`;
 
             const url = `https://wa.me/${351934805554}?text=${text}`;
             window.open(url, '_blank');
+            
+            cart = [];
+            updateCartUI();
         }
 
-        renderCatalog();
+        function openAdminPanel() {
+            document.getElementById('stat-visits').innerText = `Acessos totais ao site: ${metrics.visits}`;
+            document.getElementById('stat-clicks').innerText = `Cliques em "Adicionar ao Cesto": ${metrics.clicks}`;
+            document.getElementById('stat-orders').innerText = `Total de Encomendas enviadas: ${metrics.orders}`;
+            
+            let bestHtml = "";
+            const sorted = [...catalog].sort((a,b) => b.sold - a.sold);
+            sorted.forEach(s => {
+                bestHtml += `• ${s.name}: <b>${s.sold}</b> vendidos<br>`;
+            });
+            document.getElementById('stat-bestsellers').innerHTML = bestHtml || "Ainda sem vendas registadas.";
+
+            document.getElementById('admin-modal').style.display = 'flex';
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+
+        // Executar o carregamento assim que a página é iniciada
+        loadCatalogFromGoogleSheets();
     </script>
 </body>
 </html>
-
