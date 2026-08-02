@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Craft - Loja Online</title>
-    <!-- Fontes Google com estilo cursivo para o logo -->
+    <!-- Fontes Google com estilo cursivo e elegante -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -70,7 +70,7 @@
         }
 
         #admin-btn {
-            display: none; /* Escondido por defeito - Revela ao premir 5 segundos no título */
+            display: none; /* Revela ao premir 5 segundos no título */
             animation: fadeIn 0.4s ease-in;
         }
 
@@ -221,8 +221,8 @@
             border-color: var(--accent-gold);
         }
 
-        .btn-pay-mbway {
-            background-color: var(--btn-color);
+        .btn-pay-whatsapp {
+            background-color: #25D366;
             color: white;
             border: none;
             padding: 12px;
@@ -232,12 +232,17 @@
             font-weight: 700;
             cursor: pointer;
             text-align: center;
-            transition: background 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 2px 6px rgba(37,211,102,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn-pay-mbway:hover {
-            background-color: var(--btn-hover);
+        .btn-pay-whatsapp:hover {
+            background-color: #1eb956;
+            transform: translateY(-1px);
         }
 
         .category-section {
@@ -643,8 +648,8 @@
                     </select>
                 </div>
 
-                <button class="btn-pay-mbway" id="btn-pay-action" onclick="processCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>
-                    Pagar com MB Way
+                <button class="btn-pay-whatsapp" id="btn-pay-action" onclick="processCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Encomendar via WhatsApp
                 </button>
             </div>
         </div>
@@ -725,12 +730,12 @@
     </div>
 
     <script>
-        const MY_PHONE_NUMBER = "351934805554";
+        // CONFIGURAÇÕES DA LOJA
+        const WHATSAPP_NUMBER = "351934805554";        // Encomendas das clientes vão para este WhatsApp
+        const STORE_EMAIL = "catiapaiva75@gmail.com";    // Alertas de segurança vão para este e-mail
         const HOME_DELIVERY_FEE = 2.00;
         
-        // =============================================================
         // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR
-        // =============================================================
         const ADMIN_PASSWORD = "catiacarolina1997";
 
         // LINK DA APLICAÇÃO GOOGLE APPS SCRIPT
@@ -744,7 +749,6 @@
         let failedLoginAttempts = 0;
         const MAX_FAILED_ATTEMPTS = 10;
 
-        // Métricas de apoio guardadas localmente
         let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
         let ordersHistory = JSON.parse(localStorage.getItem('dream_craft_orders_history')) || [];
         
@@ -964,22 +968,20 @@
             localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
 
             let total = 0;
-            let text = `✨ *Nova Encomenda - Dream Craft* ✨%0A%0A`;
-            text += `Olá! Gostaria de encomendar:%0A`;
+            let waText = `Olá! Gostaria de realizar a seguinte encomenda na Dream Craft:\n\n`;
 
             cart.forEach(i => {
                 const sub = i.price * i.qty;
                 total += sub;
-                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)%0A`;
-                text += `   📷 Foto: ${i.img}%0A`;
+                waText += `▪️ *${i.qty}x ${i.name}* (${sub.toFixed(2).replace('.',',')} €)\n`;
             });
 
             if (method === "Entrega ao Domicilio") {
                 total += HOME_DELIVERY_FEE;
-                text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)%0A`;
+                waText += `▪️ Taxa de Entrega ao Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')} €)\n`;
             }
 
-            // Guardar o registo no histórico de faturação
+            // Guardar o registo no histórico de faturação local
             const orderRecord = {
                 id: Date.now(),
                 date: new Date().toISOString(),
@@ -989,16 +991,17 @@
             ordersHistory.push(orderRecord);
             localStorage.setItem('dream_craft_orders_history', JSON.stringify(ordersHistory));
 
-            text += `%0A💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*%0A`;
-            text += `👤 Nome: ${name}%0A`;
-            text += `📦 Entrega: ${method}%0A`;
+            waText += `\n💰 *Total a pagar:* ${total.toFixed(2).replace('.',',')} €\n`;
+            waText += `👤 *Nome:* ${name}\n`;
+            waText += `📦 *Método de Entrega:* ${method}\n`;
             if (method === "Entrega ao Domicilio") {
-                text += `📍 Morada: ${address}%0A`;
+                waText += `📍 *Morada:* ${address}\n`;
             }
-            text += `%0AConfirmo o pedido e aguardo dados. Obrigada!`;
+            waText += `\nConfirmo o pedido e aguardo dados para pagamento. Obrigada!`;
 
-            const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${text}`;
-            window.open(url, '_blank');
+            // ABRIR ENCOMENDA DIRETAMENTE NO WHATSAPP
+            const waUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(waText)}`;
+            window.open(waUrl, '_blank');
             
             cart = [];
             updateCartUI();
@@ -1021,7 +1024,7 @@
                     passInput.disabled = true;
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.5';
-                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas. Foi enviado um alerta ao proprietário.";
+                    errorMsg.innerHTML = `🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas. Foi enviado um alerta para o e-mail (${STORE_EMAIL}).`;
                     errorMsg.style.display = 'block';
                 } else {
                     passInput.disabled = false;
@@ -1057,16 +1060,17 @@
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.5';
 
-                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado. A enviar alerta de segurança...";
+                    errorElement.innerHTML = `🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado. A enviar alerta de segurança para o e-mail (${STORE_EMAIL})...`;
                     errorElement.style.display = 'block';
 
-                    // Envio automático do Alerta de Segurança para o WhatsApp do Administrador
-                    const alertText = `🚨 *ALERTA DE SEGURANÇA - DREAM CRAFT*%0A%0AForam efetuadas *10 tentativas falhadas* de palavra-passe no Painel de Administração da tua loja!%0A%0ASe não foste tu, altera a tua palavra-passe no código.`;
-                    const alertUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${alertText}`;
-                    
-                    setTimeout(() => {
-                        window.open(alertUrl, '_blank');
-                    }, 1000);
+                    // ALERTA SILENCIOSO VIA E-MAIL (Através do Google Apps Script - SEM ABRIR WHATSAPP)
+                    fetch(WEB_APP_URL + "?action=security_alert")
+                        .then(() => {
+                            console.log("Alerta de segurança enviado por e-mail.");
+                        })
+                        .catch(err => {
+                            console.error("Erro ao enviar alerta por e-mail:", err);
+                        });
                 } else {
                     const remaining = MAX_FAILED_ATTEMPTS - failedLoginAttempts;
                     errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${remaining}</b> tentativa(s).`;
