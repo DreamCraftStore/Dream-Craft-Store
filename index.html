@@ -4,334 +4,1170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Craft - Loja Online</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fontes Google com estilo cursivo para o logo -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .shimmer {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+        :root {
+            --primary-dark: #5c4033;
+            --accent-gold: #c29b61;
+            --price-color: #8c6d53;
+            --btn-color: #b08d57;
+            --btn-hover: #967544;
+            --bg-base: #fcfbfa;
+            --border-light: #e6dfdb;
+            --danger-color: #c94a4a;
         }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
-        .press-active {
-            transform: scale(0.97);
-            color: #d97706 !important;
+
+        body {
+            background-color: var(--bg-base);
+            color: #4a4a4a;
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1522383225653-ed111181a951?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .hero-title {
+            color: white;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 2px 3px 6px rgba(0,0,0,0.6);
+            margin: 0 auto;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .hero-title.holding {
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 2px 3px 8px rgba(0,0,0,0.8);
+        }
+
+        #admin-btn {
+            display: none; /* Escondido por defeito - Revela ao premir 5 segundos no título */
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-notify {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            z-index: 4000;
+            display: none;
+            border: 1px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        .hero-buttons {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
             transition: all 0.2s ease;
+        }
+
+        .hero-btn:hover {
+            background: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .main-layout {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        .about-box {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .about-box h3 {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .about-box p {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: justify;
+        }
+
+        .cart-sidebar-box {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 20px;
+        }
+
+        .cart-sidebar-box h3 {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .cart-empty-text {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--primary-dark);
+            margin: 15px 0;
+            border-top: 1px solid var(--border-light);
+            padding-top: 10px;
+        }
+
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkout-form input, .checkout-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #faf8f6;
+            outline: none;
+        }
+
+        .checkout-form input:focus, .checkout-form select:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .btn-pay-mbway {
+            background-color: var(--btn-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn-pay-mbway:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .category-section {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .category-title {
+            color: var(--primary-dark);
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+        }
+
+        .subcategory-title {
+            color: var(--accent-gold);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 15px 0 10px 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background-color: #f0ebe6;
+            border-radius: 6px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: var(--price-color);
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 3px;
+        }
+
+        .product-stock {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .btn-add {
+            background-color: var(--btn-color);
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .loading-text {
+            color: var(--accent-gold);
+            font-style: italic;
+            font-size: 0.9rem;
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 5px;
+        }
+
+        .btn-remove-item {
+            background: none;
+            border: none;
+            color: #cc4444;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .admin-content {
+            background: #fff;
+            padding: 28px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .admin-header h3 {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .admin-badge {
+            background: #f0ebe6;
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .login-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .login-box p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 3px;
+            background: #faf8f6;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .login-error-msg {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            display: none;
+            line-height: 1.4;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .kpi-card {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .kpi-title {
+            font-size: 0.75rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .kpi-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .revenue-history-box {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .billing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e6dfdb;
+            font-size: 0.85rem;
+        }
+
+        .billing-row:last-child {
+            border-bottom: none;
+        }
+
+        .billing-month {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .billing-badge {
+            background: #e8f4ea;
+            color: #2e7d32;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .bestseller-section {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .bestseller-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bestseller-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e6dfdb;
+        }
+
+        .bestseller-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn-admin-action {
+            background: var(--btn-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-admin-action:hover {
+            background: var(--btn-hover);
+        }
+
+        .btn-admin-secondary {
+            background: transparent;
+            color: #888;
+            border: 1px solid var(--border-light);
+            margin-top: 8px;
+        }
+
+        .btn-admin-secondary:hover {
+            background: #f5f5f5;
+            color: #444;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body>
 
-    <header class="bg-white/85 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <h1 id="brand-title" class="text-xl md:text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent cursor-pointer select-none transition-all duration-300">
-                    Dream Craft
-                </h1>
-                <button id="admin-trigger-btn" onclick="openAdminModal()" class="hidden items-center gap-1.5 px-2.5 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full hover:bg-amber-200 transition-colors">
-                    <i class="fa-solid fa-lock text-[10px]"></i> Admin
-                </button>
-            </div>
-            <button onclick="toggleCartModal()" class="relative p-2.5 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
-                <i class="fa-solid fa-bag-shopping text-slate-700 text-lg"></i>
-                <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
-            </button>
+    <div class="hero-banner">
+        <div class="hero-buttons">
+            <button class="hero-btn" id="admin-btn" onclick="openAdminPanel()">🔒 Admin</button>
+            <button class="hero-btn" onclick="document.getElementById('cesto-ancora').scrollIntoView({behavior: 'smooth'})">Cesto (<span id="header-count">0</span>)</button>
         </div>
-    </header>
-
-    <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0">
-        <i class="fa-solid fa-shield-halved text-amber-400"></i>
-        <span id="toast-text" class="text-sm font-medium"></span>
+        <!-- Título sem qualquer atributo 'title' para segredo total -->
+        <h1 class="hero-title" id="hero-title">Dream Craft</h1>
     </div>
 
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold text-slate-900">Catálogo de Artigos</h2>
-            <p class="text-slate-500 text-sm mt-1">Selecione os seus artigos favoritos e encomende diretamente pelo WhatsApp.</p>
-        </div>
+    <!-- Notificação Flutuante -->
+    <div id="toast-notify" class="toast-notify">🔓 Botão de Admin Revelado!</div>
 
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
-                <div class="w-full h-48 rounded-xl shimmer"></div>
-                <div class="h-4 w-3/4 rounded shimmer"></div>
-                <div class="h-4 w-1/2 rounded shimmer"></div>
-                <div class="h-10 w-full rounded-xl shimmer"></div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-white border-t border-slate-100 py-6 mt-12">
-        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-sm">
-            &copy; <span id="current-year"></span> Dream Craft. Todos os direitos reservados.
-        </div>
-    </footer>
-
-    <!-- MODAL DO CESTO -->
-    <div id="cart-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-end hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between">
-            <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
-                    <i class="fa-solid fa-bag-shopping text-emerald-600"></i> O Seu Cesto
-                </h3>
-                <button onclick="toggleCartModal()" class="text-slate-400 hover:text-slate-600 p-2">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+    <div class="main-layout">
+        
+        <!-- Coluna Esquerda: Sobre e Produtos -->
+        <div class="left-column">
+            
+            <div class="about-box">
+                <h3>Sobre Nós</h3>
+                <p>Bem-vindo à Dream Craft! Criamos e selecionamos com todo o carinho artigos variados e especiais dedicados a mulheres, crianças e papelaria criativa. O nosso compromisso é trazer delicadeza, encanto e qualidade ao vosso dia a dia através de peças únicas.</p>
             </div>
 
-            <div id="cart-items" class="p-6 flex-1 overflow-y-auto space-y-4"></div>
-
-            <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-4">
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm text-slate-600">
-                        <span>Subtotal</span>
-                        <span id="cart-subtotal" class="font-semibold">0.00 €</span>
-                    </div>
-                    <div class="flex justify-between text-sm text-slate-600">
-                        <span>Entrega ao Domicílio</span>
-                        <span id="cart-delivery" class="font-semibold">2.00 €</span>
-                    </div>
-                    <div class="flex justify-between text-base font-bold text-slate-900 pt-2 border-t border-slate-200">
-                        <span>Total</span>
-                        <span id="cart-total" class="text-emerald-600">2.00 €</span>
-                    </div>
+            <div class="category-section">
+                <h2 class="category-title">Mulher</h2>
+                
+                <div class="subcategory-title">Acessórios de Modas</div>
+                <div class="products-grid" id="grid-acessorios">
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
                 </div>
 
-                <div class="space-y-3 pt-2">
-                    <input type="text" id="client-name" placeholder="O seu Nome Completo" class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
-                    <input type="text" id="client-address" placeholder="Morada de Entrega" class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
-                    <button onclick="processCheckout()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Encomendar via WhatsApp
-                    </button>
+                <div class="subcategory-title">Perfumes</div>
+                <div class="products-grid" id="grid-perfumes">
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
+                </div>
+
+                <div class="subcategory-title">Roupa</div>
+                <div class="products-grid" id="grid-roupa">
+                    <div class="loading-text">A carregar produtos do Google Sheets...</div>
                 </div>
             </div>
+
         </div>
-    </div>
 
-    <!-- MODAL DE LOGIN ADMIN -->
-    <div id="admin-auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl border border-slate-100 relative">
-            <button onclick="closeAdminAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="text-center space-y-3">
-                <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto text-xl">
-                    <i class="fa-solid fa-lock"></i>
+        <div class="right-column" id="cesto-ancora">
+            <div class="cart-sidebar-box">
+                <h3>O Seu Cesto</h3>
+                <div id="cart-items-box">
+                    <p class="cart-empty-text">O cesto está vazio.</p>
                 </div>
-                <h3 class="font-bold text-lg text-slate-900">Área Reservada</h3>
-                <p class="text-xs text-slate-500">Por favor, insira a palavra-passe de acesso ao painel de gestão:</p>
-            </div>
+                
+                <div class="cart-total-row">
+                    <span>Total:</span>
+                    <span id="cart-total-display">0,00 €</span>
+                </div>
 
-            <div class="mt-5 space-y-3">
-                <input type="password" id="admin-pass-input" placeholder="Palavra-passe" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500">
-                <div id="auth-error-msg" class="text-xs text-rose-600 font-medium text-center hidden"></div>
-                <button onclick="authenticateAdmin()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl transition-colors">
-                    Entrar no Painel
+                <div class="checkout-form" id="checkout-form-box" style="display:none;">
+                    <input type="text" id="client-name" placeholder="O seu Nome Completo" required>
+                    <input type="text" id="client-address" placeholder="Morada (apenas para entrega)" style="display:none;">
+                    <select id="delivery-method" onchange="handleDeliveryChange()">
+                        <option value="" disabled selected>Método de Entrega...</option>
+                        <option value="Levantamento na pastelaria SonhosdeAnjo">Levantar na pastelaria SonhosdeAnjo</option>
+                        <option value="Entrega ao Domicilio">Entrega ao Domicílio (+ 2,00 €)</option>
+                    </select>
+                </div>
+
+                <button class="btn-pay-mbway" id="btn-pay-action" onclick="processCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>
+                    Pagar com MB Way
                 </button>
             </div>
         </div>
+
     </div>
 
-    <!-- PAINEL DE GESTÃO -->
-    <div id="admin-dashboard-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
-        <div class="bg-slate-50 w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden my-8">
-            <div class="bg-white p-6 border-b border-slate-200 flex items-center justify-between">
-                <h3 class="font-bold text-slate-900">Painel de Gestão - Dream Craft</h3>
-                <button onclick="closeAdminDashboard()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">Sair</button>
+    <div class="admin-modal" id="admin-modal">
+        <div class="admin-content">
+            
+            <!-- ECRÃ 1: LOGIN DE ADMINISTRADOR -->
+            <div id="admin-login-view" class="login-box">
+                <div class="admin-header">
+                    <h3>Área Reservada</h3>
+                    <span class="admin-badge">Dream Craft</span>
+                </div>
+                <p>Por favor, insira a palavra-passe de acesso ao painel de gestão:</p>
+                <input type="password" id="admin-pass-input" class="login-input" placeholder="••••" onkeypress="if(event.key === 'Enter') checkAdminPassword()">
+                <div id="login-error" class="login-error-msg">Palavra-passe incorreta! Tente novamente.</div>
+                
+                <button class="btn-admin-action" id="btn-login-submit" onclick="checkAdminPassword()">Entrar no Painel</button>
+                <button class="btn-admin-action btn-admin-secondary" onclick="closeAdminPanel()">Cancelar</button>
             </div>
-            <div class="p-6 space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                    <div class="bg-white p-4 rounded-xl border border-slate-200">
-                        <div class="text-xs text-slate-500">Visitas</div>
-                        <div id="kpi-visits" class="text-2xl font-bold">0</div>
+
+            <!-- ECRÃ 2: DASHBOARD DE MÉTRICAS -->
+            <div id="admin-dashboard-view" style="display:none;">
+                <div class="admin-header">
+                    <h3>Painel do Gestor</h3>
+                    <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Autenticado</span>
+                </div>
+
+                <!-- Métricas Principais (KPIs) -->
+                <div class="dashboard-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Visitas</div>
+                        <div class="kpi-value" id="kpi-visits">0</div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200">
-                        <div class="text-xs text-slate-500">Cliques no Cesto</div>
-                        <div id="kpi-clicks" class="text-2xl font-bold">0</div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Cliques</div>
+                        <div class="kpi-value" id="kpi-clicks">0</div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200">
-                        <div class="text-xs text-slate-500">Faturação Mês</div>
-                        <div id="kpi-month-revenue" class="text-2xl font-bold text-emerald-600">0.00 €</div>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200">
-                        <div class="text-xs text-slate-500">Faturação Total</div>
-                        <div id="kpi-total-revenue" class="text-2xl font-bold text-indigo-600">0.00 €</div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Pedidos</div>
+                        <div class="kpi-value" id="kpi-orders">0</div>
                     </div>
                 </div>
+
+                <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Mês</div>
+                        <div class="kpi-value" id="kpi-month-revenue" style="color: #2e7d32;">0,00 €</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Total</div>
+                        <div class="kpi-value" id="kpi-total-revenue" style="color: var(--primary-dark);">0,00 €</div>
+                    </div>
+                </div>
+
+                <!-- Histórico de Faturação Mensal -->
+                <div class="revenue-history-box">
+                    <div class="bestseller-title">📅 Histórico de Faturação Mensal</div>
+                    <div id="monthly-revenue-container">
+                        <div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação.</div>
+                    </div>
+                </div>
+
+                <!-- Ranking de Artigos mais Vendidos -->
+                <div class="bestseller-section">
+                    <div class="bestseller-title">🏆 Artigos Mais Vendidos</div>
+                    <div id="bestseller-list-container">
+                        <div style="font-size:0.85rem; color:#888; text-align:center;">Sem dados de vendas.</div>
+                    </div>
+                </div>
+
+                <button class="btn-admin-action" onclick="closeAdminPanel()">Sair do Painel</button>
             </div>
+
         </div>
     </div>
 
     <script>
         const MY_PHONE_NUMBER = "351934805554";
         const HOME_DELIVERY_FEE = 2.00;
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxx35AAN_QFqaLVnMHqzr5ppnUn9iq37go2Al7UqnznjlR1SSf7usY39gX6NFY898aZ/exec";
+        
+        // =============================================================
+        // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR
+        // =============================================================
         const ADMIN_PASSWORD = "catiacarolina1997";
+
+        // LINK DA APLICAÇÃO GOOGLE APPS SCRIPT
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxx35AAN_QFqaLVnMHqzr5ppnUn9iq37go2AI7UqnzajlR1SSf7usY39gX6NfY898aZ/exec";
 
         let catalog = [];
         let cart = [];
-        let loginAttempts = 0;
-        let pressTimer = null;
         let isAdminLoggedIn = false;
+        
+        // Controlo de Segurança para Tentativas Incorretas
+        let failedLoginAttempts = 0;
+        const MAX_FAILED_ATTEMPTS = 10;
 
-        let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || {
-            visits: 0, cartClicks: 0, ordersCount: 0, salesByProduct: {}, monthlyRevenue: {}
-        };
-
+        // Métricas de apoio guardadas localmente
+        let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
+        let ordersHistory = JSON.parse(localStorage.getItem('dream_craft_orders_history')) || [];
+        
         metrics.visits += 1;
         localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
-        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        const brandTitle = document.getElementById('brand-title');
-        brandTitle.addEventListener('mousedown', startPressCounter);
-        brandTitle.addEventListener('mouseup', cancelPressCounter);
-        brandTitle.addEventListener('mouseleave', cancelPressCounter);
+        let holdTimer = null;
+        const heroTitle = document.getElementById('hero-title');
+        const adminBtn = document.getElementById('admin-btn');
+        const toastNotify = document.getElementById('toast-notify');
 
-        function startPressCounter() {
-            brandTitle.classList.add('press-active');
-            pressTimer = setTimeout(() => {
-                const adminBtn = document.getElementById('admin-trigger-btn');
-                adminBtn.classList.remove('hidden');
-                adminBtn.classList.add('flex');
+        function startTitleHold(e) {
+            heroTitle.classList.add('holding');
+            holdTimer = setTimeout(() => {
+                adminBtn.style.display = 'inline-block';
+                heroTitle.classList.remove('holding');
                 showToast("🔓 Botão de Admin Revelado!");
-                brandTitle.classList.remove('press-active');
-            }, 5000);
+            }, 5000); // 5 segundos
         }
 
-        function cancelPressCounter() {
-            brandTitle.classList.remove('press-active');
-            if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        function cancelTitleHold() {
+            if (holdTimer) clearTimeout(holdTimer);
+            heroTitle.classList.remove('holding');
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast-notification');
-            document.getElementById('toast-text').textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        function showToast(msg) {
+            toastNotify.innerText = msg;
+            toastNotify.style.display = 'block';
+            setTimeout(() => {
+                toastNotify.style.display = 'none';
+            }, 3500);
         }
 
-        async function loadCatalog() {
+        heroTitle.addEventListener('mousedown', startTitleHold);
+        heroTitle.addEventListener('mouseup', cancelTitleHold);
+        heroTitle.addEventListener('mouseleave', cancelTitleHold);
+
+        heroTitle.addEventListener('touchstart', startTitleHold, { passive: true });
+        heroTitle.addEventListener('touchend', cancelTitleHold);
+        heroTitle.addEventListener('touchcancel', cancelTitleHold);
+
+        async function loadCatalogFromGoogleSheets() {
+            if (!WEB_APP_URL || WEB_APP_URL.includes("COPIA_AQUI_O_TEU_LINK")) {
+                console.warn("URL do Google Sheets não configurado.");
+                return;
+            }
+
             try {
                 const response = await fetch(WEB_APP_URL);
                 const rawData = await response.json();
-                catalog = rawData.map((item, index) => ({
-                    id: index + 1,
-                    title: item.Nome || "Artigo",
-                    price: parseFloat(item.Preco || 0),
-                    image: item.Imagem || "https://via.placeholder.com/250"
+                
+                catalog = rawData.map(item => ({
+                    id: Number(item.id),
+                    category: String(item.category).trim().toLowerCase(),
+                    name: String(item.name),
+                    price: parseFloat(item.price) || 0,
+                    stock: parseInt(item.stock) || 0,
+                    sold: parseInt(item.sold) || 0,
+                    img: String(item.img)
                 }));
+
                 renderCatalog();
             } catch (error) {
-                console.error("Erro:", error);
+                console.error("Erro ao carregar produtos do Google Sheets:", error);
+                showToast("⚠️ Erro ao carregar catálogo de produtos.");
             }
         }
 
         function renderCatalog() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = '';
-            catalog.forEach(product => {
-                grid.innerHTML += `
-                    <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between">
-                        <div>
-                            <div class="w-full h-48 rounded-xl overflow-hidden bg-slate-100 mb-3">
-                                <img src="${product.image}" class="w-full h-full object-cover">
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base line-clamp-1">${product.title}</h3>
-                            <p class="text-emerald-600 font-bold text-lg mt-1">${product.price.toFixed(2)} €</p>
-                        </div>
-                        <button onclick="addToCart(${product.id})" class="mt-4 w-full py-2.5 bg-slate-900 text-white font-semibold text-xs rounded-xl">Adicionar</button>
+            const accGrid = document.getElementById('grid-acessorios');
+            const perfGrid = document.getElementById('grid-perfumes');
+            const rouGrid = document.getElementById('grid-roupa');
+
+            accGrid.innerHTML = '';
+            perfGrid.innerHTML = '';
+            rouGrid.innerHTML = '';
+
+            if (catalog.length === 0) {
+                accGrid.innerHTML = '<div class="loading-text">Nenhum produto encontrado na folha de cálculo.</div>';
+                return;
+            }
+
+            catalog.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
+                    <div>
+                        <div class="product-name">${item.name}</div>
+                        <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
+                        <div class="product-stock">Stock: ${item.stock}</div>
                     </div>
+                    <button class="btn-add" onclick="addToCart(${item.id})">Adicionar</button>
                 `;
+
+                if (item.category === 'acessorios') accGrid.appendChild(card);
+                else if (item.category === 'perfumes') perfGrid.appendChild(card);
+                else if (item.category === 'roupa') rouGrid.appendChild(card);
+                else accGrid.appendChild(card);
             });
         }
 
-        function addToCart(productId) {
-            metrics.cartClicks += 1;
+        function addToCart(id) {
+            metrics.clicks += 1;
             localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
-            const product = catalog.find(p => p.id === productId);
-            const existing = cart.find(item => item.product.id === productId);
-            if (existing) existing.quantity += 1; else cart.push({ product, quantity: 1 });
+
+            const prod = catalog.find(p => p.id === id);
+            if (!prod) return;
+
+            const found = cart.find(c => c.id === id);
+            if (found) {
+                found.qty += 1;
+            } else {
+                cart.push({ ...prod, qty: 1 });
+            }
+            updateCartUI();
+            showToast(`🛒 "${prod.name}" adicionado ao cesto!`);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCartUI();
+        }
+
+        function handleDeliveryChange() {
+            const method = document.getElementById('delivery-method').value;
+            const addressInput = document.getElementById('client-address');
+            if (method === "Entrega ao Domicilio") {
+                addressInput.style.display = 'block';
+            } else {
+                addressInput.style.display = 'none';
+                addressInput.value = '';
+            }
             updateCartUI();
         }
 
         function updateCartUI() {
-            const badge = document.getElementById('cart-badge');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            if (totalItems > 0) { badge.textContent = totalItems; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
-            
-            const cartContainer = document.getElementById('cart-items');
-            cartContainer.innerHTML = cart.length === 0 ? '<p class="text-slate-400 text-center py-6">Cesto vazio.</p>' : '';
-            cart.forEach(item => {
-                cartContainer.innerHTML += `
-                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl">
-                        <span class="text-xs font-semibold">${item.product.title} (${item.quantity}x)</span>
-                        <span class="text-xs font-bold">${(item.product.price * item.quantity).toFixed(2)} €</span>
-                    </div>
-                `;
-            });
-            const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-            document.getElementById('cart-subtotal').textContent = `${subtotal.toFixed(2)} €`;
-            document.getElementById('cart-total').textContent = `${(subtotal + (cart.length > 0 ? HOME_DELIVERY_FEE : 0)).toFixed(2)} €`;
-        }
+            const box = document.getElementById('cart-items-box');
+            const totalDisplay = document.getElementById('cart-total-display');
+            const headerCount = document.getElementById('header-count');
+            const checkoutForm = document.getElementById('checkout-form-box');
+            const btnPay = document.getElementById('btn-pay-action');
+            const method = document.getElementById('delivery-method').value;
 
-        function toggleCartModal() {
-            const modal = document.getElementById('cart-modal');
-            modal.classList.toggle('hidden');
-            setTimeout(() => modal.classList.toggle('opacity-0'), 10);
+            box.innerHTML = '';
+            let total = 0;
+            let totalCount = 0;
+
+            if (cart.length === 0) {
+                box.innerHTML = '<p class="cart-empty-text">O cesto está vazio.</p>';
+                checkoutForm.style.display = 'none';
+                btnPay.style.opacity = '0.5';
+                btnPay.style.cursor = 'not-allowed';
+                btnPay.disabled = true;
+            } else {
+                cart.forEach(item => {
+                    const sub = item.price * item.qty;
+                    total += sub;
+                    totalCount += item.qty;
+
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row';
+                    row.innerHTML = `
+                        <span>${item.qty}x ${item.name}</span>
+                        <span>${sub.toFixed(2).replace('.', ',')} € <button class="btn-remove-item" onclick="removeFromCart(${item.id})">✕</button></span>
+                    `;
+                    box.appendChild(row);
+                });
+
+                if (method === "Entrega ao Domicilio") {
+                    total += HOME_DELIVERY_FEE;
+                    const feeRow = document.createElement('div');
+                    feeRow.className = 'cart-item-row';
+                    feeRow.innerHTML = `
+                        <span>Taxa Entrega Domicílio</span>
+                        <span>${HOME_DELIVERY_FEE.toFixed(2).replace('.', ',')} €</span>
+                    `;
+                    box.appendChild(feeRow);
+                }
+
+                checkoutForm.style.display = 'block';
+                btnPay.style.opacity = '1';
+                btnPay.style.cursor = 'pointer';
+                btnPay.disabled = false;
+            }
+
+            totalDisplay.innerText = `${total.toFixed(2).replace('.', ',')} €`;
+            headerCount.innerText = totalCount;
         }
 
         function processCheckout() {
             const name = document.getElementById('client-name').value.trim();
+            const methodSelect = document.getElementById('delivery-method');
+            const method = methodSelect.options[methodSelect.selectedIndex]?.value;
             const address = document.getElementById('client-address').value.trim();
-            if (!name || !address || cart.length === 0) { alert("Preencha nome, morada e adicione artigos."); return; }
 
-            const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-            const total = subtotal + HOME_DELIVERY_FEE;
+            if (!name) {
+                showToast("⚠️ Por favor, preencha o seu nome completo.");
+                document.getElementById('client-name').focus();
+                return;
+            }
+            if (!method) {
+                showToast("⚠️ Por favor, selecione o método de entrega.");
+                return;
+            }
+            if (method === "Entrega ao Domicilio" && !address) {
+                showToast("⚠️ Por favor, preencha a morada para entrega ao domicílio.");
+                document.getElementById('client-address').focus();
+                return;
+            }
 
-            let itemsText = cart.map(i => `• ${i.product.title} (${i.quantity}x)`).join('\n');
-            let message = `*ENCOMENDA*\nNome: ${name}\nMorada: ${address}\n\n${itemsText}\n\nTotal: ${total.toFixed(2)}€`;
-            window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+            metrics.orders += 1;
+            cart.forEach(item => {
+                const prod = catalog.find(p => p.id === item.id);
+                if (prod) prod.sold += item.qty;
+            });
+            localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+
+            let total = 0;
+            let text = `✨ *Nova Encomenda - Dream Craft* ✨%0A%0A`;
+            text += `Olá! Gostaria de encomendar:%0A`;
+
+            cart.forEach(i => {
+                const sub = i.price * i.qty;
+                total += sub;
+                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)%0A`;
+                text += `   📷 Foto: ${i.img}%0A`;
+            });
+
+            if (method === "Entrega ao Domicilio") {
+                total += HOME_DELIVERY_FEE;
+                text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)%0A`;
+            }
+
+            // Guardar o registo no histórico de faturação
+            const orderRecord = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                total: total,
+                itemsCount: cart.reduce((acc, i) => acc + i.qty, 0)
+            };
+            ordersHistory.push(orderRecord);
+            localStorage.setItem('dream_craft_orders_history', JSON.stringify(ordersHistory));
+
+            text += `%0A💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*%0A`;
+            text += `👤 Nome: ${name}%0A`;
+            text += `📦 Entrega: ${method}%0A`;
+            if (method === "Entrega ao Domicilio") {
+                text += `📍 Morada: ${address}%0A`;
+            }
+            text += `%0AConfirmo o pedido e aguardo dados. Obrigada!`;
+
+            const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${text}`;
+            window.open(url, '_blank');
+            
+            cart = [];
+            updateCartUI();
         }
 
-        function openAdminModal() {
-            document.getElementById('admin-pass-input').value = '';
-            document.getElementById('auth-error-msg').classList.add('hidden');
-            document.getElementById('admin-auth-modal').classList.remove('hidden');
-        }
-
-        function closeAdminAuthModal() { document.getElementById('admin-auth-modal').classList.add('hidden'); }
-
-        function authenticateAdmin() {
-            const inputPass = document.getElementById('admin-pass-input').value;
-            const errorMsg = document.getElementById('auth-error-msg');
-
-            if (inputPass === ADMIN_PASSWORD) {
-                loginAttempts = 0;
-                closeAdminAuthModal();
-                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+        function openAdminPanel() {
+            document.getElementById('admin-modal').style.display = 'flex';
+            
+            if (isAdminLoggedIn) {
+                showAdminDashboard();
             } else {
-                loginAttempts += 1;
-                if (loginAttempts >= 10) {
-                    // MENSAGEM EXATA SOLICITADA (Sem menção a e-mail)
-                    errorMsg.textContent = "🚨 10 Tentativas Incorretas! Acesso bloqueado.";
-                    errorMsg.classList.remove('hidden');
-                    
-                    // Disparo silencioso do e-mail em segundo plano
-                    fetch(WEB_APP_URL + "?action=security_alert").catch(() => {});
+                document.getElementById('admin-login-view').style.display = 'flex';
+                document.getElementById('admin-dashboard-view').style.display = 'none';
+                
+                const passInput = document.getElementById('admin-pass-input');
+                const submitBtn = document.getElementById('btn-login-submit');
+                const errorMsg = document.getElementById('login-error');
+
+                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                    passInput.disabled = true;
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas. Foi enviado um alerta ao proprietário.";
+                    errorMsg.style.display = 'block';
                 } else {
-                    errorMsg.textContent = `Palavra-passe errada. Restam ${10 - loginAttempts} tentativas.`;
-                    errorMsg.classList.remove('hidden');
+                    passInput.disabled = false;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    passInput.value = '';
+                    errorMsg.style.display = 'none';
+                    setTimeout(() => passInput.focus(), 100);
                 }
             }
         }
 
-        function closeAdminDashboard() { document.getElementById('admin-dashboard-modal').classList.add('hidden'); }
+        function checkAdminPassword() {
+            const inputPass = document.getElementById('admin-pass-input').value;
+            const errorElement = document.getElementById('login-error');
+            const passInput = document.getElementById('admin-pass-input');
+            const submitBtn = document.getElementById('btn-login-submit');
 
-        loadCatalog();
+            if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                return;
+            }
+
+            if (inputPass === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                failedLoginAttempts = 0; // Reset ao acertar
+                errorElement.style.display = 'none';
+                showAdminDashboard();
+            } else {
+                failedLoginAttempts += 1;
+
+                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+                    passInput.disabled = true;
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+
+                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado. A enviar alerta de segurança...";
+                    errorElement.style.display = 'block';
+
+                    // Envio automático do Alerta de Segurança para o WhatsApp do Administrador
+                    const alertText = `🚨 *ALERTA DE SEGURANÇA - DREAM CRAFT*%0A%0AForam efetuadas *10 tentativas falhadas* de palavra-passe no Painel de Administração da tua loja!%0A%0ASe não foste tu, altera a tua palavra-passe no código.`;
+                    const alertUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${alertText}`;
+                    
+                    setTimeout(() => {
+                        window.open(alertUrl, '_blank');
+                    }, 1000);
+                } else {
+                    const remaining = MAX_FAILED_ATTEMPTS - failedLoginAttempts;
+                    errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${remaining}</b> tentativa(s).`;
+                    errorElement.style.display = 'block';
+                    passInput.value = '';
+                }
+            }
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('admin-login-view').style.display = 'none';
+            document.getElementById('admin-dashboard-view').style.display = 'block';
+
+            // Atualizar os KPIs Básicos
+            document.getElementById('kpi-visits').innerText = metrics.visits;
+            document.getElementById('kpi-clicks').innerText = metrics.clicks;
+            document.getElementById('kpi-orders').innerText = metrics.orders;
+
+            // Calcular Faturação Total e por Mês
+            let totalRevenue = 0;
+            const monthlyRevenue = {};
+
+            const monthNames = [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ];
+
+            ordersHistory.forEach(order => {
+                totalRevenue += order.total;
+                const d = new Date(order.date);
+                const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                const monthLabel = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
+
+                if (!monthlyRevenue[monthKey]) {
+                    monthlyRevenue[monthKey] = { label: monthLabel, total: 0, count: 0 };
+                }
+                monthlyRevenue[monthKey].total += order.total;
+                monthlyRevenue[monthKey].count += 1;
+            });
+
+            const currentD = new Date();
+            const currentMonthKey = `${currentD.getFullYear()}-${String(currentD.getMonth() + 1).padStart(2, '0')}`;
+            const currentMonthRevenue = monthlyRevenue[currentMonthKey] ? monthlyRevenue[currentMonthKey].total : 0;
+
+            document.getElementById('kpi-month-revenue').innerText = `${currentMonthRevenue.toFixed(2).replace('.', ',')} €`;
+            document.getElementById('kpi-total-revenue').innerText = `${totalRevenue.toFixed(2).replace('.', ',')} €`;
+
+            // Renderizar Histórico de Faturação
+            const revenueContainer = document.getElementById('monthly-revenue-container');
+            revenueContainer.innerHTML = '';
+
+            const sortedMonths = Object.keys(monthlyRevenue).sort().reverse();
+
+            if (sortedMonths.length === 0) {
+                revenueContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação registado.</div>';
+            } else {
+                sortedMonths.forEach(mKey => {
+                    const item = monthlyRevenue[mKey];
+                    const row = document.createElement('div');
+                    row.className = 'billing-row';
+                    row.innerHTML = `
+                        <div>
+                            <div class="billing-month">${item.label}</div>
+                            <div style="font-size:0.75rem; color:#888;">${item.count} encomenda(s)</div>
+                        </div>
+                        <span class="billing-badge">${item.total.toFixed(2).replace('.', ',')} €</span>
+                    `;
+                    revenueContainer.appendChild(row);
+                });
+            }
+
+            // Gerar a lista dos artigos mais vendidos
+            const listContainer = document.getElementById('bestseller-list-container');
+            listContainer.innerHTML = '';
+
+            const sortedProducts = [...catalog].sort((a, b) => b.sold - a.sold);
+            const hasSales = sortedProducts.some(p => p.sold > 0);
+
+            if (!hasSales || catalog.length === 0) {
+                listContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Ainda não existem vendas registadas.</div>';
+            } else {
+                sortedProducts.forEach(item => {
+                    if (item.sold > 0) {
+                        const row = document.createElement('div');
+                        row.className = 'bestseller-item';
+                        row.innerHTML = `
+                            <span>${item.name}</span>
+                            <span><b>${item.sold}</b> un.</span>
+                        `;
+                        listContainer.appendChild(row);
+                    }
+                });
+            }
+        }
+
+        function closeAdminPanel() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+
+        loadCatalogFromGoogleSheets();
     </script>
 </body>
 </html>
