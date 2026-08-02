@@ -15,6 +15,7 @@
             --btn-hover: #967544;
             --bg-base: #fcfbfa;
             --border-light: #e6dfdb;
+            --danger-color: #c94a4a;
         }
 
         * {
@@ -36,7 +37,6 @@
             font-family: 'Playfair Display', Georgia, serif;
         }
 
-        /* --- BANNER SUPERIOR --- */
         .hero-banner {
             width: 100%;
             height: 180px;
@@ -58,6 +58,41 @@
             text-shadow: 2px 3px 6px rgba(0,0,0,0.6);
             margin: 0 auto;
             text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .hero-title.holding {
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 2px 3px 8px rgba(0,0,0,0.8);
+        }
+
+        #admin-btn {
+            display: none; /* Escondido por defeito - Revela ao premir 5 segundos no título */
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-notify {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            z-index: 4000;
+            display: none;
+            border: 1px solid var(--accent-gold);
+            text-align: center;
         }
 
         .hero-buttons {
@@ -72,14 +107,19 @@
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--accent-gold);
             color: var(--primary-dark);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 15px;
             font-size: 0.8rem;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.2s ease;
         }
 
-        /* --- LAYOUT PRINCIPAL --- */
+        .hero-btn:hover {
+            background: #ffffff;
+            transform: translateY(-1px);
+        }
+
         .main-layout {
             max-width: 1100px;
             margin: 30px auto;
@@ -98,7 +138,6 @@
             }
         }
 
-        /* --- CAIXA SOBRE NÓS --- */
         .about-box {
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -123,7 +162,6 @@
             text-align: justify;
         }
 
-        /* --- CAIXA DO CESTO --- */
         .cart-sidebar-box {
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -175,6 +213,11 @@
             border-radius: 6px;
             font-size: 0.9rem;
             background: #faf8f6;
+            outline: none;
+        }
+
+        .checkout-form input:focus, .checkout-form select:focus {
+            border-color: var(--accent-gold);
         }
 
         .btn-pay-mbway {
@@ -196,7 +239,6 @@
             background-color: var(--btn-hover);
         }
 
-        /* --- SEÇÕES DE CATEGORIAS E PRODUTOS --- */
         .category-section {
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -314,7 +356,6 @@
             font-size: 0.8rem;
         }
 
-        /* --- MODAL DE ADMINISTRAÇÃO --- */
         .admin-modal {
             display: none;
             position: fixed;
@@ -322,57 +363,233 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
             z-index: 3000;
             justify-content: center;
             align-items: center;
+            padding: 15px;
         }
+
         .admin-content {
             background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 28px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 1px solid var(--border-light);
+            position: relative;
         }
-        .admin-content h3 {
-            margin-bottom: 15px;
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .admin-header h3 {
             color: var(--primary-dark);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
         }
-        .metric-card {
+
+        .admin-badge {
+            background: #f0ebe6;
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .login-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .login-box p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 3px;
+            background: #faf8f6;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .login-error-msg {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .kpi-card {
             background: #faf8f6;
             border: 1px solid var(--border-light);
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
         }
-        .btn-close-admin {
-            margin-top: 15px;
-            background: var(--primary-dark);
+
+        .kpi-title {
+            font-size: 0.75rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .kpi-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .revenue-history-box {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .billing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e6dfdb;
+            font-size: 0.85rem;
+        }
+
+        .billing-row:last-child {
+            border-bottom: none;
+        }
+
+        .billing-month {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .billing-badge {
+            background: #e8f4ea;
+            color: #2e7d32;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .bestseller-section {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .bestseller-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bestseller-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e6dfdb;
+        }
+
+        .bestseller-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn-admin-action {
+            background: var(--btn-color);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-admin-action:hover {
+            background: var(--btn-hover);
+        }
+
+        .btn-admin-secondary {
+            background: transparent;
+            color: #888;
+            border: 1px solid var(--border-light);
+            margin-top: 8px;
+        }
+
+        .btn-admin-secondary:hover {
+            background: #f5f5f5;
+            color: #444;
         }
     </style>
 </head>
 <body>
 
-    <!-- Banner Superior -->
     <div class="hero-banner">
         <div class="hero-buttons">
-            <button class="hero-btn" onclick="openAdminPanel()">Admin</button>
+            <button class="hero-btn" id="admin-btn" onclick="openAdminPanel()">🔒 Admin</button>
             <button class="hero-btn" onclick="document.getElementById('cesto-ancora').scrollIntoView({behavior: 'smooth'})">Cesto (<span id="header-count">0</span>)</button>
         </div>
-        <h1 class="hero-title">Dream Craft</h1>
+        <h1 class="hero-title" id="hero-title" title="Pressione durante 5 segundos para revelar o botão de Admin">Dream Craft</h1>
     </div>
+
+    <!-- Notificação Flutuante -->
+    <div id="toast-notify" class="toast-notify">🔓 Botão de Admin Revelado!</div>
 
     <div class="main-layout">
         
-        <!-- Coluna Esquerda -->
+        <!-- Coluna Esquerda: Sobre e Produtos -->
         <div class="left-column">
             
             <div class="about-box">
@@ -401,7 +618,6 @@
 
         </div>
 
-        <!-- Coluna Direita -->
         <div class="right-column" id="cesto-ancora">
             <div class="cart-sidebar-box">
                 <h3>O Seu Cesto</h3>
@@ -432,16 +648,76 @@
 
     </div>
 
-    <!-- Modal Admin -->
     <div class="admin-modal" id="admin-modal">
         <div class="admin-content">
-            <h3>Painel de Administrador</h3>
-            <div class="metric-card" id="stat-visits">Acessos totais ao site: 0</div>
-            <div class="metric-card" id="stat-clicks">Cliques em "Adicionar ao Cesto": 0</div>
-            <div class="metric-card" id="stat-orders">Total de Encomendas: 0</div>
-            <div style="margin-top:15px; font-weight:bold; font-size:0.9rem;">Artigos mais vendidos:</div>
-            <div id="stat-bestsellers" style="font-size:0.85rem; color:#666; margin-top:5px;">Ainda sem vendas registadas.</div>
-            <button class="btn-close-admin" onclick="closeAdminPanel()">Fechar</button>
+            
+            <!-- ECRÃ 1: LOGIN DE ADMINISTRADOR -->
+            <div id="admin-login-view" class="login-box">
+                <div class="admin-header">
+                    <h3>Área Reservada</h3>
+                    <span class="admin-badge">Dream Craft</span>
+                </div>
+                <p>Por favor, insira a palavra-passe de acesso ao painel de gestão:</p>
+                <input type="password" id="admin-pass-input" class="login-input" placeholder="••••" onkeypress="if(event.key === 'Enter') checkAdminPassword()">
+                <div id="login-error" class="login-error-msg">Palavra-passe incorreta! Tente novamente.</div>
+                
+                <button class="btn-admin-action" onclick="checkAdminPassword()">Entrar no Painel</button>
+                <button class="btn-admin-action btn-admin-secondary" onclick="closeAdminPanel()">Cancelar</button>
+            </div>
+
+            <!-- ECRÃ 2: DASHBOARD DE MÉTRICAS -->
+            <div id="admin-dashboard-view" style="display:none;">
+                <div class="admin-header">
+                    <h3>Painel do Gestor</h3>
+                    <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Autenticado</span>
+                </div>
+
+                <!-- Métricas Principais (KPIs) -->
+                <div class="dashboard-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Visitas</div>
+                        <div class="kpi-value" id="kpi-visits">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Cliques</div>
+                        <div class="kpi-value" id="kpi-clicks">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Pedidos</div>
+                        <div class="kpi-value" id="kpi-orders">0</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Mês</div>
+                        <div class="kpi-value" id="kpi-month-revenue" style="color: #2e7d32;">0,00 €</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Total</div>
+                        <div class="kpi-value" id="kpi-total-revenue" style="color: var(--primary-dark);">0,00 €</div>
+                    </div>
+                </div>
+
+                <!-- Histórico de Faturação Mensal -->
+                <div class="revenue-history-box">
+                    <div class="bestseller-title">📅 Histórico de Faturação Mensal</div>
+                    <div id="monthly-revenue-container">
+                        <div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação.</div>
+                    </div>
+                </div>
+
+                <!-- Ranking de Artigos mais Vendidos -->
+                <div class="bestseller-section">
+                    <div class="bestseller-title">🏆 Artigos Mais Vendidos</div>
+                    <div id="bestseller-list-container">
+                        <div style="font-size:0.85rem; color:#888; text-align:center;">Sem dados de vendas.</div>
+                    </div>
+                </div>
+
+                <button class="btn-admin-action" onclick="closeAdminPanel()">Sair do Painel</button>
+            </div>
+
         </div>
     </div>
 
@@ -449,21 +725,63 @@
         const MY_PHONE_NUMBER = "351934805554";
         const HOME_DELIVERY_FEE = 2.00;
         
-        // COLE AQUI O SEU LINK OBTIDO NO PASSO 3 DO GOOGLE APPS SCRIPT
+        // =============================================================
+        // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR (Podes alterar aqui!)
+        // =============================================================
+        const ADMIN_PASSWORD = "catiacarolina1997";
+
+        // LINK DA TUA APLICAÇÃO GOOGLE APPS SCRIPT
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxx35AAN_QFqaLVnMHqzr5ppnUn9iq37go2AI7UqnzajlR1SSf7usY39gX6NfY898aZ/exec";
 
         let catalog = [];
         let cart = [];
+        let isAdminLoggedIn = false;
         
-        // Métricas locais de apoio
+        // Métricas de apoio guardadas localmente
         let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
+        let ordersHistory = JSON.parse(localStorage.getItem('dream_craft_orders_history')) || [];
+        
         metrics.visits += 1;
         localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
 
-        // Função principal de ligação ao Google Sheets
+        let holdTimer = null;
+        const heroTitle = document.getElementById('hero-title');
+        const adminBtn = document.getElementById('admin-btn');
+        const toastNotify = document.getElementById('toast-notify');
+
+        function startTitleHold(e) {
+            heroTitle.classList.add('holding');
+            holdTimer = setTimeout(() => {
+                adminBtn.style.display = 'inline-block';
+                heroTitle.classList.remove('holding');
+                showToast("🔓 Botão de Admin Revelado!");
+            }, 5000); // 5 segundos
+        }
+
+        function cancelTitleHold() {
+            if (holdTimer) clearTimeout(holdTimer);
+            heroTitle.classList.remove('holding');
+        }
+
+        function showToast(msg) {
+            toastNotify.innerText = msg;
+            toastNotify.style.display = 'block';
+            setTimeout(() => {
+                toastNotify.style.display = 'none';
+            }, 3500);
+        }
+
+        heroTitle.addEventListener('mousedown', startTitleHold);
+        heroTitle.addEventListener('mouseup', cancelTitleHold);
+        heroTitle.addEventListener('mouseleave', cancelTitleHold);
+
+        heroTitle.addEventListener('touchstart', startTitleHold, { passive: true });
+        heroTitle.addEventListener('touchend', cancelTitleHold);
+        heroTitle.addEventListener('touchcancel', cancelTitleHold);
+
         async function loadCatalogFromGoogleSheets() {
             if (!WEB_APP_URL || WEB_APP_URL.includes("COPIA_AQUI_O_TEU_LINK")) {
-                console.warn("URL do Google Sheets não foi configurado.");
+                console.warn("URL do Google Sheets não configurado.");
                 return;
             }
 
@@ -471,7 +789,6 @@
                 const response = await fetch(WEB_APP_URL);
                 const rawData = await response.json();
                 
-                // Tratar os dados para garantir que números são interpretados como números
                 catalog = rawData.map(item => ({
                     id: Number(item.id),
                     category: String(item.category).trim().toLowerCase(),
@@ -484,8 +801,8 @@
 
                 renderCatalog();
             } catch (error) {
-                console.error("Erro ao descarregar produtos do Google Sheets:", error);
-                alert("Erro ao carregar a lista de produtos do Google Sheets. Verifica o teu link.");
+                console.error("Erro ao carregar produtos do Google Sheets:", error);
+                showToast("⚠️ Erro ao carregar catálogo de produtos.");
             }
         }
 
@@ -519,7 +836,7 @@
                 if (item.category === 'acessorios') accGrid.appendChild(card);
                 else if (item.category === 'perfumes') perfGrid.appendChild(card);
                 else if (item.category === 'roupa') rouGrid.appendChild(card);
-                else accGrid.appendChild(card); // fallback
+                else accGrid.appendChild(card);
             });
         }
 
@@ -537,6 +854,7 @@
                 cart.push({ ...prod, qty: 1 });
             }
             updateCartUI();
+            showToast(`🛒 "${prod.name}" adicionado ao cesto!`);
         }
 
         function removeFromCart(id) {
@@ -617,15 +935,17 @@
             const address = document.getElementById('client-address').value.trim();
 
             if (!name) {
-                alert("Por favor, preencha o seu nome completo.");
+                showToast("⚠️ Por favor, preencha o seu nome completo.");
+                document.getElementById('client-name').focus();
                 return;
             }
             if (!method) {
-                alert("Por favor, selecione o método de entrega.");
+                showToast("⚠️ Por favor, selecione o método de entrega.");
                 return;
             }
             if (method === "Entrega ao Domicilio" && !address) {
-                alert("Por favor, preencha a morada para a entrega ao domicílio.");
+                showToast("⚠️ Por favor, preencha a morada para entrega ao domicílio.");
+                document.getElementById('client-address').focus();
                 return;
             }
 
@@ -652,6 +972,16 @@
                 text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)%0A`;
             }
 
+            // Guardar o registo no histórico de faturação
+            const orderRecord = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                total: total,
+                itemsCount: cart.reduce((acc, i) => acc + i.qty, 0)
+            };
+            ordersHistory.push(orderRecord);
+            localStorage.setItem('dream_craft_orders_history', JSON.stringify(ordersHistory));
+
             text += `%0A💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*%0A`;
             text += `👤 Nome: ${name}%0A`;
             text += `📦 Entrega: ${method}%0A`;
@@ -660,7 +990,7 @@
             }
             text += `%0AConfirmo o pedido e aguardo dados. Obrigada!`;
 
-            const url = `https://wa.me/${351934805554}?text=${text}`;
+            const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${text}`;
             window.open(url, '_blank');
             
             cart = [];
@@ -668,25 +998,125 @@
         }
 
         function openAdminPanel() {
-            document.getElementById('stat-visits').innerText = `Acessos totais ao site: ${metrics.visits}`;
-            document.getElementById('stat-clicks').innerText = `Cliques em "Adicionar ao Cesto": ${metrics.clicks}`;
-            document.getElementById('stat-orders').innerText = `Total de Encomendas enviadas: ${metrics.orders}`;
-            
-            let bestHtml = "";
-            const sorted = [...catalog].sort((a,b) => b.sold - a.sold);
-            sorted.forEach(s => {
-                bestHtml += `• ${s.name}: <b>${s.sold}</b> vendidos<br>`;
-            });
-            document.getElementById('stat-bestsellers').innerHTML = bestHtml || "Ainda sem vendas registadas.";
-
             document.getElementById('admin-modal').style.display = 'flex';
+            
+            if (isAdminLoggedIn) {
+                showAdminDashboard();
+            } else {
+                document.getElementById('admin-login-view').style.display = 'flex';
+                document.getElementById('admin-dashboard-view').style.display = 'none';
+                document.getElementById('admin-pass-input').value = '';
+                document.getElementById('login-error').style.display = 'none';
+                setTimeout(() => document.getElementById('admin-pass-input').focus(), 100);
+            }
+        }
+
+        function checkAdminPassword() {
+            const inputPass = document.getElementById('admin-pass-input').value;
+            const errorElement = document.getElementById('login-error');
+
+            if (inputPass === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                errorElement.style.display = 'none';
+                showAdminDashboard();
+            } else {
+                errorElement.style.display = 'block';
+                document.getElementById('admin-pass-input').value = '';
+            }
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('admin-login-view').style.display = 'none';
+            document.getElementById('admin-dashboard-view').style.display = 'block';
+
+            // Atualizar os KPIs Básicos
+            document.getElementById('kpi-visits').innerText = metrics.visits;
+            document.getElementById('kpi-clicks').innerText = metrics.clicks;
+            document.getElementById('kpi-orders').innerText = metrics.orders;
+
+            // Calcular Faturação Total e por Mês
+            let totalRevenue = 0;
+            const monthlyRevenue = {};
+
+            const monthNames = [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ];
+
+            ordersHistory.forEach(order => {
+                totalRevenue += order.total;
+                const d = new Date(order.date);
+                const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                const monthLabel = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
+
+                if (!monthlyRevenue[monthKey]) {
+                    monthlyRevenue[monthKey] = { label: monthLabel, total: 0, count: 0 };
+                }
+                monthlyRevenue[monthKey].total += order.total;
+                monthlyRevenue[monthKey].count += 1;
+            });
+
+            const currentD = new Date();
+            const currentMonthKey = `${currentD.getFullYear()}-${String(currentD.getMonth() + 1).padStart(2, '0')}`;
+            const currentMonthRevenue = monthlyRevenue[currentMonthKey] ? monthlyRevenue[currentMonthKey].total : 0;
+
+            document.getElementById('kpi-month-revenue').innerText = `${currentMonthRevenue.toFixed(2).replace('.', ',')} €`;
+            document.getElementById('kpi-total-revenue').innerText = `${totalRevenue.toFixed(2).replace('.', ',')} €`;
+
+            // Renderizar Histórico de Faturação
+            const revenueContainer = document.getElementById('monthly-revenue-container');
+            revenueContainer.innerHTML = '';
+
+            const sortedMonths = Object.keys(monthlyRevenue).sort().reverse();
+
+            if (sortedMonths.length === 0) {
+                revenueContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação registado.</div>';
+            } else {
+                sortedMonths.forEach(mKey => {
+                    const item = monthlyRevenue[mKey];
+                    const row = document.createElement('div');
+                    row.className = 'billing-row';
+                    row.innerHTML = `
+                        <div>
+                            <div class="billing-month">${item.label}</div>
+                            <div style="font-size:0.75rem; color:#888;">${item.count} encomenda(s)</div>
+                        </div>
+                        <span class="billing-badge">${item.total.toFixed(2).replace('.', ',')} €</span>
+                    `;
+                    revenueContainer.appendChild(row);
+                });
+            }
+
+            // Gerar a lista dos artigos mais vendidos
+            const listContainer = document.getElementById('bestseller-list-container');
+            listContainer.innerHTML = '';
+
+            const sortedProducts = [...catalog].sort((a, b) => b.sold - a.sold);
+            const hasSales = sortedProducts.some(p => p.sold > 0);
+
+            if (!hasSales || catalog.length === 0) {
+                listContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Ainda não existem vendas registadas.</div>';
+            } else {
+                sortedProducts.forEach(item => {
+                    if (item.sold > 0) {
+                        const row = document.createElement('div');
+                        row.className = 'bestseller-item';
+                        row.innerHTML = `
+                            <span>${item.name}</span>
+                            <span><b>${item.sold}</b> un.</span>
+                        `;
+                        listContainer.appendChild(row);
+                    }
+                });
+            }
         }
 
         function closeAdminPanel() {
+            // Garante que o estado de login é limpo ao fechar, exigindo sempre password ao voltar a clicar
+            isAdminLoggedIn = false;
             document.getElementById('admin-modal').style.display = 'none';
         }
 
-        // Executar o carregamento assim que a página é iniciada
         loadCatalogFromGoogleSheets();
     </script>
 </body>
