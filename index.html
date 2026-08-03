@@ -312,27 +312,86 @@
         }
 
         // =============================================================
-        // CARREGAMENTO DO CATÁLOGO DO GOOGLE SHEETS
+        // CARREGAMENTO DO CATÁLOGO DO GOOGLE SHEETS (COM PARSER FLEXÍVEL)
         // =============================================================
         async function loadCatalog() {
+            const grid = document.getElementById('products-grid');
             try {
-                const response = await fetch(WEB_APP_URL);
+                // Adicionamos timestamp para evitar caching no navegador
+                const response = await fetch(WEB_APP_URL + "?t=" + new Date().getTime());
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+
                 const rawData = await response.json();
                 
-                catalog = rawData.map((item, index) => ({
-                    id: index + 1,
-                    title: item.Nome || item.title || "Artigo sem nome",
-                    price: parseFloat(item.Preco || item.price || 0),
-                    image: item.Imagem || item.image || "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=500&auto=format&fit=crop&q=60"
-                }));
+                if (!Array.isArray(rawData)) {
+                    if (rawData && rawData.error) {
+                        throw new Error(`Apps Script Error: ${rawData.error}`);
+                    }
+                    throw new Error("Formato de dados inválido recebido do Apps Script.");
+                }
+
+                if (rawData.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-100">
+                            <i class="fa-solid fa-box-open text-slate-300 text-4xl mb-3 block"></i>
+                            <p class="text-slate-600 font-semibold">A tabela não contém produtos registados.</p>
+                            <p class="text-slate-400 text-xs mt-1">Adicione produtos nas linhas do seu Google Sheets.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Mapeamento inteligente que suporta acentos e variações nos nomes das colunas
+                catalog = rawData.map((item, index) => {
+                    const getProp = (possibleKeys) => {
+                        for (let k of possibleKeys) {
+                            for (let itemKey in item) {
+                                if (itemKey.toLowerCase().trim() === k.toLowerCase()) {
+                                    return item[itemKey];
+                                }
+                            }
+                        }
+                        return null;
+                    };
+
+                    const title = getProp(["nome", "title", "produto", "artigo", "item", "description"]) || "Artigo sem nome";
+                    const rawPrice = getProp(["preco", "preço", "price", "valor", "cost"]) || 0;
+                    const image = getProp(["imagem", "image", "img", "foto", "url"]) || "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=500&auto=format&fit=crop&q=60";
+
+                    // Limpeza de texto para números (ex: se o utilizador escreveu "8,50 €")
+                    let priceNum = 0;
+                    if (typeof rawPrice === 'number') {
+                        priceNum = rawPrice;
+                    } else if (typeof rawPrice === 'string') {
+                        priceNum = parseFloat(rawPrice.replace(',', '.').replace(/[^0-9.]/g, '')) || 0;
+                    }
+
+                    return {
+                        id: index + 1,
+                        title: String(title),
+                        price: priceNum,
+                        image: String(image)
+                    };
+                });
 
                 renderCatalog();
             } catch (error) {
-                console.error("Erro ao carregar do Google Sheets:", error);
-                document.getElementById('products-grid').innerHTML = `
-                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-100">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-2"></i>
-                        <p class="text-slate-600 font-medium">Não foi possível carregar os artigos de momento.</p>
+                console.error("Erro no carregamento do catálogo:", error);
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-10 px-4 bg-amber-50 rounded-2xl border border-amber-200 space-y-3">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl"></i>
+                        <h3 class="text-slate-800 font-bold text-base">Não foi possível carregar os artigos</h3>
+                        <p class="text-slate-600 text-xs max-w-md mx-auto leading-relaxed">
+                            Verifique se publicou a <b>Nova Versão</b> no Apps Script com permissão para <i>Qualquer Pessoa</i>.
+                        </p>
+                        <div class="pt-2">
+                            <span class="inline-block bg-white px-3 py-1.5 rounded-lg border border-amber-200 text-[11px] font-mono text-amber-800">
+                                ${error.message}
+                            </span>
+                        </div>
                     </div>
                 `;
             }
@@ -347,7 +406,7 @@
                     <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
                         <div>
                             <div class="w-full h-48 rounded-xl overflow-hidden bg-slate-100 mb-3">
-                                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=500&auto=format&fit=crop&q=60'">
                             </div>
                             <h3 class="font-bold text-slate-900 text-base line-clamp-1">${product.title}</h3>
                             <p class="text-emerald-600 font-bold text-lg mt-1">${product.price.toFixed(2)} €</p>
@@ -406,7 +465,7 @@
                     cartContainer.innerHTML += `
                         <div class="flex items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
                             <div class="flex items-center gap-3">
-                                <img src="${item.product.image}" class="w-12 h-12 rounded-lg object-cover">
+                                <img src="${item.product.image}" class="w-12 h-12 rounded-lg object-cover" onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=500&auto=format&fit=crop&q=60'">
                                 <div>
                                     <h4 class="font-semibold text-xs text-slate-900 line-clamp-1">${item.product.title}</h4>
                                     <p class="text-xs text-slate-500">${item.product.price.toFixed(2)} €</p>
@@ -512,7 +571,6 @@
             const inputPass = document.getElementById('admin-pass-input').value;
             const errorMsg = document.getElementById('auth-error-msg');
 
-            // Se o limite de 10 tentativas já tiver sido atingido, mantém o bloqueio estático
             if (loginAttempts >= 10) {
                 errorMsg.textContent = "🚨 10 Tentativas Incorretas! Acesso bloqueado.";
                 errorMsg.classList.remove('hidden');
@@ -532,8 +590,7 @@
                     errorMsg.textContent = "🚨 10 Tentativas Incorretas! Acesso bloqueado.";
                     errorMsg.classList.remove('hidden');
 
-                    // NOTIFICAÇÃO OCULTA EM SEGUNDO PLANO (BACKGROUND FETCH)
-                    // NÃO abre WhatsApp e NÃO exibe o e-mail no ecran do utilizador.
+                    // NOTIFICAÇÃO OCULTA EM SEGUNDO PLANO
                     fetch(WEB_APP_URL + "?action=security_alert")
                         .catch(err => console.error("Comunicação de segurança efetuada.", err));
 
