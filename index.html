@@ -1021,7 +1021,7 @@
                     passInput.disabled = true;
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.5';
-                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas. Foi enviado um alerta ao proprietário.";
+                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas.";
                     errorMsg.style.display = 'block';
                 } else {
                     passInput.disabled = false;
@@ -1057,7 +1057,7 @@
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.5';
 
-                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado. A enviar alerta de segurança...";
+                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado.";
                     errorElement.style.display = 'block';
 
                     // Envio automático do Alerta de Segurança para o WhatsApp do Administrador
