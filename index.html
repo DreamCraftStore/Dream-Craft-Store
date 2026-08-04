@@ -380,6 +380,8 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             border: 1px solid var(--border-light);
             position: relative;
+            max-height: 90vh; /* Ajuste para não cortar o painel admin em ecrãs menores */
+            overflow-y: auto;
         }
 
         .admin-header {
@@ -633,6 +635,7 @@
 
                 <div class="checkout-form" id="checkout-form-box" style="display:none;">
                     <input type="text" id="client-name" placeholder="O seu Nome Completo" required>
+                    <input type="tel" id="client-phone" placeholder="O seu Número de Telemóvel" required>
                     <input type="text" id="client-address" placeholder="Morada (apenas para entrega ao domicílio)" style="display:none;">
                     <select id="delivery-method" onchange="handleDeliveryChange()">
                         <option value="" disabled selected>Método de Entrega...</option>
@@ -724,6 +727,7 @@
 
     <script>
         const MY_PHONE_NUMBER = "351934805554";
+        const ADMIN_EMAIL_DESTINATION = "catiapaiva75@gmail.com";
         const HOME_DELIVERY_FEE = 2.00;
         
         // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR
@@ -980,6 +984,7 @@
 
         function processCheckout() {
             const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
             const methodSelect = document.getElementById('delivery-method');
             const method = methodSelect.options[methodSelect.selectedIndex]?.value;
             const address = document.getElementById('client-address').value.trim();
@@ -987,6 +992,11 @@
             if (!name) {
                 showToast("⚠️ Por favor, preencha o seu nome completo.");
                 document.getElementById('client-name').focus();
+                return;
+            }
+            if (!phone) {
+                showToast("⚠️ Por favor, preencha o seu número de telemóvel.");
+                document.getElementById('client-phone').focus();
                 return;
             }
             if (!method) {
@@ -1007,18 +1017,19 @@
             localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
 
             let total = 0;
-            let text = `✨ *Nova Encomenda - Dream Craft* ✨%0A%0A`;
-            text += `Olá! Gostaria de encomendar:%0A`;
+            // Criação da mensagem formatada com \n limpos, suportado tanto pelo Email como Whatsapp usando encodeURIComponent
+            let text = `✨ *Nova Encomenda - Dream Craft* ✨\n\n`;
+            text += `Olá! Gostaria de encomendar:\n`;
 
             cart.forEach(i => {
                 const sub = i.price * i.qty;
                 total += sub;
-                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)%0A`;
+                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)\n`;
             });
 
             if (method === "Entrega ao Domicilio") {
                 total += HOME_DELIVERY_FEE;
-                text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)%0A`;
+                text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)\n`;
             }
 
             const orderRecord = {
@@ -1030,16 +1041,28 @@
             ordersHistory.push(orderRecord);
             localStorage.setItem('dream_craft_orders_history', JSON.stringify(ordersHistory));
 
-            text += `%0A💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*%0A`;
-            text += `👤 Nome: ${name}%0A`;
-            text += `📦 Entrega: ${method}%0A`;
+            text += `\n💰 *Total a pagar (MB Way): ${total.toFixed(2).replace('.',',')}€*\n`;
+            text += `👤 Nome: ${name}\n`;
+            text += `📞 Telemóvel: ${phone}\n`;
+            text += `📦 Entrega: ${method}\n`;
             if (method === "Entrega ao Domicilio") {
-                text += `📍 Morada: ${address}%0A`;
+                text += `📍 Morada: ${address}\n`;
             }
-            text += `%0AConfirmo o pedido e aguardo dados. Obrigada!`;
+            text += `\nConfirmo o pedido e aguardo dados. Obrigada!`;
 
-            const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${text}`;
-            window.open(url, '_blank');
+            // Deteção entre Mobile e PC
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const encodedText = encodeURIComponent(text);
+
+            if (isMobile) {
+                // Ação para Telemóvel: Abrir WhatsApp
+                const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
+                window.open(url, '_blank');
+            } else {
+                // Ação para PC: Abrir Cliente de Email (Ex: Outlook/MailApp)
+                const subject = encodeURIComponent(`Nova Encomenda - ${name}`);
+                window.location.href = `mailto:${ADMIN_EMAIL_DESTINATION}?subject=${subject}&body=${encodedText}`;
+            }
             
             cart = [];
             updateCartUI();
@@ -1203,3 +1226,5 @@
     </script>
 </body>
 </html>
+
+
