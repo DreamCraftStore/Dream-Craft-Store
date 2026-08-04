@@ -1058,14 +1058,41 @@
                 // Ação para Telemóvel: Abrir WhatsApp
                 const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
                 window.open(url, '_blank');
+                cart = [];
+                updateCartUI();
             } else {
-                // Ação para PC: Abrir Cliente de Email (Ex: Outlook/MailApp)
-                const subject = encodeURIComponent(`Nova Encomenda - ${name}`);
-                window.location.href = `mailto:${ADMIN_EMAIL_DESTINATION}?subject=${subject}&body=${encodedText}`;
+                // Ação para PC: Envio automático de E-mail via Servidor Google
+                const btnPay = document.getElementById('btn-pay-action');
+                const originalText = btnPay.innerText;
+                btnPay.innerText = "A processar envio...";
+                btnPay.disabled = true;
+
+                // Tenta usar o Google Apps Script para enviar o e-mail secretamente
+                fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'send_order',
+                        clientName: name,
+                        orderDetails: text
+                    })
+                })
+                .then(response => {
+                    showToast("✅ Encomenda enviada com sucesso!");
+                    cart = [];
+                    updateCartUI();
+                    btnPay.innerText = originalText;
+                })
+                .catch(err => {
+                    // Se houver falha de rede/script, abre o WhatsApp Web como plano B
+                    showToast("A redirecionar para o WhatsApp Web...");
+                    const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
+                    window.open(url, '_blank');
+                    cart = [];
+                    updateCartUI();
+                    btnPay.innerText = originalText;
+                });
             }
-            
-            cart = [];
-            updateCartUI();
         }
 
         function openAdminPanel() {
@@ -1226,5 +1253,3 @@
     </script>
 </body>
 </html>
-
-
