@@ -1132,9 +1132,9 @@
                 btnPay.innerText = "A processar envio...";
                 btnPay.disabled = true;
 
-                // Tenta usar o Google Apps Script para enviar o e-mail secretamente
                 fetch(WEB_APP_URL, {
                     method: 'POST',
+                    mode: 'no-cors', // Evita bloqueios de segurança do navegador no PC
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'send_order',
@@ -1142,16 +1142,16 @@
                         orderDetails: text
                     })
                 })
-                .then(response => {
+                .then(() => {
+                    // Como no-cors não devolve resposta legível, assumimos que foi enviado
                     showSuccessModal();
                     btnPay.innerText = originalText;
                 })
                 .catch(err => {
-                    // Se houver falha de rede/script, abre o WhatsApp Web como plano B
-                    const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
-                    window.open(url, '_blank');
-                    showSuccessModal();
+                    // Sem redirecionamento para o WhatsApp. Se houver falha, mostra apenas um alerta.
+                    alert("Não foi possível enviar a encomenda. Confirme se configurou corretamente o link do Google Apps Script ou tente novamente.");
                     btnPay.innerText = originalText;
+                    btnPay.disabled = false;
                 });
             }
         }
