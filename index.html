@@ -781,15 +781,10 @@
         heroTitle.addEventListener('touchcancel', cancelTitleHold);
 
         async function loadCatalogFromGoogleSheets() {
-            const fallbackCatalog = [
-                { id: 1, category: 'Acessórios', name: 'Vela Aromática Floral', price: 8.50, stock: 12, img: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500' },
-                { id: 2, category: 'Perfumes', name: 'Perfume Anjo Doce 50ml', price: 17.50, stock: 9, img: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500' },
-                { id: 3, category: 'Papelaria', name: 'Caderno A5 Personalizado', price: 12.50, stock: 5, img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=500' }
-            ];
+            const container = document.getElementById('dynamic-categories-container');
 
             if (!WEB_APP_URL || WEB_APP_URL.includes("SUA_URL")) {
-                catalog = fallbackCatalog;
-                renderCatalog();
+                container.innerHTML = '<div class="category-section"><div class="loading-text" style="color: var(--danger-color);">Aviso: O URL da base de dados não está configurado. Cole o link do Apps Script no código.</div></div>';
                 return;
             }
 
@@ -799,11 +794,11 @@
                 
                 const rawData = await response.json();
                 if (!Array.isArray(rawData) || rawData.length === 0) {
-                    catalog = fallbackCatalog;
+                    catalog = [];
                 } else {
                     catalog = rawData.map(item => ({
                         id: item.id,
-                        category: item.categoria || 'Geral',
+                        category: item.categoria ? item.categoria.trim() : 'Geral',
                         name: item.nome,
                         price: parseFloat(item.preco) || 0,
                         stock: parseInt(item.stock) || 0,
@@ -812,14 +807,21 @@
                 }
                 renderCatalog();
             } catch (error) {
-                console.warn("Erro ao carregar do Sheets. Usando demonstração:", error);
-                catalog = fallbackCatalog;
-                renderCatalog();
+                console.warn("Erro ao carregar do Sheets:", error);
+                container.innerHTML = '<div class="category-section"><div class="loading-text" style="color: var(--danger-color);">Erro ao carregar produtos. Verifique a ligação à base de dados.</div></div>';
             }
         }
 
         function renderCatalog() {
             const container = document.getElementById('dynamic-categories-container');
+            
+            if (catalog.length === 0) {
+                if(!container.innerHTML.includes('Erro') && !container.innerHTML.includes('Aviso')) {
+                    container.innerHTML = '<div class="category-section"><div class="loading-text">Nenhum produto disponível na loja de momento.</div></div>';
+                }
+                return;
+            }
+
             container.innerHTML = '';
 
             const categoriesMap = {};
