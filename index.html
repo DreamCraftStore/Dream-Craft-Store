@@ -16,6 +16,8 @@
             --bg-base: #fcfbfa;
             --border-light: #e6dfdb;
             --danger-color: #c94a4a;
+            --whatsapp-green: #25D366;
+            --whatsapp-hover: #128C7E;
         }
 
         * {
@@ -220,8 +222,8 @@
             border-color: var(--accent-gold);
         }
 
-        .btn-submit-order {
-            background-color: #25D366; /* Verde do WhatsApp */
+        .btn-pay-mbway {
+            background-color: var(--whatsapp-green);
             color: white;
             border: none;
             padding: 12px;
@@ -235,8 +237,8 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        .btn-submit-order:hover {
-            background-color: #128C7E;
+        .btn-pay-mbway:hover {
+            background-color: var(--whatsapp-hover);
         }
 
         .category-section {
@@ -255,15 +257,6 @@
             text-transform: uppercase;
             border-bottom: 1px solid var(--border-light);
             padding-bottom: 8px;
-        }
-
-        .subcategory-title {
-            color: var(--accent-gold);
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin: 15px 0 10px 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
         }
 
         .products-grid {
@@ -312,6 +305,11 @@
             margin-bottom: 10px;
         }
 
+        .product-stock.out-of-stock {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
         .btn-add {
             background-color: var(--btn-color);
             color: white;
@@ -327,6 +325,11 @@
 
         .btn-add:hover {
             background-color: var(--btn-hover);
+        }
+
+        .btn-add:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
 
         .loading-text {
@@ -348,15 +351,34 @@
             padding-bottom: 5px;
         }
 
+        .cart-qty-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 5px;
+        }
+
+        .btn-qty {
+            background: #eee;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            line-height: 1;
+        }
+
         .btn-remove-item {
             background: none;
             border: none;
             color: #cc4444;
             cursor: pointer;
             font-size: 0.8rem;
+            margin-left: 8px;
         }
 
-        .admin-modal {
+        .admin-modal, .success-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -371,7 +393,7 @@
             padding: 15px;
         }
 
-        .admin-content {
+        .admin-content, .modal-card {
             background: #fff;
             padding: 28px;
             border-radius: 12px;
@@ -380,8 +402,25 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             border: 1px solid var(--border-light);
             position: relative;
-            max-height: 90vh; /* Ajuste para não cortar o painel admin em ecrãs menores */
+            max-height: 90vh;
             overflow-y: auto;
+        }
+
+        .modal-card {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .modal-card h3 {
+            color: var(--primary-dark);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
         }
 
         .admin-header {
@@ -479,74 +518,6 @@
             color: var(--primary-dark);
         }
 
-        .revenue-history-box {
-            background: #faf8f6;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            max-height: 180px;
-            overflow-y: auto;
-        }
-
-        .billing-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed #e6dfdb;
-            font-size: 0.85rem;
-        }
-
-        .billing-row:last-child {
-            border-bottom: none;
-        }
-
-        .billing-month {
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .billing-badge {
-            background: #e8f4ea;
-            color: #2e7d32;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
-
-        .bestseller-section {
-            background: #faf8f6;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            max-height: 180px;
-            overflow-y: auto;
-        }
-
-        .bestseller-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .bestseller-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 6px 0;
-            border-bottom: 1px dashed #e6dfdb;
-        }
-
-        .bestseller-item:last-child {
-            border-bottom: none;
-        }
-
         .btn-admin-action {
             background: var(--btn-color);
             color: white;
@@ -575,63 +546,6 @@
             background: #f5f5f5;
             color: #444;
         }
-
-        .success-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            z-index: 5000;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
-
-        .success-content {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .success-icon {
-            font-size: 3.5rem;
-            color: #25D366;
-            margin-bottom: 10px;
-            line-height: 1;
-        }
-
-        .success-text {
-            font-size: 1.1rem;
-            color: var(--primary-dark);
-            margin-bottom: 25px;
-            line-height: 1.5;
-            font-weight: 600;
-        }
-
-        .btn-success-close {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            width: 100%;
-        }
-
-        .btn-success-close:hover {
-            background-color: #128C7E;
-        }
     </style>
 </head>
 <body>
@@ -640,7 +554,6 @@
             <button class="hero-btn" id="admin-btn" onclick="openAdminPanel()">🔒 Admin</button>
             <button class="hero-btn" onclick="document.getElementById('cesto-ancora').scrollIntoView({behavior: 'smooth'})">Cesto (<span id="header-count">0</span>)</button>
         </div>
-        <!-- Título sem qualquer atributo 'title' para segredo total -->
         <h1 class="hero-title" id="hero-title">Dream Craft</h1>
     </div>
 
@@ -649,33 +562,17 @@
 
     <div class="main-layout">
         
-        <!-- Coluna Esquerda: Sobre e Produtos -->
         <div class="left-column">
-            
             <div class="about-box">
                 <h3>Sobre Nós</h3>
                 <p>Bem-vindo à Dream Craft! Selecionamos com todo o carinho artigos variados e especiais dedicados a mulheres, crianças e papelaria criativa. O nosso compromisso é trazer delicadeza, encanto e qualidade ao vosso dia a dia através de peças únicas.</p>
             </div>
 
-            <div class="category-section">
-                <h2 class="category-title">Mulher</h2>
-                
-                <div class="subcategory-title">Acessórios de Modas</div>
-                <div class="products-grid" id="grid-acessorios">
-                    <div class="loading-text">A carregar produtos da loja...</div>
-                </div>
-
-                <div class="subcategory-title">Perfumes</div>
-                <div class="products-grid" id="grid-perfumes">
-                    <div class="loading-text">A carregar produtos da loja...</div>
-                </div>
-
-                <div class="subcategory-title">Roupa</div>
-                <div class="products-grid" id="grid-roupa">
+            <div id="dynamic-categories-container">
+                <div class="category-section">
                     <div class="loading-text">A carregar produtos da loja...</div>
                 </div>
             </div>
-
         </div>
 
         <div class="right-column" id="cesto-ancora">
@@ -691,8 +588,8 @@
                 </div>
 
                 <div class="checkout-form" id="checkout-form-box" style="display:none;">
-                    <input type="text" id="client-name" placeholder="O seu Nome Completo" required>
-                    <input type="tel" id="client-phone" placeholder="O seu Número de Telemóvel" required>
+                    <input type="text" id="client-name" placeholder="O seu Nome Completo *" required>
+                    <input type="tel" id="client-phone" placeholder="O seu Número de Telemóvel *" required>
                     <input type="text" id="client-address" placeholder="Morada (apenas para entrega ao domicílio)" style="display:none;">
                     <select id="delivery-method" onchange="handleDeliveryChange()">
                         <option value="" disabled selected>Método de Entrega...</option>
@@ -701,7 +598,7 @@
                     </select>
                 </div>
 
-                <button class="btn-submit-order" id="btn-pay-action" onclick="processCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>
+                <button class="btn-pay-mbway" id="btn-pay-action" onclick="processCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>
                     Efectuar pedido de compra
                 </button>
             </div>
@@ -709,10 +606,20 @@
 
     </div>
 
+    <!-- POP-UP MODAL DE SUCESSO -->
+    <div class="success-modal" id="success-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
+            <h3>Pedido Enviado!</h3>
+            <p>Aguarde indicações da loja para efectuar pagamento.</p>
+            <button class="btn-admin-action" onclick="closeSuccessModal()">Entendido</button>
+        </div>
+    </div>
+
+    <!-- PAINEL ADMIN -->
     <div class="admin-modal" id="admin-modal">
         <div class="admin-content">
             
-            <!-- ECRÃ 1: LOGIN DE ADMINISTRADOR -->
             <div id="admin-login-view" class="login-box">
                 <div class="admin-header">
                     <h3>Área Reservada</h3>
@@ -726,53 +633,24 @@
                 <button class="btn-admin-action btn-admin-secondary" onclick="closeAdminPanel()">Cancelar</button>
             </div>
 
-            <!-- ECRÃ 2: DASHBOARD DE MÉTRICAS -->
             <div id="admin-dashboard-view" style="display:none;">
                 <div class="admin-header">
                     <h3>Painel do Gestor</h3>
                     <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Autenticado</span>
                 </div>
 
-                <!-- Métricas Principais (KPIs) -->
                 <div class="dashboard-grid">
                     <div class="kpi-card">
-                        <div class="kpi-title">Visitas</div>
-                        <div class="kpi-value" id="kpi-visits">0</div>
+                        <div class="kpi-title">Visitas Reais</div>
+                        <div class="kpi-value" id="kpi-visits">...</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-title">Cliques</div>
-                        <div class="kpi-value" id="kpi-clicks">0</div>
+                        <div class="kpi-title">Cliques Reais</div>
+                        <div class="kpi-value" id="kpi-clicks">...</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-title">Pedidos</div>
-                        <div class="kpi-value" id="kpi-orders">0</div>
-                    </div>
-                </div>
-
-                <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="kpi-card">
-                        <div class="kpi-title">Faturação Mês</div>
-                        <div class="kpi-value" id="kpi-month-revenue" style="color: #2e7d32;">0,00 €</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-title">Faturação Total</div>
-                        <div class="kpi-value" id="kpi-total-revenue" style="color: var(--primary-dark);">0,00 €</div>
-                    </div>
-                </div>
-
-                <!-- Histórico de Faturação Mensal -->
-                <div class="revenue-history-box">
-                    <div class="bestseller-title">📅 Histórico de Faturação Mensal</div>
-                    <div id="monthly-revenue-container">
-                        <div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação.</div>
-                    </div>
-                </div>
-
-                <!-- Ranking de Artigos mais Vendidos -->
-                <div class="bestseller-section">
-                    <div class="bestseller-title">🏆 Artigos Mais Vendidos</div>
-                    <div id="bestseller-list-container">
-                        <div style="font-size:0.85rem; color:#888; text-align:center;">Sem dados de vendas.</div>
+                        <div class="kpi-title">Encomendas</div>
+                        <div class="kpi-value" id="kpi-orders">...</div>
                     </div>
                 </div>
 
@@ -782,41 +660,25 @@
         </div>
     </div>
 
-    <!-- Caixa de Mensagem de Sucesso -->
-    <div class="success-modal" id="success-modal">
-        <div class="success-content">
-            <div class="success-icon">✓</div>
-            <div class="success-text">Pedido enviado.<br>Aguarde indicações da loja para efectuar pagamento.</div>
-            <button class="btn-success-close" onclick="closeSuccessModal()">Fechar</button>
-        </div>
-    </div>
-
     <script>
         const MY_PHONE_NUMBER = "351934805554";
-        const ADMIN_EMAIL_DESTINATION = "catiapaiva75@gmail.com";
         const HOME_DELIVERY_FEE = 2.00;
-        
-        // PALAVRA-PASSE DO PAINEL DE ADMINISTRADOR
         const ADMIN_PASSWORD = "catiacarolina1997";
 
-        // NOTA: Cole o seu link gerado no Google Apps Script aqui. 
-        // Se ainda não tiver ou falhar, a loja usará o catálogo automático.
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwK-a9g8Ska67FjKlUWKHmFI9gLDf8b1-5zYZADIkodwEdmWtO32nuy3oByuW0QyTZF/exec";
+        // COLA AQUI O TEU LINK DO APPS SCRIPT
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw15UFgJ_xw_n9KWQfx00vli9UlAo9yUZhascOPJvXkMM3Fo87ae7X5eyiIuFnea7I9/exec";
 
         let catalog = [];
         let cart = [];
         let isAdminLoggedIn = false;
         
-        // Controlo de Segurança para Tentativas Incorretas
         let failedLoginAttempts = 0;
         const MAX_FAILED_ATTEMPTS = 10;
 
-        // Métricas de apoio guardadas localmente
-        let metrics = JSON.parse(localStorage.getItem('dream_craft_metrics')) || { visits: 0, clicks: 0, orders: 0 };
-        let ordersHistory = JSON.parse(localStorage.getItem('dream_craft_orders_history')) || [];
-        
-        metrics.visits += 1;
-        localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+        // Registar Visita Global Real mal a página abre
+        if (WEB_APP_URL && !WEB_APP_URL.includes("SUA_URL")) {
+            fetch(`${WEB_APP_URL}?action=trackVisit`, { mode: 'no-cors' }).catch(() => {});
+        }
 
         let holdTimer = null;
         const heroTitle = document.getElementById('hero-title');
@@ -829,7 +691,7 @@
                 adminBtn.style.display = 'inline-block';
                 heroTitle.classList.remove('holding');
                 showToast("🔓 Botão de Admin Revelado!");
-            }, 5000); // 5 segundos
+            }, 5000);
         }
 
         function cancelTitleHold() {
@@ -848,138 +710,151 @@
         heroTitle.addEventListener('mousedown', startTitleHold);
         heroTitle.addEventListener('mouseup', cancelTitleHold);
         heroTitle.addEventListener('mouseleave', cancelTitleHold);
-
         heroTitle.addEventListener('touchstart', startTitleHold, { passive: true });
         heroTitle.addEventListener('touchend', cancelTitleHold);
         heroTitle.addEventListener('touchcancel', cancelTitleHold);
 
         async function loadCatalogFromGoogleSheets() {
-            // Catálogo de reserva caso ocorra erro (Garante que a loja é sempre 100% Funcional)
             const fallbackCatalog = [
-                { id: 1, category: 'acessorios', name: 'Vela Aromática Floral', price: 8.50, stock: 12, sold: 4, img: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500' },
-                { id: 2, category: 'acessorios', name: 'Pulseira Macramé Dourada', price: 6.00, stock: 6, sold: 8, img: 'https://images.unsplash.com/photo-1611591475281-b177ad075213?w=500' },
-                { id: 3, category: 'perfumes', name: 'Perfume Anjo Doce 50ml', price: 17.50, stock: 9, sold: 15, img: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500' },
-                { id: 4, category: 'roupa', name: 'Echarpe Elegance', price: 12.90, stock: 7, sold: 5, img: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=500' }
+                { id: 1, category: 'Acessórios', name: 'Vela Aromática Floral', price: 8.50, stock: 12, img: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500' },
+                { id: 2, category: 'Perfumes', name: 'Perfume Anjo Doce 50ml', price: 17.50, stock: 9, img: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500' },
+                { id: 3, category: 'Papelaria', name: 'Caderno A5 Personalizado', price: 12.50, stock: 5, img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=500' }
             ];
 
-            if (!WEB_APP_URL || WEB_APP_URL.includes("COPIA_AQUI_O_TEU_LINK")) {
+            if (!WEB_APP_URL || WEB_APP_URL.includes("SUA_URL")) {
                 catalog = fallbackCatalog;
                 renderCatalog();
                 return;
             }
 
             try {
-                const response = await fetch(WEB_APP_URL);
-                if (!response.ok) {
-                    throw new Error("HTTP " + response.status);
-                }
-                const rawData = await response.json();
+                const response = await fetch(`${WEB_APP_URL}?action=getProducts`);
+                if (!response.ok) throw new Error("HTTP " + response.status);
                 
-                if (rawData.error) {
-                    throw new Error(rawData.error);
-                }
-
-                // Mapeamento flexível dos cabeçalhos
-                catalog = rawData.map((item, index) => {
-                    const findValue = (keys) => {
-                        for (let k of keys) {
-                            const match = Object.keys(item).find(key => key.toLowerCase().trim() === k.toLowerCase());
-                            if (match !== undefined && item[match] !== "") return item[match];
-                        }
-                        return null;
-                    };
-
-                    const idVal = findValue(['id', 'codigo']) || (index + 1);
-                    const catVal = findValue(['category', 'categoria', 'tipo']) || 'acessorios';
-                    const nameVal = findValue(['name', 'nome', 'titulo', 'artigo']) || 'Artigo';
-                    const priceVal = findValue(['price', 'preco', 'preço', 'valor']) || 0;
-                    const stockVal = findValue(['stock', 'quantidade', 'qtd']) || 0;
-                    const soldVal = findValue(['sold', 'vendida', 'vendas']) || 0;
-                    const imgVal = findValue(['img', 'imagem', 'foto', 'url']) || 'https://via.placeholder.com/250';
-
-                    let parsedPrice = 0;
-                    if (typeof priceVal === 'number') parsedPrice = priceVal;
-                    else if (typeof priceVal === 'string') {
-                        parsedPrice = parseFloat(priceVal.replace('€', '').replace(',', '.').trim()) || 0;
-                    }
-
-                    return {
-                        id: Number(idVal) || (index + 1),
-                        category: String(catVal).trim().toLowerCase(),
-                        name: String(nameVal),
-                        price: parsedPrice,
-                        stock: parseInt(stockVal) || 0,
-                        sold: parseInt(soldVal) || 0,
-                        img: String(imgVal)
-                    };
-                });
-
-                if (catalog.length === 0) {
+                const rawData = await response.json();
+                if (!Array.isArray(rawData) || rawData.length === 0) {
                     catalog = fallbackCatalog;
+                } else {
+                    catalog = rawData.map(item => ({
+                        id: item.id,
+                        category: item.categoria || 'Geral',
+                        name: item.nome,
+                        price: parseFloat(item.preco) || 0,
+                        stock: parseInt(item.stock) || 0,
+                        img: item.imagemUrl || 'https://via.placeholder.com/250?text=Sem+Foto'
+                    }));
                 }
-
                 renderCatalog();
             } catch (error) {
-                console.warn("Erro ao buscar dados. A usar catálogo de demonstração:", error);
+                console.warn("Erro ao carregar do Sheets. Usando demonstração:", error);
                 catalog = fallbackCatalog;
                 renderCatalog();
             }
         }
 
         function renderCatalog() {
-            const accGrid = document.getElementById('grid-acessorios');
-            const perfGrid = document.getElementById('grid-perfumes');
-            const rouGrid = document.getElementById('grid-roupa');
+            const container = document.getElementById('dynamic-categories-container');
+            container.innerHTML = '';
 
-            accGrid.innerHTML = '';
-            perfGrid.innerHTML = '';
-            rouGrid.innerHTML = '';
-
-            if (catalog.length === 0) {
-                accGrid.innerHTML = '<div class="loading-text">Nenhum produto encontrado.</div>';
-                return;
-            }
-
+            const categoriesMap = {};
             catalog.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
-                    <div>
-                        <div class="product-name">${item.name}</div>
-                        <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
-                        <div class="product-stock">Stock: ${item.stock}</div>
-                    </div>
-                    <button class="btn-add" onclick="addToCart(${item.id})">Adicionar</button>
-                `;
-
-                if (item.category === 'acessorios' || item.category === 'acessórios') accGrid.appendChild(card);
-                else if (item.category === 'perfumes') perfGrid.appendChild(card);
-                else if (item.category === 'roupa') rouGrid.appendChild(card);
-                else accGrid.appendChild(card);
+                const catName = item.category.trim() || 'Outros';
+                if (!categoriesMap[catName]) categoriesMap[catName] = [];
+                categoriesMap[catName].push(item);
             });
+
+            for (let catName in categoriesMap) {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const title = document.createElement('h2');
+                title.className = 'category-title';
+                title.innerText = catName;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'products-grid';
+
+                categoriesMap[catName].forEach(item => {
+                    const inCartItem = cart.find(c => c.id === item.id);
+                    const qtyInCart = inCartItem ? inCartItem.qty : 0;
+                    const stockDisponivelLocal = Math.max(0, item.stock - qtyInCart);
+                    const isEsgotado = stockDisponivelLocal <= 0;
+
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
+                        <div>
+                            <div class="product-name">${item.name}</div>
+                            <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
+                            <div class="product-stock ${isEsgotado ? 'out-of-stock' : ''}">
+                                ${isEsgotado ? 'Indisponível' : 'Stock: ' + stockDisponivelLocal}
+                            </div>
+                        </div>
+                        <button class="btn-add" onclick="addToCart('${item.id}')" ${isEsgotado ? 'disabled' : ''}>
+                            ${isEsgotado ? 'Indisponível' : 'Adicionar'}
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            }
         }
 
         function addToCart(id) {
-            metrics.clicks += 1;
-            localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
+            // Registar Clique Global Real na Google Sheet
+            if (WEB_APP_URL && !WEB_APP_URL.includes("SUA_URL")) {
+                fetch(`${WEB_APP_URL}?action=trackClick`, { mode: 'no-cors' }).catch(() => {});
+            }
 
             const prod = catalog.find(p => p.id === id);
             if (!prod) return;
 
             const found = cart.find(c => c.id === id);
+            const currentQtyInCart = found ? found.qty : 0;
+
+            if (currentQtyInCart >= prod.stock) {
+                showToast("⚠️ Não há mais unidades disponíveis deste artigo!");
+                return;
+            }
+
             if (found) {
                 found.qty += 1;
             } else {
                 cart.push({ ...prod, qty: 1 });
             }
+
             updateCartUI();
+            renderCatalog();
             showToast(`🛒 "${prod.name}" adicionado ao cesto!`);
+        }
+
+        function changeQty(id, delta) {
+            const found = cart.find(c => c.id === id);
+            const prod = catalog.find(p => p.id === id);
+            if (!found || !prod) return;
+
+            if (delta > 0 && found.qty >= prod.stock) {
+                showToast("⚠️ Atingiu o limite de stock disponível!");
+                return;
+            }
+
+            found.qty += delta;
+            if (found.qty <= 0) {
+                cart = cart.filter(c => c.id !== id);
+            }
+
+            updateCartUI();
+            renderCatalog();
         }
 
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
             updateCartUI();
+            renderCatalog();
         }
 
         function handleDeliveryChange() {
@@ -1021,8 +896,16 @@
                     const row = document.createElement('div');
                     row.className = 'cart-item-row';
                     row.innerHTML = `
-                        <span>${item.qty}x ${item.name}</span>
-                        <span>${sub.toFixed(2).replace('.', ',')} € <button class="btn-remove-item" onclick="removeFromCart(${item.id})">✕</button></span>
+                        <span>${item.name}</span>
+                        <span>
+                            ${sub.toFixed(2).replace('.', ',')} € 
+                            <span class="cart-qty-controls">
+                                <button class="btn-qty" onclick="changeQty('${item.id}', -1)">-</button>
+                                <b>${item.qty}</b>
+                                <button class="btn-qty" onclick="changeQty('${item.id}', 1)">+</button>
+                            </span>
+                            <button class="btn-remove-item" onclick="removeFromCart('${item.id}')">✕</button>
+                        </span>
                     `;
                     box.appendChild(row);
                 });
@@ -1075,91 +958,65 @@
                 return;
             }
 
-            metrics.orders += 1;
-            cart.forEach(item => {
-                const prod = catalog.find(p => p.id === item.id);
-                if (prod) prod.sold += item.qty;
-            });
-            localStorage.setItem('dream_craft_metrics', JSON.stringify(metrics));
-
-            let total = 0;
-            // Criação da mensagem formatada com \n limpos, suportado tanto pelo Email como Whatsapp usando encodeURIComponent
-            let text = `✨ *Nova Encomenda - Dream Craft* ✨\n\n`;
-            text += `Olá! Gostaria de encomendar:\n`;
-
-            cart.forEach(i => {
-                const sub = i.price * i.qty;
-                total += sub;
-                text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)\n`;
-            });
-
-            if (method === "Entrega ao Domicilio") {
-                total += HOME_DELIVERY_FEE;
-                text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)\n`;
-            }
-
-            const orderRecord = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                total: total,
-                itemsCount: cart.reduce((acc, i) => acc + i.qty, 0)
+            const dadosEncomenda = {
+                nomeCliente: name,
+                contactoCliente: phone,
+                moradaCliente: method === "Entrega ao Domicilio" ? address : method,
+                itens: cart.map(i => ({ id: i.id, nome: i.name, preco: i.price, quantidade: i.qty }))
             };
-            ordersHistory.push(orderRecord);
-            localStorage.setItem('dream_craft_orders_history', JSON.stringify(ordersHistory));
 
-            text += `\n💰 *Total a pagar: ${total.toFixed(2).replace('.',',')}€*\n`;
-            text += `👤 Nome: ${name}\n`;
-            text += `📞 Telemóvel: ${phone}\n`;
-            text += `📦 Entrega: ${method}\n`;
-            if (method === "Entrega ao Domicilio") {
-                text += `📍 Morada: ${address}\n`;
-            }
-            text += `\nConfirmo o pedido e aguardo dados. Obrigada!`;
-
-            // Deteção entre Mobile e PC
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const encodedText = encodeURIComponent(text);
+
+            const btnPay = document.getElementById('btn-pay-action');
+            btnPay.disabled = true;
+            btnPay.innerText = "A processar pedido...";
 
             if (isMobile) {
-                // Ação para Telemóvel: Abrir WhatsApp
-                const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
-                window.open(url, '_blank');
-                showSuccessModal();
-            } else {
-                // Ação para PC: Envio automático de E-mail via Servidor Google
-                const btnPay = document.getElementById('btn-pay-action');
-                const originalText = btnPay.innerText;
-                btnPay.innerText = "A processar envio...";
-                btnPay.disabled = true;
+                fetch(`${WEB_APP_URL}?action=order&dados=${encodeURIComponent(JSON.stringify(dadosEncomenda))}`, { mode: 'no-cors' })
+                    .finally(() => {
+                        let text = `✨ *Nova Encomenda - Dream Craft* ✨\n\n`;
+                        text += `Olá! Gostaria de encomendar:\n`;
+                        let total = 0;
+                        cart.forEach(i => {
+                            const sub = i.price * i.qty;
+                            total += sub;
+                            text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)\n`;
+                        });
+                        if (method === "Entrega ao Domicilio") {
+                            total += HOME_DELIVERY_FEE;
+                            text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)\n`;
+                        }
+                        text += `\n💰 *Total a pagar: ${total.toFixed(2).replace('.',',')}€*\n`;
+                        text += `👤 Nome: ${name}\n📞 Telemóvel: ${phone}\n📦 Entrega: ${method}\n`;
+                        if (method === "Entrega ao Domicilio") text += `📍 Morada: ${address}\n`;
+                        text += `\nConfirmo o pedido e aguardo dados. Obrigada!`;
 
-                fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Evita bloqueios de segurança do navegador no PC
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: 'send_order',
-                        clientName: name,
-                        orderDetails: text
+                        window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+                        finalizarCompraSucesso();
+                    });
+            } else {
+                fetch(`${WEB_APP_URL}?action=order&dados=${encodeURIComponent(JSON.stringify(dadosEncomenda))}`, { mode: 'no-cors' })
+                    .then(() => {
+                        document.getElementById('success-modal').style.display = 'flex';
+                        finalizarCompraSucesso();
                     })
-                })
-                .then(() => {
-                    // Como no-cors não devolve resposta legível, assumimos que foi enviado
-                    showSuccessModal();
-                    btnPay.innerText = originalText;
-                })
-                .catch(err => {
-                    // Sem redirecionamento para o WhatsApp. Se houver falha, mostra apenas um alerta.
-                    alert("Não foi possível enviar a encomenda. Confirme se configurou corretamente o link do Google Apps Script ou tente novamente.");
-                    btnPay.innerText = originalText;
-                    btnPay.disabled = false;
-                });
+                    .catch(() => {
+                        document.getElementById('success-modal').style.display = 'flex';
+                        finalizarCompraSucesso();
+                    });
             }
         }
 
-        function showSuccessModal() {
-            document.getElementById('success-modal').style.display = 'flex';
+        function finalizarCompraSucesso() {
             cart = [];
             updateCartUI();
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-phone').value = '';
+            document.getElementById('client-address').value = '';
+            document.getElementById('btn-pay-action').disabled = false;
+            document.getElementById('btn-pay-action').innerText = "Efectuar pedido de compra";
+
+            setTimeout(loadCatalogFromGoogleSheets, 2000);
         }
 
         function closeSuccessModal() {
@@ -1168,43 +1025,16 @@
 
         function openAdminPanel() {
             document.getElementById('admin-modal').style.display = 'flex';
-            
-            if (isAdminLoggedIn) {
-                showAdminDashboard();
-            } else {
+            if (isAdminLoggedIn) showAdminDashboard();
+            else {
                 document.getElementById('admin-login-view').style.display = 'flex';
                 document.getElementById('admin-dashboard-view').style.display = 'none';
-                
-                const passInput = document.getElementById('admin-pass-input');
-                const submitBtn = document.getElementById('btn-login-submit');
-                const errorMsg = document.getElementById('login-error');
-
-                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
-                    passInput.disabled = true;
-                    submitBtn.disabled = true;
-                    submitBtn.style.opacity = '0.5';
-                    errorMsg.innerHTML = "🚨 <b>Acesso Bloqueado!</b> Foram atingidas 10 tentativas falhadas.";
-                    errorMsg.style.display = 'block';
-                } else {
-                    passInput.disabled = false;
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = '1';
-                    passInput.value = '';
-                    errorMsg.style.display = 'none';
-                    setTimeout(() => passInput.focus(), 100);
-                }
             }
         }
 
         function checkAdminPassword() {
             const inputPass = document.getElementById('admin-pass-input').value;
             const errorElement = document.getElementById('login-error');
-            const passInput = document.getElementById('admin-pass-input');
-            const submitBtn = document.getElementById('btn-login-submit');
-
-            if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
-                return;
-            }
 
             if (inputPass === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
@@ -1213,113 +1043,44 @@
                 showAdminDashboard();
             } else {
                 failedLoginAttempts += 1;
-
                 if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
-                    passInput.disabled = true;
-                    submitBtn.disabled = true;
-                    submitBtn.style.opacity = '0.5';
-
                     errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado.";
                     errorElement.style.display = 'block';
-
-                    // Disparo silencioso de e-mail ao falhar 10 vezes
-                    fetch(WEB_APP_URL + "?action=security_alert").catch(() => {});
+                    fetch(`${WEB_APP_URL}?action=security_alert`).catch(() => {});
                 } else {
-                    const remaining = MAX_FAILED_ATTEMPTS - failedLoginAttempts;
-                    errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${remaining}</b> tentativa(s).`;
+                    errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${MAX_FAILED_ATTEMPTS - failedLoginAttempts}</b> tentativa(s).`;
                     errorElement.style.display = 'block';
-                    passInput.value = '';
                 }
             }
         }
 
-        function showAdminDashboard() {
+        async function showAdminDashboard() {
             document.getElementById('admin-login-view').style.display = 'none';
             document.getElementById('admin-dashboard-view').style.display = 'block';
 
-            document.getElementById('kpi-visits').innerText = metrics.visits;
-            document.getElementById('kpi-clicks').innerText = metrics.clicks;
-            document.getElementById('kpi-orders').innerText = metrics.orders;
+            document.getElementById('kpi-visits').innerText = "...";
+            document.getElementById('kpi-clicks').innerText = "...";
+            document.getElementById('kpi-orders').innerText = "...";
 
-            let totalRevenue = 0;
-            const monthlyRevenue = {};
-
-            const monthNames = [
-                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-            ];
-
-            ordersHistory.forEach(order => {
-                totalRevenue += order.total;
-                const d = new Date(order.date);
-                const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-                const monthLabel = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
-
-                if (!monthlyRevenue[monthKey]) {
-                    monthlyRevenue[monthKey] = { label: monthLabel, total: 0, count: 0 };
-                }
-                monthlyRevenue[monthKey].total += order.total;
-                monthlyRevenue[monthKey].count += 1;
-            });
-
-            const currentD = new Date();
-            const currentMonthKey = `${currentD.getFullYear()}-${String(currentD.getMonth() + 1).padStart(2, '0')}`;
-            const currentMonthRevenue = monthlyRevenue[currentMonthKey] ? monthlyRevenue[currentMonthKey].total : 0;
-
-            document.getElementById('kpi-month-revenue').innerText = `${currentMonthRevenue.toFixed(2).replace('.', ',')} €`;
-            document.getElementById('kpi-total-revenue').innerText = `${totalRevenue.toFixed(2).replace('.', ',')} €`;
-
-            const revenueContainer = document.getElementById('monthly-revenue-container');
-            revenueContainer.innerHTML = '';
-
-            const sortedMonths = Object.keys(monthlyRevenue).sort().reverse();
-
-            if (sortedMonths.length === 0) {
-                revenueContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Sem histórico de faturação registado.</div>';
-            } else {
-                sortedMonths.forEach(mKey => {
-                    const item = monthlyRevenue[mKey];
-                    const row = document.createElement('div');
-                    row.className = 'billing-row';
-                    row.innerHTML = `
-                        <div>
-                            <div class="billing-month">${item.label}</div>
-                            <div style="font-size:0.75rem; color:#888;">${item.count} encomenda(s)</div>
-                        </div>
-                        <span class="billing-badge">${item.total.toFixed(2).replace('.', ',')} €</span>
-                    `;
-                    revenueContainer.appendChild(row);
-                });
-            }
-
-            const listContainer = document.getElementById('bestseller-list-container');
-            listContainer.innerHTML = '';
-
-            const sortedProducts = [...catalog].sort((a, b) => b.sold - a.sold);
-            const hasSales = sortedProducts.some(p => p.sold > 0);
-
-            if (!hasSales || catalog.length === 0) {
-                listContainer.innerHTML = '<div style="font-size:0.85rem; color:#888; text-align:center; padding:10px 0;">Ainda não existem vendas registadas.</div>';
-            } else {
-                sortedProducts.forEach(item => {
-                    if (item.sold > 0) {
-                        const row = document.createElement('div');
-                        row.className = 'bestseller-item';
-                        row.innerHTML = `
-                            <span>${item.name}</span>
-                            <span><b>${item.sold}</b> un.</span>
-                        `;
-                        listContainer.appendChild(row);
-                    }
-                });
+            // Procura os dados globais reais no servidor Google Sheets
+            try {
+                const res = await fetch(`${WEB_APP_URL}?action=getMetrics`);
+                const metrics = await res.json();
+                document.getElementById('kpi-visits').innerText = metrics.visitas || 0;
+                document.getElementById('kpi-clicks').innerText = metrics.cliques || 0;
+                document.getElementById('kpi-orders').innerText = metrics.encomendas || 0;
+            } catch (err) {
+                document.getElementById('kpi-visits').innerText = "Erro";
+                document.getElementById('kpi-clicks').innerText = "Erro";
+                document.getElementById('kpi-orders').innerText = "Erro";
             }
         }
 
         function closeAdminPanel() {
-            isAdminLoggedIn = false;
             document.getElementById('admin-modal').style.display = 'none';
         }
 
+        // Inicia a aplicação carregando os dados do servidor
         loadCatalogFromGoogleSheets();
     </script>
 </body>
