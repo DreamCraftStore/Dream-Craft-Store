@@ -736,6 +736,9 @@
 
         let catalog = [];
         let cart = [];
+        let currentCategoryView = null;
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 20;
         let isAdminLoggedIn = false;
         
         let failedLoginAttempts = 0;
@@ -831,19 +834,36 @@
                 categoriesMap[catName].push(item);
             });
 
-            for (let catName in categoriesMap) {
+            // Se o utilizador clicou numa categoria específica, abre o layout dedicado com paginação
+            if (currentCategoryView) {
+                const items = categoriesMap[currentCategoryView] || [];
+                const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE) || 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                const paginatedItems = items.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
                 const section = document.createElement('div');
                 section.className = 'category-section';
 
-                const title = document.createElement('h2');
-                title.className = 'category-title';
-                title.innerText = catName;
-                section.appendChild(title);
+                const headerDiv = document.createElement('div');
+                headerDiv.style.display = 'flex';
+                headerDiv.style.justifyContent = 'space-between';
+                headerDiv.style.alignItems = 'center';
+                headerDiv.style.marginBottom = '15px';
+                headerDiv.style.borderBottom = '1px solid var(--border-light)';
+                headerDiv.style.paddingBottom = '10px';
+
+                headerDiv.innerHTML = `
+                    <h2 class="category-title" style="margin:0; border:none; padding:0;">${currentCategoryView} (${items.length} artigos)</h2>
+                    <button class="hero-btn" onclick="currentCategoryView = null; currentPage = 1; renderCatalog(); window.scrollTo(0,0);" style="background:var(--primary-dark); color:white; border:none;">← Voltar à Loja</button>
+                `;
+                section.appendChild(headerDiv);
 
                 const grid = document.createElement('div');
                 grid.className = 'products-grid';
 
-                categoriesMap[catName].forEach(item => {
+                paginatedItems.forEach(item => {
                     const inCartItem = cart.find(c => c.id === item.id);
                     const qtyInCart = inCartItem ? inCartItem.qty : 0;
                     const stockDisponivelLocal = Math.max(0, item.stock - qtyInCart);
@@ -868,8 +888,104 @@
                 });
 
                 section.appendChild(grid);
+
+                // Controlo de Paginação (20 artigos por página)
+                if (totalPages > 1) {
+                    const paginationDiv = document.createElement('div');
+                    paginationDiv.style.display = 'flex';
+                    paginationDiv.style.justifyContent = 'center';
+                    paginationDiv.style.alignItems = 'center';
+                    paginationDiv.style.gap = '10px';
+                    paginationDiv.style.marginTop = '20px';
+                    paginationDiv.style.paddingTop = '15px';
+                    paginationDiv.style.borderTop = '1px solid var(--border-light)';
+
+                    let paginationHTML = `<button class="hero-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Anterior</button>`;
+                    paginationHTML += `<span style="font-size:0.9rem; font-weight:600; color:var(--primary-dark);">Página ${currentPage} de ${totalPages}</span>`;
+                    paginationHTML += `<button class="hero-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Seguinte</button>`;
+
+                    paginationDiv.innerHTML = paginationHTML;
+                    section.appendChild(paginationDiv);
+                }
+
                 container.appendChild(section);
+
+            } else {
+                // Vista Geral: Mostrar pré-visualizações por categoria com botão para entrar na categoria
+                for (let catName in categoriesMap) {
+                    const items = categoriesMap[catName];
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+
+                    const headerDiv = document.createElement('div');
+                    headerDiv.style.display = 'flex';
+                    headerDiv.style.justifyContent = 'space-between';
+                    headerDiv.style.alignItems = 'center';
+                    headerDiv.style.marginBottom = '15px';
+                    headerDiv.style.borderBottom = '1px solid var(--border-light)';
+                    headerDiv.style.paddingBottom = '8px';
+
+                    headerDiv.innerHTML = `
+                        <h2 class="category-title" style="margin:0; border:none; padding:0; cursor:pointer;" onclick="selectCategory('${catName}')">${catName} (${items.length} artigos)</h2>
+                        <button class="hero-btn" onclick="selectCategory('${catName}')">Ver Categoria →</button>
+                    `;
+                    section.appendChild(headerDiv);
+
+                    // Mostra até 4 artigos de pré-visualização na página principal
+                    const previewItems = items.slice(0, 4);
+                    const grid = document.createElement('div');
+                    grid.className = 'products-grid';
+
+                    previewItems.forEach(item => {
+                        const inCartItem = cart.find(c => c.id === item.id);
+                        const qtyInCart = inCartItem ? inCartItem.qty : 0;
+                        const stockDisponivelLocal = Math.max(0, item.stock - qtyInCart);
+                        const isEsgotado = stockDisponivelLocal <= 0;
+
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.innerHTML = `
+                            <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
+                            <div>
+                                <div class="product-name">${item.name}</div>
+                                <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
+                                <div class="product-stock ${isEsgotado ? 'out-of-stock' : ''}">
+                                    ${isEsgotado ? 'Indisponível' : 'Stock: ' + stockDisponivelLocal}
+                                </div>
+                            </div>
+                            <button class="btn-add" onclick="addToCart('${item.id}')" ${isEsgotado ? 'disabled' : ''}>
+                                ${isEsgotado ? 'Indisponível' : 'Adicionar'}
+                            </button>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    section.appendChild(grid);
+
+                    if (items.length > 4) {
+                        const moreDiv = document.createElement('div');
+                        moreDiv.style.textAlign = 'center';
+                        moreDiv.style.marginTop = '15px';
+                        moreDiv.innerHTML = `<button class="btn-admin-action" style="width: auto; padding: 8px 20px; font-size: 0.85rem;" onclick="selectCategory('${catName}')">Ver todos os ${items.length} artigos de ${catName} →</button>`;
+                        section.appendChild(moreDiv);
+                    }
+
+                    container.appendChild(section);
+                }
             }
+        }
+
+        function selectCategory(catName) {
+            currentCategoryView = catName;
+            currentPage = 1;
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changePage(newPage) {
+            currentPage = newPage;
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function addToCart(id) {
