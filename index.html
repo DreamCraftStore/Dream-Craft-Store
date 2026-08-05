@@ -398,7 +398,7 @@
             padding: 28px;
             border-radius: 12px;
             width: 100%;
-            max-width: 520px;
+            max-width: 540px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             border: 1px solid var(--border-light);
             position: relative;
@@ -483,15 +483,23 @@
             line-height: 1.4;
         }
 
+        /* Novas Grelhas de Faturação no Dashboard */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-bottom: 20px;
         }
 
         @media (max-width: 480px) {
-            .dashboard-grid {
+            .dashboard-grid, .dashboard-grid-2 {
                 grid-template-columns: 1fr;
             }
         }
@@ -513,9 +521,47 @@
         }
 
         .kpi-value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary-dark);
+        }
+
+        /* Lista Top Artigos */
+        .admin-section-title {
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 15px 0 10px 0;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 5px;
+        }
+
+        .top-articles-list {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .top-article-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #faf8f6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            font-size: 0.85rem;
+        }
+
+        .top-article-qty {
+            font-weight: bold;
+            color: var(--accent-gold);
+            background: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
         }
 
         .btn-admin-action {
@@ -639,6 +685,7 @@
                     <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Autenticado</span>
                 </div>
 
+                <!-- Visitas, Cliques e Encomendas -->
                 <div class="dashboard-grid">
                     <div class="kpi-card">
                         <div class="kpi-title">Visitas Reais</div>
@@ -654,6 +701,25 @@
                     </div>
                 </div>
 
+                <!-- Faturação do Mês e Total -->
+                <div class="dashboard-grid-2">
+                    <div class="kpi-card" style="background:#fdf6e3; border-color:#e6dfdb;">
+                        <div class="kpi-title">Faturação Este Mês</div>
+                        <div class="kpi-value" id="kpi-fat-mes">...</div>
+                    </div>
+                    <div class="kpi-card" style="background:#fdf6e3; border-color:#e6dfdb;">
+                        <div class="kpi-title">Faturação Total (Geral)</div>
+                        <div class="kpi-value" id="kpi-fat-total">...</div>
+                    </div>
+                </div>
+
+                <!-- Top Artigos Mais Vendidos -->
+                <div class="admin-section-title">Top 5 Artigos Mais Vendidos (Este Mês)</div>
+                <div id="top-articles-list" class="top-articles-list">
+                    <!-- Gerado pelo JS -->
+                    <div style="font-size:0.85rem; color:#888;">A carregar...</div>
+                </div>
+
                 <button class="btn-admin-action" onclick="closeAdminPanel()">Sair do Painel</button>
             </div>
 
@@ -666,7 +732,7 @@
         const ADMIN_PASSWORD = "catiacarolina1997";
 
         // COLA AQUI O TEU LINK DO APPS SCRIPT
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxARbKZBtS0MCHlXM1na8w9Pd8ZBB91pk8IOqX0jLEUmnbCB4prplqEPXpIbeOvO2x1/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby8utzwPqAvdwjCtVZEBVU-cYNfcs8f4-TngZwRuvPNiqxnoSEhYNgeUkVp3xJVA8OL/exec";
 
         let catalog = [];
         let cart = [];
@@ -1058,21 +1124,52 @@
             document.getElementById('admin-login-view').style.display = 'none';
             document.getElementById('admin-dashboard-view').style.display = 'block';
 
+            // Reset visuais de carregamento
             document.getElementById('kpi-visits').innerText = "...";
             document.getElementById('kpi-clicks').innerText = "...";
             document.getElementById('kpi-orders').innerText = "...";
+            document.getElementById('kpi-fat-mes').innerText = "...";
+            document.getElementById('kpi-fat-total').innerText = "...";
+            document.getElementById('top-articles-list').innerHTML = '<div style="font-size:0.85rem; color:#888;">A carregar...</div>';
 
             // Procura os dados globais reais no servidor Google Sheets
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMetrics`);
                 const metrics = await res.json();
+                
                 document.getElementById('kpi-visits').innerText = metrics.visitas || 0;
                 document.getElementById('kpi-clicks').innerText = metrics.cliques || 0;
                 document.getElementById('kpi-orders').innerText = metrics.encomendas || 0;
+                
+                // Tratar apresentação monetária (€)
+                document.getElementById('kpi-fat-mes').innerText = (metrics.faturacaoMensal || 0).toFixed(2).replace('.', ',') + " €";
+                document.getElementById('kpi-fat-total').innerText = (metrics.faturacaoTotal || 0).toFixed(2).replace('.', ',') + " €";
+
+                // Apresentar lista do Top 5 Mensal
+                const listContainer = document.getElementById('top-articles-list');
+                listContainer.innerHTML = '';
+                
+                if (metrics.topArtigos && metrics.topArtigos.length > 0) {
+                    metrics.topArtigos.forEach(artigo => {
+                        const div = document.createElement('div');
+                        div.className = 'top-article-item';
+                        div.innerHTML = `
+                            <span>${artigo.nome}</span> 
+                            <span class="top-article-qty">${artigo.quantidade} un.</span>
+                        `;
+                        listContainer.appendChild(div);
+                    });
+                } else {
+                    listContainer.innerHTML = '<div style="font-size:0.85rem; color:#888;">Nenhuma venda registada este mês.</div>';
+                }
+
             } catch (err) {
                 document.getElementById('kpi-visits').innerText = "Erro";
                 document.getElementById('kpi-clicks').innerText = "Erro";
                 document.getElementById('kpi-orders').innerText = "Erro";
+                document.getElementById('kpi-fat-mes').innerText = "Erro";
+                document.getElementById('kpi-fat-total').innerText = "Erro";
+                document.getElementById('top-articles-list').innerHTML = '<div style="font-size:0.85rem; color:#c94a4a;">Erro a carregar dados do servidor.</div>';
             }
         }
 
