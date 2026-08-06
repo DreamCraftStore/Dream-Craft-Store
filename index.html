@@ -249,19 +249,43 @@
             margin-bottom: 25px;
         }
 
+        .category-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
         .category-title {
             color: var(--primary-dark);
             font-size: 1.4rem;
             letter-spacing: 2px;
-            margin-bottom: 15px;
             text-transform: uppercase;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 8px;
+            margin: 0;
+        }
+
+        .btn-view-all {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-view-all:hover {
+            background: var(--accent-gold);
+            color: white;
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
         }
 
@@ -341,6 +365,45 @@
             padding: 20px 0;
         }
 
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-page {
+            background: white;
+            border: 1px solid var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-page:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-back-home {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .cart-item-row {
             display: flex;
             justify-content: space-between;
@@ -398,7 +461,7 @@
             padding: 28px;
             border-radius: 12px;
             width: 100%;
-            max-width: 540px;
+            max-width: 520px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             border: 1px solid var(--border-light);
             position: relative;
@@ -409,6 +472,24 @@
         .modal-card {
             text-align: center;
             max-width: 400px;
+        }
+
+        .success-icon-wrap {
+            width: 72px;
+            height: 72px;
+            background: #fbf7f4;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+        }
+
+        .success-icon-wrap svg {
+            width: 36px;
+            height: 36px;
+            fill: var(--accent-gold);
         }
 
         .modal-card h3 {
@@ -455,11 +536,6 @@
             text-align: center;
         }
 
-        .login-box p {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
         .login-input {
             width: 100%;
             padding: 12px;
@@ -472,36 +548,17 @@
             outline: none;
         }
 
-        .login-input:focus {
-            border-color: var(--accent-gold);
-        }
-
         .login-error-msg {
             color: var(--danger-color);
             font-size: 0.85rem;
             display: none;
-            line-height: 1.4;
         }
 
-        /* Novas Grelhas de Faturação no Dashboard */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 15px;
-        }
-        
-        .dashboard-grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 480px) {
-            .dashboard-grid, .dashboard-grid-2 {
-                grid-template-columns: 1fr;
-            }
         }
 
         .kpi-card {
@@ -516,7 +573,6 @@
             font-size: 0.75rem;
             color: #777;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 5px;
         }
 
@@ -526,42 +582,27 @@
             color: var(--primary-dark);
         }
 
-        /* Lista Top Artigos */
-        .admin-section-title {
-            font-size: 0.9rem;
-            color: var(--primary-dark);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 15px 0 10px 0;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 5px;
+        .revenue-history-box, .bestseller-section {
+            background: #faf8f6;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            max-height: 160px;
+            overflow-y: auto;
         }
 
-        .top-articles-list {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .top-article-item {
+        .billing-row, .bestseller-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #faf8f6;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-light);
+            padding: 6px 0;
+            border-bottom: 1px dashed #e6dfdb;
             font-size: 0.85rem;
         }
 
-        .top-article-qty {
-            font-weight: bold;
-            color: var(--accent-gold);
-            background: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
+        .billing-row:last-child, .bestseller-item:last-child {
+            border-bottom: none;
         }
 
         .btn-admin-action {
@@ -587,14 +628,17 @@
             border: 1px solid var(--border-light);
             margin-top: 8px;
         }
-
-        .btn-admin-secondary:hover {
-            background: #f5f5f5;
-            color: #444;
-        }
     </style>
 </head>
 <body>
+    <script>
+        // ATENÇÃO: Substitua apenas a SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI pelo link fornecido no Google Apps Script
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwGG3X2zBqUm5KlKzj34maZWONRMg9g8gjhR2gJ1j_PudCr9BB4WeBa7YNVT3g-lOA/exec";
+        const MY_PHONE_NUMBER = "351934805554";
+        const HOME_DELIVERY_FEE = 2.00;
+        const ADMIN_PASSWORD = "catiacarolina1997";
+    </script>
+
     <div class="hero-banner">
         <div class="hero-buttons">
             <button class="hero-btn" id="admin-btn" onclick="openAdminPanel()">🔒 Admin</button>
@@ -603,7 +647,6 @@
         <h1 class="hero-title" id="hero-title">Dream Craft</h1>
     </div>
 
-    <!-- Notificação Flutuante -->
     <div id="toast-notify" class="toast-notify">🔓 Botão de Admin Revelado!</div>
 
     <div class="main-layout">
@@ -614,9 +657,10 @@
                 <p>Bem-vindo à Dream Craft! Selecionamos com todo o carinho artigos variados e especiais dedicados a mulheres, crianças e papelaria criativa. O nosso compromisso é trazer delicadeza, encanto e qualidade ao vosso dia a dia através de peças únicas.</p>
             </div>
 
-            <div id="dynamic-categories-container">
+            <!-- Contentor Dinâmico de Categorias e Produtos -->
+            <div id="dynamic-store-container">
                 <div class="category-section">
-                    <div class="loading-text">A carregar produtos da loja...</div>
+                    <div class="loading-text">A carregar produtos da base de dados...</div>
                 </div>
             </div>
         </div>
@@ -652,17 +696,19 @@
 
     </div>
 
-    <!-- POP-UP MODAL DE SUCESSO -->
+    <!-- MODAL SUCESSO -->
     <div class="success-modal" id="success-modal">
         <div class="modal-card">
-            <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
+            <div class="success-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            </div>
             <h3>Pedido Enviado!</h3>
             <p>Aguarde indicações da loja para efectuar pagamento.</p>
             <button class="btn-admin-action" onclick="closeSuccessModal()">Entendido</button>
         </div>
     </div>
 
-    <!-- PAINEL ADMIN -->
+    <!-- MODAL ADMIN -->
     <div class="admin-modal" id="admin-modal">
         <div class="admin-content">
             
@@ -671,80 +717,77 @@
                     <h3>Área Reservada</h3>
                     <span class="admin-badge">Dream Craft</span>
                 </div>
-                <p>Por favor, insira a palavra-passe de acesso ao painel de gestão:</p>
+                <p>Insira a palavra-passe de gestão:</p>
                 <input type="password" id="admin-pass-input" class="login-input" placeholder="••••" onkeypress="if(event.key === 'Enter') checkAdminPassword()">
-                <div id="login-error" class="login-error-msg">Palavra-passe incorreta! Tente novamente.</div>
+                <div id="login-error" class="login-error-msg">Palavra-passe incorreta!</div>
                 
-                <button class="btn-admin-action" id="btn-login-submit" onclick="checkAdminPassword()">Entrar no Painel</button>
+                <button class="btn-admin-action" onclick="checkAdminPassword()">Entrar</button>
                 <button class="btn-admin-action btn-admin-secondary" onclick="closeAdminPanel()">Cancelar</button>
             </div>
 
             <div id="admin-dashboard-view" style="display:none;">
                 <div class="admin-header">
                     <h3>Painel do Gestor</h3>
-                    <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Autenticado</span>
+                    <span class="admin-badge" style="background:#e8f4ea; color:#2e7d32;">Ativo</span>
                 </div>
 
-                <!-- Visitas, Cliques e Encomendas -->
                 <div class="dashboard-grid">
                     <div class="kpi-card">
-                        <div class="kpi-title">Visitas Reais</div>
-                        <div class="kpi-value" id="kpi-visits">...</div>
+                        <div class="kpi-title">Visitas</div>
+                        <div class="kpi-value" id="kpi-visits">0</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-title">Cliques Reais</div>
-                        <div class="kpi-value" id="kpi-clicks">...</div>
+                        <div class="kpi-title">Cliques</div>
+                        <div class="kpi-value" id="kpi-clicks">0</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-title">Encomendas</div>
-                        <div class="kpi-value" id="kpi-orders">...</div>
+                        <div class="kpi-title">Pedidos</div>
+                        <div class="kpi-value" id="kpi-orders">0</div>
                     </div>
                 </div>
 
-                <!-- Faturação do Mês e Total -->
-                <div class="dashboard-grid-2">
-                    <div class="kpi-card" style="background:#fdf6e3; border-color:#e6dfdb;">
-                        <div class="kpi-title">Faturação Este Mês</div>
-                        <div class="kpi-value" id="kpi-fat-mes">...</div>
+                <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 15px;">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Mês</div>
+                        <div class="kpi-value" id="kpi-month-revenue" style="color: #2e7d32;">0,00 €</div>
                     </div>
-                    <div class="kpi-card" style="background:#fdf6e3; border-color:#e6dfdb;">
-                        <div class="kpi-title">Faturação Total (Geral)</div>
-                        <div class="kpi-value" id="kpi-fat-total">...</div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Faturação Total</div>
+                        <div class="kpi-value" id="kpi-total-revenue" style="color: var(--primary-dark);">0,00 €</div>
                     </div>
                 </div>
 
-                <!-- Top Artigos Mais Vendidos -->
-                <div class="admin-section-title">Top 5 Artigos Mais Vendidos (Este Mês)</div>
-                <div id="top-articles-list" class="top-articles-list">
-                    <!-- Gerado pelo JS -->
-                    <div style="font-size:0.85rem; color:#888;">A carregar...</div>
+                <div class="revenue-history-box">
+                    <div style="font-size:0.8rem; font-weight:700; color:var(--primary-dark); margin-bottom:8px; text-transform:uppercase;">📅 Histórico Mensal</div>
+                    <div id="monthly-revenue-container">
+                        <div style="font-size:0.8rem; color:#888; text-align:center;">Sem registos.</div>
+                    </div>
                 </div>
 
-                <button class="btn-admin-action" onclick="closeAdminPanel()">Sair do Painel</button>
+                <div class="bestseller-section">
+                    <div style="font-size:0.8rem; font-weight:700; color:var(--primary-dark); margin-bottom:8px; text-transform:uppercase;">🏆 Top Artigos Vendidos</div>
+                    <div id="bestseller-list-container">
+                        <div style="font-size:0.8rem; color:#888; text-align:center;">Sem vendas registadas.</div>
+                    </div>
+                </div>
+
+                <button class="btn-admin-action" onclick="closeAdminPanel()">Sair</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        const MY_PHONE_NUMBER = "351934805554";
-        const HOME_DELIVERY_FEE = 2.00;
-        const ADMIN_PASSWORD = "catiacarolina1997";
-
-        // COLA AQUI O TEU LINK DO APPS SCRIPT
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqU_3hTDRGLc7vHJEzpssneJijERR1RNY_BiV9_fQ-ZkSoI-AW4x8r10vK_qpwkOuE/exec";
-
         let catalog = [];
         let cart = [];
-        let currentCategoryView = null;
+        let isAdminLoggedIn = false;
+        let failedLoginAttempts = 0;
+
+        let activeCategoryView = null; // null = ver tudo na home, string = nome da categoria em foco
         let currentPage = 1;
         const ITEMS_PER_PAGE = 20;
-        let isAdminLoggedIn = false;
-        
-        let failedLoginAttempts = 0;
-        const MAX_FAILED_ATTEMPTS = 10;
 
-        // Registar Visita Global Real mal a página abre
+        // Dispara a métrica de visita assim que a página carrega
         if (WEB_APP_URL && !WEB_APP_URL.includes("SUA_URL")) {
             fetch(`${WEB_APP_URL}?action=trackVisit`, { mode: 'no-cors' }).catch(() => {});
         }
@@ -754,7 +797,7 @@
         const adminBtn = document.getElementById('admin-btn');
         const toastNotify = document.getElementById('toast-notify');
 
-        function startTitleHold(e) {
+        function startTitleHold() {
             heroTitle.classList.add('holding');
             holdTimer = setTimeout(() => {
                 adminBtn.style.display = 'inline-block';
@@ -771,9 +814,7 @@
         function showToast(msg) {
             toastNotify.innerText = msg;
             toastNotify.style.display = 'block';
-            setTimeout(() => {
-                toastNotify.style.display = 'none';
-            }, 3500);
+            setTimeout(() => { toastNotify.style.display = 'none'; }, 3500);
         }
 
         heroTitle.addEventListener('mousedown', startTitleHold);
@@ -781,215 +822,152 @@
         heroTitle.addEventListener('mouseleave', cancelTitleHold);
         heroTitle.addEventListener('touchstart', startTitleHold, { passive: true });
         heroTitle.addEventListener('touchend', cancelTitleHold);
-        heroTitle.addEventListener('touchcancel', cancelTitleHold);
 
         async function loadCatalogFromGoogleSheets() {
-            const container = document.getElementById('dynamic-categories-container');
-
             if (!WEB_APP_URL || WEB_APP_URL.includes("SUA_URL")) {
-                container.innerHTML = '<div class="category-section"><div class="loading-text" style="color: var(--danger-color);">Aviso: O URL da base de dados não está configurado. Cole o link do Apps Script no código.</div></div>';
+                document.getElementById('dynamic-store-container').innerHTML = `
+                    <div class="category-section"><p style="text-align:center; color:#c94a4a;">Por favor, configure o link WEB_APP_URL no código.</p></div>
+                `;
                 return;
             }
 
             try {
-                const response = await fetch(`${WEB_APP_URL}?action=getProducts`);
-                if (!response.ok) throw new Error("HTTP " + response.status);
-                
-                const rawData = await response.json();
-                if (!Array.isArray(rawData) || rawData.length === 0) {
-                    catalog = [];
-                } else {
-                    catalog = rawData.map(item => ({
-                        id: item.id,
-                        category: item.categoria ? item.categoria.trim() : 'Geral',
-                        name: item.nome,
-                        price: parseFloat(item.preco) || 0,
-                        stock: parseInt(item.stock) || 0,
-                        img: item.imagemUrl || 'https://via.placeholder.com/250?text=Sem+Foto'
-                    }));
-                }
-                renderCatalog();
-            } catch (error) {
-                console.warn("Erro ao carregar do Sheets:", error);
-                container.innerHTML = '<div class="category-section"><div class="loading-text" style="color: var(--danger-color);">Erro ao carregar produtos. Verifique a ligação à base de dados.</div></div>';
+                const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
+                const data = await res.json();
+                catalog = Array.isArray(data) ? data : [];
+                renderStore();
+            } catch (err) {
+                document.getElementById('dynamic-store-container').innerHTML = `
+                    <div class="category-section"><p style="text-align:center; color:#c94a4a;">Erro ao carregar produtos do Sheets.</p></div>
+                `;
             }
         }
 
-        function renderCatalog() {
-            const container = document.getElementById('dynamic-categories-container');
-            
-            if (catalog.length === 0) {
-                if(!container.innerHTML.includes('Erro') && !container.innerHTML.includes('Aviso')) {
-                    container.innerHTML = '<div class="category-section"><div class="loading-text">Nenhum produto disponível na loja de momento.</div></div>';
-                }
-                return;
-            }
-
+        function renderStore() {
+            const container = document.getElementById('dynamic-store-container');
             container.innerHTML = '';
 
             const categoriesMap = {};
             catalog.forEach(item => {
-                const catName = item.category.trim() || 'Outros';
-                if (!categoriesMap[catName]) categoriesMap[catName] = [];
-                categoriesMap[catName].push(item);
+                const cat = item.categoria || 'Geral';
+                if (!categoriesMap[cat]) categoriesMap[cat] = [];
+                categoriesMap[cat].push(item);
             });
 
-            // Se o utilizador clicou numa categoria específica, abre o layout dedicado com paginação
-            if (currentCategoryView) {
-                const items = categoriesMap[currentCategoryView] || [];
+            if (Object.keys(categoriesMap).length === 0) {
+                container.innerHTML = `<div class="category-section"><p style="text-align:center; color:#888;">Nenhum produto encontrado nas abas do Google Sheets.</p></div>`;
+                return;
+            }
+
+            // SE ESTIVER NUMA CATEGORIA ESPECÍFICA (MODO PAGINAÇÃO)
+            if (activeCategoryView && categoriesMap[activeCategoryView]) {
+                const items = categoriesMap[activeCategoryView];
                 const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE) || 1;
                 if (currentPage > totalPages) currentPage = totalPages;
-                if (currentPage < 1) currentPage = 1;
 
-                const paginatedItems = items.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+                const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+                const pageItems = items.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+
+                let html = `
+                    <button class="btn-back-home" onclick="voltarHome()">← Voltar à Loja</button>
+                    <div class="category-section">
+                        <h2 class="category-title" style="margin-bottom: 15px;">${activeCategoryView}</h2>
+                        <div class="products-grid">
+                `;
+
+                pageItems.forEach(item => {
+                    html += buildProductCardHTML(item);
+                });
+
+                html += `</div>`;
+
+                if (totalPages > 1) {
+                    html += `
+                        <div class="pagination-container">
+                            <button class="btn-page" onclick="mudarPagina(-1)" ${currentPage === 1 ? 'disabled' : ''}>Anterior</button>
+                            <span style="font-size:0.85rem; font-weight:600;">Página ${currentPage} de ${totalPages}</span>
+                            <button class="btn-page" onclick="mudarPagina(1)" ${currentPage === totalPages ? 'disabled' : ''}>Seguinte</button>
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+                container.innerHTML = html;
+                return;
+            }
+
+            // VISTA GERAL DA LOJA (MOSTRA ATÉ 20 DE CADA CATEGORIA OU BOTÃO VER MAIS)
+            for (let cat in categoriesMap) {
+                const items = categoriesMap[cat];
+                const limitItems = items.slice(0, 20);
 
                 const section = document.createElement('div');
                 section.className = 'category-section';
 
-                const headerDiv = document.createElement('div');
-                headerDiv.style.display = 'flex';
-                headerDiv.style.justifyContent = 'space-between';
-                headerDiv.style.alignItems = 'center';
-                headerDiv.style.marginBottom = '15px';
-                headerDiv.style.borderBottom = '1px solid var(--border-light)';
-                headerDiv.style.paddingBottom = '10px';
-
-                headerDiv.innerHTML = `
-                    <h2 class="category-title" style="margin:0; border:none; padding:0;">${currentCategoryView} (${items.length} artigos)</h2>
-                    <button class="hero-btn" onclick="currentCategoryView = null; currentPage = 1; renderCatalog(); window.scrollTo(0,0);" style="background:var(--primary-dark); color:white; border:none;">← Voltar à Loja</button>
+                let headerHTML = `
+                    <div class="category-header-flex">
+                        <h2 class="category-title">${cat}</h2>
                 `;
-                section.appendChild(headerDiv);
+                if (items.length > 20) {
+                    headerHTML += `<button class="btn-view-all" onclick="abrirCategoria('${cat}')">Ver Todos (${items.length})</button>`;
+                }
+                headerHTML += `</div>`;
 
-                const grid = document.createElement('div');
-                grid.className = 'products-grid';
-
-                paginatedItems.forEach(item => {
-                    const inCartItem = cart.find(c => c.id === item.id);
-                    const qtyInCart = inCartItem ? inCartItem.qty : 0;
-                    const stockDisponivelLocal = Math.max(0, item.stock - qtyInCart);
-                    const isEsgotado = stockDisponivelLocal <= 0;
-
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
-                        <div>
-                            <div class="product-name">${item.name}</div>
-                            <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
-                            <div class="product-stock ${isEsgotado ? 'out-of-stock' : ''}">
-                                ${isEsgotado ? 'Indisponível' : 'Stock: ' + stockDisponivelLocal}
-                            </div>
-                        </div>
-                        <button class="btn-add" onclick="addToCart('${item.id}')" ${isEsgotado ? 'disabled' : ''}>
-                            ${isEsgotado ? 'Indisponível' : 'Adicionar'}
-                        </button>
-                    `;
-                    grid.appendChild(card);
+                let gridHTML = `<div class="products-grid">`;
+                limitItems.forEach(item => {
+                    gridHTML += buildProductCardHTML(item);
                 });
+                gridHTML += `</div>`;
 
-                section.appendChild(grid);
-
-                // Controlo de Paginação (20 artigos por página)
-                if (totalPages > 1) {
-                    const paginationDiv = document.createElement('div');
-                    paginationDiv.style.display = 'flex';
-                    paginationDiv.style.justifyContent = 'center';
-                    paginationDiv.style.alignItems = 'center';
-                    paginationDiv.style.gap = '10px';
-                    paginationDiv.style.marginTop = '20px';
-                    paginationDiv.style.paddingTop = '15px';
-                    paginationDiv.style.borderTop = '1px solid var(--border-light)';
-
-                    let paginationHTML = `<button class="hero-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Anterior</button>`;
-                    paginationHTML += `<span style="font-size:0.9rem; font-weight:600; color:var(--primary-dark);">Página ${currentPage} de ${totalPages}</span>`;
-                    paginationHTML += `<button class="hero-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Seguinte</button>`;
-
-                    paginationDiv.innerHTML = paginationHTML;
-                    section.appendChild(paginationDiv);
-                }
-
+                section.innerHTML = headerHTML + gridHTML;
                 container.appendChild(section);
-
-            } else {
-                // Vista Geral: Mostrar pré-visualizações por categoria com botão para entrar na categoria
-                for (let catName in categoriesMap) {
-                    const items = categoriesMap[catName];
-                    const section = document.createElement('div');
-                    section.className = 'category-section';
-
-                    const headerDiv = document.createElement('div');
-                    headerDiv.style.display = 'flex';
-                    headerDiv.style.justifyContent = 'space-between';
-                    headerDiv.style.alignItems = 'center';
-                    headerDiv.style.marginBottom = '15px';
-                    headerDiv.style.borderBottom = '1px solid var(--border-light)';
-                    headerDiv.style.paddingBottom = '8px';
-
-                    headerDiv.innerHTML = `
-                        <h2 class="category-title" style="margin:0; border:none; padding:0; cursor:pointer;" onclick="selectCategory('${catName}')">${catName} (${items.length} artigos)</h2>
-                        <button class="hero-btn" onclick="selectCategory('${catName}')">Ver Categoria →</button>
-                    `;
-                    section.appendChild(headerDiv);
-
-                    // Mostra até 4 artigos de pré-visualização na página principal
-                    const previewItems = items.slice(0, 4);
-                    const grid = document.createElement('div');
-                    grid.className = 'products-grid';
-
-                    previewItems.forEach(item => {
-                        const inCartItem = cart.find(c => c.id === item.id);
-                        const qtyInCart = inCartItem ? inCartItem.qty : 0;
-                        const stockDisponivelLocal = Math.max(0, item.stock - qtyInCart);
-                        const isEsgotado = stockDisponivelLocal <= 0;
-
-                        const card = document.createElement('div');
-                        card.className = 'product-card';
-                        card.innerHTML = `
-                            <img src="${item.img}" alt="${item.name}" class="product-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IxMDAlIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBlYmU2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzg4OCIgZHk9Ii4zZW0iPltTZW0gRm90b108L3RleHQ+PC9zdmc+'">
-                            <div>
-                                <div class="product-name">${item.name}</div>
-                                <div class="product-price">${item.price.toFixed(2).replace('.', ',')} €</div>
-                                <div class="product-stock ${isEsgotado ? 'out-of-stock' : ''}">
-                                    ${isEsgotado ? 'Indisponível' : 'Stock: ' + stockDisponivelLocal}
-                                </div>
-                            </div>
-                            <button class="btn-add" onclick="addToCart('${item.id}')" ${isEsgotado ? 'disabled' : ''}>
-                                ${isEsgotado ? 'Indisponível' : 'Adicionar'}
-                            </button>
-                        `;
-                        grid.appendChild(card);
-                    });
-
-                    section.appendChild(grid);
-
-                    if (items.length > 4) {
-                        const moreDiv = document.createElement('div');
-                        moreDiv.style.textAlign = 'center';
-                        moreDiv.style.marginTop = '15px';
-                        moreDiv.innerHTML = `<button class="btn-admin-action" style="width: auto; padding: 8px 20px; font-size: 0.85rem;" onclick="selectCategory('${catName}')">Ver todos os ${items.length} artigos de ${catName} →</button>`;
-                        section.appendChild(moreDiv);
-                    }
-
-                    container.appendChild(section);
-                }
             }
         }
 
-        function selectCategory(catName) {
-            currentCategoryView = catName;
+        function buildProductCardHTML(item) {
+            const inCart = cart.find(c => c.id === item.id);
+            const qtyCart = inCart ? inCart.qty : 0;
+            const stockReal = Math.max(0, item.stock - qtyCart);
+            const esgotado = stockReal <= 0;
+
+            return `
+                <div class="product-card">
+                    <img src="${item.imagemUrl}" class="product-image" onerror="this.src='https://via.placeholder.com/250?text=Sem+Foto'">
+                    <div>
+                        <div class="product-name">${item.nome}</div>
+                        <div class="product-price">${item.preco.toFixed(2).replace('.', ',')} €</div>
+                        <div class="product-stock ${esgotado ? 'out-of-stock' : ''}">
+                            ${esgotado ? 'Indisponível' : 'Stock: ' + stockReal}
+                        </div>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('${item.id}')" ${esgotado ? 'disabled' : ''}>
+                        ${esgotado ? 'Indisponível' : 'Adicionar'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function abrirCategoria(cat) {
+            activeCategoryView = cat;
             currentPage = 1;
-            renderCatalog();
+            renderStore();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function changePage(newPage) {
-            currentPage = newPage;
-            renderCatalog();
+        function voltarHome() {
+            activeCategoryView = null;
+            currentPage = 1;
+            renderStore();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function mudarPagina(delta) {
+            currentPage += delta;
+            renderStore();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function addToCart(id) {
-            // Registar Clique Global Real na Google Sheet
             if (WEB_APP_URL && !WEB_APP_URL.includes("SUA_URL")) {
                 fetch(`${WEB_APP_URL}?action=trackClick`, { mode: 'no-cors' }).catch(() => {});
             }
@@ -998,22 +976,19 @@
             if (!prod) return;
 
             const found = cart.find(c => c.id === id);
-            const currentQtyInCart = found ? found.qty : 0;
+            const currentQty = found ? found.qty : 0;
 
-            if (currentQtyInCart >= prod.stock) {
-                showToast("⚠️ Não há mais unidades disponíveis deste artigo!");
+            if (currentQty >= prod.stock) {
+                showToast("⚠️ Atingiu o limite disponível em stock!");
                 return;
             }
 
-            if (found) {
-                found.qty += 1;
-            } else {
-                cart.push({ ...prod, qty: 1 });
-            }
+            if (found) found.qty++;
+            else cart.push({ ...prod, qty: 1 });
 
             updateCartUI();
-            renderCatalog();
-            showToast(`🛒 "${prod.name}" adicionado ao cesto!`);
+            renderStore();
+            showToast(`🛒 "${prod.name}" adicionado!`);
         }
 
         function changeQty(id, delta) {
@@ -1022,34 +997,28 @@
             if (!found || !prod) return;
 
             if (delta > 0 && found.qty >= prod.stock) {
-                showToast("⚠️ Atingiu o limite de stock disponível!");
+                showToast("⚠️ Limite de stock atingido!");
                 return;
             }
 
             found.qty += delta;
-            if (found.qty <= 0) {
-                cart = cart.filter(c => c.id !== id);
-            }
+            if (found.qty <= 0) cart = cart.filter(c => c.id !== id);
 
             updateCartUI();
-            renderCatalog();
+            renderStore();
         }
 
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
             updateCartUI();
-            renderCatalog();
+            renderStore();
         }
 
         function handleDeliveryChange() {
             const method = document.getElementById('delivery-method').value;
             const addressInput = document.getElementById('client-address');
-            if (method === "Entrega ao Domicilio") {
-                addressInput.style.display = 'block';
-            } else {
-                addressInput.style.display = 'none';
-                addressInput.value = '';
-            }
+            if (method === "Entrega ao Domicilio") addressInput.style.display = 'block';
+            else { addressInput.style.display = 'none'; addressInput.value = ''; }
             updateCartUI();
         }
 
@@ -1069,18 +1038,17 @@
                 box.innerHTML = '<p class="cart-empty-text">O cesto está vazio.</p>';
                 checkoutForm.style.display = 'none';
                 btnPay.style.opacity = '0.5';
-                btnPay.style.cursor = 'not-allowed';
                 btnPay.disabled = true;
             } else {
                 cart.forEach(item => {
-                    const sub = item.price * item.qty;
+                    const sub = item.preco * item.qty;
                     total += sub;
                     totalCount += item.qty;
 
                     const row = document.createElement('div');
                     row.className = 'cart-item-row';
                     row.innerHTML = `
-                        <span>${item.name}</span>
+                        <span>${item.nome}</span>
                         <span>
                             ${sub.toFixed(2).replace('.', ',')} € 
                             <span class="cart-qty-controls">
@@ -1098,16 +1066,12 @@
                     total += HOME_DELIVERY_FEE;
                     const feeRow = document.createElement('div');
                     feeRow.className = 'cart-item-row';
-                    feeRow.innerHTML = `
-                        <span>Taxa Entrega Domicílio</span>
-                        <span>${HOME_DELIVERY_FEE.toFixed(2).replace('.', ',')} €</span>
-                    `;
+                    feeRow.innerHTML = `<span>Taxa Entrega Domicílio</span><span>${HOME_DELIVERY_FEE.toFixed(2).replace('.', ',')} €</span>`;
                     box.appendChild(feeRow);
                 }
 
                 checkoutForm.style.display = 'block';
                 btnPay.style.opacity = '1';
-                btnPay.style.cursor = 'pointer';
                 btnPay.disabled = false;
             }
 
@@ -1122,23 +1086,12 @@
             const method = methodSelect.options[methodSelect.selectedIndex]?.value;
             const address = document.getElementById('client-address').value.trim();
 
-            if (!name) {
-                showToast("⚠️ Por favor, preencha o seu nome completo.");
-                document.getElementById('client-name').focus();
-                return;
-            }
-            if (!phone) {
-                showToast("⚠️ Por favor, preencha o seu número de telemóvel.");
-                document.getElementById('client-phone').focus();
-                return;
-            }
-            if (!method) {
-                showToast("⚠️ Por favor, selecione o método de entrega.");
+            if (!name || !phone || !method) {
+                showToast("⚠️ Preencha o nome, telemóvel e método de entrega.");
                 return;
             }
             if (method === "Entrega ao Domicilio" && !address) {
-                showToast("⚠️ Por favor, preencha a morada para entrega ao domicílio.");
-                document.getElementById('client-address').focus();
+                showToast("⚠️ Preencha a morada de entrega.");
                 return;
             }
 
@@ -1146,34 +1099,28 @@
                 nomeCliente: name,
                 contactoCliente: phone,
                 moradaCliente: method === "Entrega ao Domicilio" ? address : method,
-                itens: cart.map(i => ({ id: i.id, nome: i.name, preco: i.price, quantidade: i.qty }))
+                itens: cart
             };
 
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
             const btnPay = document.getElementById('btn-pay-action');
             btnPay.disabled = true;
-            btnPay.innerText = "A processar pedido...";
+            btnPay.innerText = "A processar...";
 
             if (isMobile) {
                 fetch(`${WEB_APP_URL}?action=order&dados=${encodeURIComponent(JSON.stringify(dadosEncomenda))}`, { mode: 'no-cors' })
                     .finally(() => {
-                        let text = `✨ *Nova Encomenda - Dream Craft* ✨\n\n`;
-                        text += `Olá! Gostaria de encomendar:\n`;
+                        let text = `✨ *Nova Encomenda - Dream Craft* ✨\n\n👤 Nome: ${name}\n📞 Telemóvel: ${phone}\n📦 Entrega: ${method}\n`;
+                        if (method === "Entrega ao Domicilio") text += `📍 Morada: ${address}\n`;
+                        text += `\n*Itens:*\n`;
                         let total = 0;
                         cart.forEach(i => {
-                            const sub = i.price * i.qty;
+                            const sub = i.preco * i.qty;
                             total += sub;
-                            text += `▪️ ${i.qty}x *${i.name}* (${sub.toFixed(2).replace('.',',')}€)\n`;
+                            text += `• ${i.qty}x ${i.nome} (${sub.toFixed(2).replace('.',',')}€)\n`;
                         });
-                        if (method === "Entrega ao Domicilio") {
-                            total += HOME_DELIVERY_FEE;
-                            text += `▪️ Taxa de Entrega Domicílio (${HOME_DELIVERY_FEE.toFixed(2).replace('.',',')}€)\n`;
-                        }
-                        text += `\n💰 *Total a pagar: ${total.toFixed(2).replace('.',',')}€*\n`;
-                        text += `👤 Nome: ${name}\n📞 Telemóvel: ${phone}\n📦 Entrega: ${method}\n`;
-                        if (method === "Entrega ao Domicilio") text += `📍 Morada: ${address}\n`;
-                        text += `\nConfirmo o pedido e aguardo dados. Obrigada!`;
+                        if (method === "Entrega ao Domicilio") total += HOME_DELIVERY_FEE;
+                        text += `\n💰 *Total:* ${total.toFixed(2).replace('.',',')}€`;
 
                         window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
                         finalizarCompraSucesso();
@@ -1197,8 +1144,9 @@
             document.getElementById('client-name').value = '';
             document.getElementById('client-phone').value = '';
             document.getElementById('client-address').value = '';
-            document.getElementById('btn-pay-action').disabled = false;
-            document.getElementById('btn-pay-action').innerText = "Efectuar pedido de compra";
+            const btnPay = document.getElementById('btn-pay-action');
+            btnPay.disabled = false;
+            btnPay.innerText = "Efectuar pedido de compra";
 
             setTimeout(loadCatalogFromGoogleSheets, 2000);
         }
@@ -1217,23 +1165,23 @@
         }
 
         function checkAdminPassword() {
-            const inputPass = document.getElementById('admin-pass-input').value;
-            const errorElement = document.getElementById('login-error');
+            const input = document.getElementById('admin-pass-input').value;
+            const err = document.getElementById('login-error');
 
-            if (inputPass === ADMIN_PASSWORD) {
+            if (input === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
-                failedLoginAttempts = 0; 
-                errorElement.style.display = 'none';
+                failedLoginAttempts = 0;
+                err.style.display = 'none';
                 showAdminDashboard();
             } else {
-                failedLoginAttempts += 1;
-                if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
-                    errorElement.innerHTML = "🚨 <b>10 Tentativas Incorretas!</b><br>Acesso bloqueado.";
-                    errorElement.style.display = 'block';
-                    fetch(`${WEB_APP_URL}?action=security_alert`).catch(() => {});
+                failedLoginAttempts++;
+                if (failedLoginAttempts >= 10) {
+                    err.innerHTML = "🚨 10 Falhas! Bloqueado.";
+                    err.style.display = 'block';
+                    fetch(`${WEB_APP_URL}?action=security_alert`).catch(()=>{});
                 } else {
-                    errorElement.innerHTML = `Palavra-passe incorreta! Restam <b>${MAX_FAILED_ATTEMPTS - failedLoginAttempts}</b> tentativa(s).`;
-                    errorElement.style.display = 'block';
+                    err.innerText = "Palavra-passe incorreta!";
+                    err.style.display = 'block';
                 }
             }
         }
@@ -1242,52 +1190,40 @@
             document.getElementById('admin-login-view').style.display = 'none';
             document.getElementById('admin-dashboard-view').style.display = 'block';
 
-            // Reset visuais de carregamento
-            document.getElementById('kpi-visits').innerText = "...";
-            document.getElementById('kpi-clicks').innerText = "...";
-            document.getElementById('kpi-orders').innerText = "...";
-            document.getElementById('kpi-fat-mes').innerText = "...";
-            document.getElementById('kpi-fat-total').innerText = "...";
-            document.getElementById('top-articles-list').innerHTML = '<div style="font-size:0.85rem; color:#888;">A carregar...</div>';
-
-            // Procura os dados globais reais no servidor Google Sheets
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMetrics`);
-                const metrics = await res.json();
-                
-                document.getElementById('kpi-visits').innerText = metrics.visitas || 0;
-                document.getElementById('kpi-clicks').innerText = metrics.cliques || 0;
-                document.getElementById('kpi-orders').innerText = metrics.encomendas || 0;
-                
-                // Tratar apresentação monetária (€)
-                document.getElementById('kpi-fat-mes').innerText = (metrics.faturacaoMensal || 0).toFixed(2).replace('.', ',') + " €";
-                document.getElementById('kpi-fat-total').innerText = (metrics.faturacaoTotal || 0).toFixed(2).replace('.', ',') + " €";
+                const m = await res.json();
 
-                // Apresentar lista do Top 5 Mensal
-                const listContainer = document.getElementById('top-articles-list');
-                listContainer.innerHTML = '';
-                
-                if (metrics.topArtigos && metrics.topArtigos.length > 0) {
-                    metrics.topArtigos.forEach(artigo => {
-                        const div = document.createElement('div');
-                        div.className = 'top-article-item';
-                        div.innerHTML = `
-                            <span>${artigo.nome}</span> 
-                            <span class="top-article-qty">${artigo.quantidade} un.</span>
-                        `;
-                        listContainer.appendChild(div);
-                    });
+                document.getElementById('kpi-visits').innerText = m.visitas || 0;
+                document.getElementById('kpi-clicks').innerText = m.cliques || 0;
+                document.getElementById('kpi-orders').innerText = m.encomendas || 0;
+                document.getElementById('kpi-month-revenue').innerText = (m.faturacaoMensal || 0).toFixed(2).replace('.', ',') + ' €';
+                document.getElementById('kpi-total-revenue').innerText = (m.faturacaoTotal || 0).toFixed(2).replace('.', ',') + ' €';
+
+                // Histórico Mensal
+                const histBox = document.getElementById('monthly-revenue-container');
+                histBox.innerHTML = '';
+                if (m.faturacaoHistorico && Object.keys(m.faturacaoHistorico).length > 0) {
+                    for (let mes in m.faturacaoHistorico) {
+                        histBox.innerHTML += `<div class="billing-row"><span>${mes}</span><b>${m.faturacaoHistorico[mes].toFixed(2).replace('.',',')} €</b></div>`;
+                    }
                 } else {
-                    listContainer.innerHTML = '<div style="font-size:0.85rem; color:#888;">Nenhuma venda registada este mês.</div>';
+                    histBox.innerHTML = `<div style="font-size:0.8rem; color:#888; text-align:center;">Sem registos.</div>`;
                 }
 
-            } catch (err) {
-                document.getElementById('kpi-visits').innerText = "Erro";
-                document.getElementById('kpi-clicks').innerText = "Erro";
-                document.getElementById('kpi-orders').innerText = "Erro";
-                document.getElementById('kpi-fat-mes').innerText = "Erro";
-                document.getElementById('kpi-fat-total').innerText = "Erro";
-                document.getElementById('top-articles-list').innerHTML = '<div style="font-size:0.85rem; color:#c94a4a;">Erro a carregar dados do servidor.</div>';
+                // Mais Vendidos
+                const bestBox = document.getElementById('bestseller-list-container');
+                bestBox.innerHTML = '';
+                if (m.maisVendidos && m.maisVendidos.length > 0) {
+                    m.maisVendidos.forEach(item => {
+                        bestBox.innerHTML += `<div class="bestseller-item"><span>${item.nome}</span><b>${item.quantidade} un.</b></div>`;
+                    });
+                } else {
+                    bestBox.innerHTML = `<div style="font-size:0.8rem; color:#888; text-align:center;">Sem vendas.</div>`;
+                }
+
+            } catch (e) {
+                console.error(e);
             }
         }
 
@@ -1295,7 +1231,7 @@
             document.getElementById('admin-modal').style.display = 'none';
         }
 
-        // Inicia a aplicação carregando os dados do servidor
+        // Executar o carregamento dos produtos no arranque
         loadCatalogFromGoogleSheets();
     </script>
 </body>
